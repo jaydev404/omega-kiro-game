@@ -1,0 +1,5 @@
+- Crear TestLevel.tscn como Node2D raíz
+- Instanciar Warehouse
+- Instanciar Player
+- Instanciar OrderManager
+- Configurar Camera2D (fija, sin rotación, zoom para ver almacén completo)

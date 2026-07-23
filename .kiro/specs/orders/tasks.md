@@ -1,0 +1,5 @@
+- Crear OrderData
+- Crear OrderManager
+- Crear OrderGenerator
+- Implementar temporizador
+- Implementar expiración

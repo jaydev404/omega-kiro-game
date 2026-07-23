@@ -1,0 +1,6 @@
+- Crear Player.tscn
+- Implementar movimiento
+- Implementar sprint
+- Crear sistema de interacción
+- Crear sistema de carga
+- Mostrar indicador de interacción

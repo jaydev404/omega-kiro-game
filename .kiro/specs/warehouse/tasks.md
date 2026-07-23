@@ -1,0 +1,6 @@
+- Crear Warehouse
+- Crear TileMap
+- Crear estanterías
+- Crear mesa
+- Crear despacho
+- Configurar colisiones
