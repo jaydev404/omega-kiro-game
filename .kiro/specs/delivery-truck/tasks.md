@@ -1,0 +1,7 @@
+- Crear TruckVisual.gd (placeholder rectángulo verde + label "CAMIÓN")
+- Crear DeliveryZone.gd (interact(), receive(), contador, señal package_delivered)
+- Agregar método deliver() a PackageBody (fade out + queue_free)
+- Actualizar PlayerCarry para redirigir entrega a DeliveryZone cuando aplica
+- Actualizar PlayerInteraction para registrar DeliveryZone como interactable
+- Crear DeliveryTruck.tscn
+- Instanciar DeliveryTruck en TestLevel

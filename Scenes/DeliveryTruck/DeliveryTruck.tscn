@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/DeliveryTruck/DeliveryZone.gd" id="1"]
+[ext_resource type="Script" path="res://Scripts/DeliveryTruck/TruckVisual.gd" id="2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
+size = Vector2(120, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_solid"]
+size = Vector2(120, 80)
+
+[node name="DeliveryTruck" type="Node2D"]
+
+[node name="TruckVisual" type="Node2D" parent="."]
+script = ExtResource("2")
+
+[node name="TruckBody" type="StaticBody2D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="TruckCollision" type="CollisionShape2D" parent="TruckBody"]
+shape = SubResource("RectangleShape2D_solid")
+
+[node name="DeliveryZone" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1")
+
+[node name="ZoneCollision" type="CollisionShape2D" parent="DeliveryZone"]
+shape = SubResource("RectangleShape2D_zone")

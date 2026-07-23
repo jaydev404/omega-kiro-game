@@ -1,0 +1,6 @@
+- Crear Package.tscn con CharacterBody2D, CollisionShape2D, InteractArea
+- Implementar PackageVisual.gd (placeholder rectángulo de color)
+- Implementar PackageBody.gd (estados FREE/CARRIED, empuje, interact())
+- Integrar con PlayerCarry y PlayerInteraction
+- Colocar instancia de Package en TestLevel
+- Configurar collision layers en project.godot

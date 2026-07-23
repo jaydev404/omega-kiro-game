@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/Player/Player.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Drone/DroneSpawner.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://Scenes/DeliveryTruck/DeliveryTruck.tscn" id="3"]
+
+[node name="TestLevel" type="Node2D"]
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="BgColor" type="ColorRect" parent="Background"]
+color = Color(0.8, 0.1, 0.1, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="Player" parent="." instance=ExtResource("1")]
+position = Vector2(576, 324)
+
+[node name="DroneSpawner" parent="." instance=ExtResource("2")]
+position = Vector2(0, 0)
+
+[node name="DeliveryTruck" parent="." instance=ExtResource("3")]
+position = Vector2(900, 324)
