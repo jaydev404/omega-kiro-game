@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Package/PackageBody.gd" id="1"]
+[ext_resource type="Script" path="res://Scripts/Package/PackageVisual.gd" id="2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_area"]
+size = Vector2(48, 48)
+
+[node name="Package" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1")
+
+[node name="PackageVisual" type="Node2D" parent="."]
+script = ExtResource("2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="InteractArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="InteractCollision" type="CollisionShape2D" parent="InteractArea"]
+shape = SubResource("RectangleShape2D_area")

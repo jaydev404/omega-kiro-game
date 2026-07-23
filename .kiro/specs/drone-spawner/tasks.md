@@ -1,0 +1,5 @@
+- Crear DroneVisual.gd (placeholder visual del dron)
+- Crear Drone.tscn y Drone.gd (movimiento FLYING_IN → DROPPING → FLYING_OUT → DONE)
+- Crear DroneSpawner.tscn y DroneSpawner.gd (timer, conteo, instanciación del dron)
+- Integrar DroneSpawner en TestLevel con SpawnOrigin fuera de pantalla y DropPoint visible
+- Verificar límite de cajas y bloqueo de spawn cuando DropPoint está ocupado
