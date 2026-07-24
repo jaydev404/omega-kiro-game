@@ -5,6 +5,7 @@ extends Node
 signal interaction_available(interactable: Node)
 signal interaction_unavailable()
 signal interact_pressed(interactable: Node)
+signal ruby_collected(ruby: PackageBody)
 
 @onready var _area: Area2D = $"../InteractionArea"
 @onready var _carry: PlayerCarry = $"../PlayerCarry"
@@ -27,19 +28,25 @@ func _unhandled_input(event: InputEvent) -> void:
 		emit_signal("interact_pressed", _current_zone)
 		return
 
-	# Cargando fuera de zona → suelta
+	# Hay un objeto interactuable en rango → intentar agarrar o soltar
+	if _current_interactable != null:
+		emit_signal("interact_pressed", _current_interactable)
+		return
+
+	# Cargando fuera de zona sin objeto cerca → suelta
 	if _carry.is_carrying():
 		emit_signal("interact_pressed", _carry.get_carried_package())
 		return
 
-	# Sin carga → interactúa con lo que haya en rango
-	if _current_interactable != null:
-		emit_signal("interact_pressed", _current_interactable)
-
 # ------------------------------------------------------------------ interno --
 
 func _on_body_entered(body: Node) -> void:
-	if body.has_method("interact") and not _carry.is_carrying():
+	# Ruby se recoge automáticamente al contacto
+	if body is PackageBody and (body as PackageBody).package_type == PackageBody.PackageType.RUBY:
+		if not (body as PackageBody).is_carried():
+			emit_signal("ruby_collected", body as PackageBody)
+			return
+	if body.has_method("interact"):
 		_current_interactable = body
 		emit_signal("interaction_available", body)
 

@@ -3,6 +3,10 @@ extends Area2D
 
 ## Señales
 signal package_delivered(count: int)
+signal package_rejected(package: PackageBody)
+
+## Tipo de paquete que acepta este camión
+@export var accepted_type: PackageBody.PackageType = PackageBody.PackageType.BOX
 
 ## Internos
 var _delivery_count: int = 0
@@ -10,6 +14,10 @@ var _delivery_count: int = 0
 ## Implementa la interfaz Interactable — detectado por PlayerInteraction
 func interact() -> void:
 	pass  # la lógica la invoca PlayerCarry.deliver()
+
+## Verifica si el camión acepta este tipo de paquete
+func accepts(package: PackageBody) -> bool:
+	return package.package_type == accepted_type
 
 ## Llamado por PlayerCarry cuando el player entrega una caja aquí
 func receive(package: PackageBody) -> void:

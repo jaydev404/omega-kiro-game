@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/Package/PackageBody.gd" id="1"]
 [ext_resource type="Script" path="res://Scripts/Package/PackageVisual.gd" id="2"]
-[ext_resource type="Texture2D" path="res://Assets/Objects/Box/sprBox.png" id="3"]
+[ext_resource type="Texture2D" path="res://Assets/Objects/Box/sprIconBomb.png" id="3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(32, 32)
@@ -10,10 +10,11 @@ size = Vector2(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_area"]
 size = Vector2(48, 48)
 
-[node name="Package" type="CharacterBody2D"]
+[node name="Bomb" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 7
 script = ExtResource("1")
+package_type = 2
 
 [node name="PackageVisual" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
