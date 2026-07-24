@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" path="res://Scenes/Packages/BluePot.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://Scenes/Packages/Bomb.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://Scenes/Packages/Ruby.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://Scenes/Packages/GoldCoin.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://Scenes/Packages/SilverCoin.tscn" id="8"]
 
 [node name="DroneSpawner" type="Node2D"]
 script = ExtResource("1")
@@ -14,6 +16,8 @@ package_scene = ExtResource("3")
 bluepot_scene = ExtResource("4")
 bomb_scene = ExtResource("5")
 ruby_scene = ExtResource("6")
+gold_coin_scene = ExtResource("7")
+silver_coin_scene = ExtResource("8")
 spawn_interval = 1.0
 max_packages = 10
 bomb_chance = 0.1

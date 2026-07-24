@@ -15,6 +15,8 @@ signal spawn_blocked()
 @export var bluepot_scene: PackedScene
 @export var bomb_scene: PackedScene
 @export var ruby_scene: PackedScene
+@export var gold_coin_scene: PackedScene
+@export var silver_coin_scene: PackedScene
 
 ## Probabilidad (0-1) de que salga una bomba
 @export_range(0.0, 1.0) var bomb_chance: float = 0.1
@@ -37,6 +39,10 @@ var _timer: float = 0.0
 var _difficulty_timer: float = 0.0
 var _viewport_size: Vector2 = Vector2(1152, 648)
 var _spawn_ruby_next: bool = false
+var _spawn_gold_next: bool = false
+var _spawn_silver_next: bool = false
+var _gold_timer: float = 0.0
+var _silver_timer: float = 0.0
 
 ## Dificultad: incrementos cada 10 segundos
 var _max_concurrent_drones: int = 3
@@ -53,6 +59,18 @@ func _process(delta: float) -> void:
 	if _difficulty_timer >= 10.0:
 		_difficulty_timer = 0.0
 		_increase_difficulty()
+
+	# Timer para gold coin (cada 30 segundos)
+	_gold_timer += delta
+	if _gold_timer >= 30.0:
+		_gold_timer = 0.0
+		_spawn_gold_next = true
+
+	# Timer para silver coin (cada 10 segundos)
+	_silver_timer += delta
+	if _silver_timer >= 10.0:
+		_silver_timer = 0.0
+		_spawn_silver_next = true
 
 	_timer += delta
 	if _timer >= spawn_interval:
@@ -94,7 +112,8 @@ func _launch_drone() -> void:
 	drone.init(spawn_origin, fly_target, drop_pos, chosen_scene)
 
 	# 5% de probabilidad de que un drone con box/pot persiga al player
-	if chosen_scene != bomb_scene and chosen_scene != ruby_scene:
+	if chosen_scene != bomb_scene and chosen_scene != ruby_scene \
+		and chosen_scene != gold_coin_scene and chosen_scene != silver_coin_scene:
 		if randf() < 0.05:
 			drone.set_chase_mode(true)
 
@@ -102,11 +121,19 @@ func _launch_drone() -> void:
 	drone.drone_finished.connect(_on_drone_finished)
 	_drones_in_flight += 1
 
-## Elige qué objeto soltar: ruby si toca, si no 10% bomba, 90% se reparte entre box y bluepot.
+## Elige qué objeto soltar: ruby/gold/silver si toca, si no 10% bomba, 90% se reparte entre box y bluepot.
 func _pick_package_scene() -> PackedScene:
 	if _spawn_ruby_next and ruby_scene:
 		_spawn_ruby_next = false
 		return ruby_scene
+
+	if _spawn_gold_next and gold_coin_scene:
+		_spawn_gold_next = false
+		return gold_coin_scene
+
+	if _spawn_silver_next and silver_coin_scene:
+		_spawn_silver_next = false
+		return silver_coin_scene
 
 	var roll := randf()
 	if roll < bomb_chance and bomb_scene:

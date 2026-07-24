@@ -41,11 +41,15 @@ func _unhandled_input(event: InputEvent) -> void:
 # ------------------------------------------------------------------ interno --
 
 func _on_body_entered(body: Node) -> void:
-	# Ruby se recoge automáticamente al contacto
-	if body is PackageBody and (body as PackageBody).package_type == PackageBody.PackageType.RUBY:
-		if not (body as PackageBody).is_carried():
-			emit_signal("ruby_collected", body as PackageBody)
-			return
+	# Ruby y monedas se recogen automáticamente al contacto
+	if body is PackageBody:
+		var pkg := body as PackageBody
+		if not pkg.is_carried():
+			if pkg.package_type == PackageBody.PackageType.RUBY \
+				or pkg.package_type == PackageBody.PackageType.GOLD_COIN \
+				or pkg.package_type == PackageBody.PackageType.SILVER_COIN:
+				emit_signal("ruby_collected", pkg)
+				return
 	if body.has_method("interact"):
 		_current_interactable = body
 		emit_signal("interaction_available", body)
