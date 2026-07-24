@@ -327,3 +327,15 @@
 
 ### Assets utilizados
 - `Assets/Objects/Items/sprRuby.png` (80x16, 5 frames)
+
+
+---
+
+## Ajustes de balanceo (últimos cambios)
+
+### Spawn masivo de drones
+- `_try_spawn()` ahora lanza todos los drones necesarios de golpe para llenar el máximo concurrente.
+- Antes solo lanzaba 1 por intervalo, ahora si `_max_concurrent_drones` es 23 y hay 5 en vuelo, lanza 18 de una vez.
+
+### Incremento de drones cada 3 puntos
+- Cambiado de cada 2 puntos a cada 3 puntos para que la dificultad escale más gradualmente.

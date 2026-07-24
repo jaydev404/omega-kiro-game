@@ -67,10 +67,9 @@ func _increase_difficulty() -> void:
 # ------------------------------------------------------------------ lógica --
 
 func _try_spawn() -> void:
-	# Solo lanzar un drone si no hay otro en vuelo y no se superó el máximo
-	if _drones_in_flight >= _max_concurrent_drones:
-		return
-	_launch_drone()
+	# Lanzar drones hasta alcanzar el máximo concurrente
+	while _drones_in_flight < _max_concurrent_drones:
+		_launch_drone()
 
 func _launch_drone() -> void:
 	var chosen_scene := _pick_package_scene()
