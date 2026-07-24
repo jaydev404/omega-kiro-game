@@ -56,8 +56,8 @@ func _on_delivery(_count: int) -> void:
 		_spawner.bomb_chance = min(0.5, _spawner.bomb_chance + 0.01)
 		emit_signal("bomb_chance_changed", _spawner.bomb_chance)
 
-	# Cada 2 puntos, aumentar en 1 los drones que aparecen por oleada
-	if _spawner and score % 2 == 0:
+	# Cada 3 puntos, aumentar en 1 los drones que aparecen por oleada
+	if _spawner and score % 3 == 0:
 		_spawner._max_concurrent_drones += 1
 
 	# Ruby aparece solo al alcanzar el siguiente umbral (no cuenta puntos recuperados)
