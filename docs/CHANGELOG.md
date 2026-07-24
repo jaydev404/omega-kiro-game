@@ -339,3 +339,110 @@
 
 ### Incremento de drones cada 3 puntos
 - Cambiado de cada 2 puntos a cada 3 puntos para que la dificultad escale más gradualmente.
+
+
+---
+
+## Menú Principal y Navegación
+
+### MainMenu
+- Nueva escena `Scenes/UI/MainMenu.tscn` como escena principal del juego.
+- Título "Chaos Delivery" centrado.
+- 3 botones: Comenzar, Tienda, Salir.
+- `project.godot` actualizado con `run/main_scene` apuntando al menú.
+
+### Menú de Pausa (ESC)
+- Al presionar ESC durante el juego, se pausa y aparece menú con:
+  - **Reanudar** — cierra el menú y continúa.
+  - **Volver al Menu** — regresa al menú principal SIN guardar monedas de la partida.
+  - **Salir** — cierra el juego.
+- ESC de nuevo también reanuda. No se activa si hay otro menú abierto (power-up o game over).
+- `GameManager` tiene `process_mode = ALWAYS` para detectar input durante pausa.
+- Acción "pause" agregada al input map (`physical_keycode = 4194305` = Escape).
+
+### Game Over actualizado
+- Ahora tiene 3 botones: Reiniciar, Volver al Menu, Salir.
+- Al perder, las monedas de la partida se guardan antes de mostrar el menú.
+- "Volver al Menu" desde game over sí conserva las monedas (ya se guardaron al perder).
+
+---
+
+## Sistema de Monedas (Coins)
+
+### Gold Coin y Silver Coin
+- Nuevos tipos `GOLD_COIN` (valor 4) y `SILVER_COIN` (valor 5) en enum `PackageType`.
+- **Gold Coin**: aparece cada 30 segundos, al tocar suma +5 monedas.
+- **Silver Coin**: aparece cada 10 segundos, al tocar suma +1 moneda.
+- Se recogen automáticamente al contacto (igual que el ruby).
+- NO abren el menú de power-up, solo suman dinero.
+- Se destruyen con bombas y dirty explosion como los demás paquetes.
+- NO son perseguidas por drones en modo chase.
+
+### Persistencia de monedas
+- Las monedas solo se guardan cuando el jugador pierde (game over).
+- Si vuelve al menú desde pausa (ESC), las monedas de esa partida se pierden.
+- Variable `_coins_this_run` separa las monedas ganadas en la partida actual de las guardadas.
+- Se guardan en `user://coins.save`.
+
+### HUD de monedas
+- Esquina inferior izquierda: "$ X" mostrando monedas guardadas + las de la partida actual.
+
+---
+
+## Tienda (Shop)
+
+### Escena y script
+- `Scenes/UI/Shop.tscn` y `Scripts/UI/Shop.gd`.
+- Accesible desde el botón "Tienda" del menú principal.
+- Botón "Volver" regresa al menú principal.
+
+### Opciones de mejora
+- **Vel** (velocidad): barra de progreso 0-10, botón "Comprar", costo al lado.
+- **Cant** (capacidad): barra de progreso 0-10, botón "Comprar", costo al lado.
+- Máximo 10 niveles por stat.
+
+### Progresión de niveles
+- **Niveles 1-5**: se necesitan 2 compras para subir de nivel.
+- **Niveles 6-10**: se necesitan 3 compras para subir de nivel.
+- Aplica tanto para Vel como para Cant.
+
+### Costo progresivo
+- Costo base: 10 monedas.
+- Cada compra siguiente cuesta: valor actual + la mitad (redondeado hacia abajo).
+- Ejemplo: 10 → 15 → 22 → 33 → 49 → 73 → ...
+- Se muestra el costo actual: "($X)" al lado de cada botón.
+- Botón se desactiva si no hay monedas suficientes o ya está al máximo.
+
+### Efecto en el juego
+- Cada nivel de Vel comprado = +15 velocidad base al iniciar partida.
+- Cada nivel de Cant comprado = +1 capacidad de carry al iniciar partida.
+- Se acumulan con power-ups del ruby obtenidos durante la partida.
+- Upgrades guardados en `user://upgrades.save`.
+
+---
+
+## Drone persecución (ajuste)
+
+### Exclusiones
+- Los drones con coins (Gold/Silver) y Ruby ya NO entran en modo persecución.
+- Solo los drones con Box o BluePot tienen 5% de probabilidad de perseguir al player.
+
+---
+
+## Archivos nuevos (esta sección)
+
+### Scripts
+- `Scripts/UI/MainMenu.gd`
+- `Scripts/UI/Shop.gd`
+
+### Escenas
+- `Scenes/UI/MainMenu.tscn`
+- `Scenes/UI/Shop.tscn`
+- `Scenes/Items/GoldCoin.tscn` (standalone AnimatedSprite2D)
+- `Scenes/Items/SilverCoin.tscn` (standalone AnimatedSprite2D)
+- `Scenes/Packages/GoldCoin.tscn` (paquete con PackageBody)
+- `Scenes/Packages/SilverCoin.tscn` (paquete con PackageBody)
+
+### Assets utilizados
+- `Assets/Objects/Items/sprGoldCoin.png` (64x16, 4 frames)
+- `Assets/Objects/Items/sprSilverCoin.png` (64x16, 4 frames)

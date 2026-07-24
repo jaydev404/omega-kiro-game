@@ -2,7 +2,7 @@ class_name PackageBody
 extends CharacterBody2D
 
 ## Tipos de paquete
-enum PackageType { BOX, BLUEPOT, BOMB, RUBY }
+enum PackageType { BOX, BLUEPOT, BOMB, RUBY, GOLD_COIN, SILVER_COIN }
 
 ## Estados de la caja
 enum State { FREE, CARRIED }

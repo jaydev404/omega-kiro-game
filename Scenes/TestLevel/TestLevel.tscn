@@ -69,6 +69,7 @@ position = Vector2(900, 324)
 position = Vector2(200, 324)
 
 [node name="GameManager" type="Node" parent="." unique_id=1154831151]
+process_mode = 3
 script = ExtResource("6")
 
 [node name="ScoreLabel" type="Label" parent="GameManager" unique_id=522178792]
@@ -125,6 +126,26 @@ text = "Vel: 150"
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Cant: 1"
+
+[node name="CoinsHUD" type="HBoxContainer" parent="GameManager"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -50.0
+offset_right = 150.0
+offset_bottom = -10.0
+grow_vertical = 0
+
+[node name="CoinIcon" type="Label" parent="GameManager/CoinsHUD"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "$ "
+
+[node name="CoinsLabel" type="Label" parent="GameManager/CoinsHUD"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "0"
 
 [node name="PowerUpMenu" type="Control" parent="GameManager" unique_id=899393155]
 process_mode = 3
@@ -223,3 +244,71 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 text = "Reiniciar"
+
+[node name="BtnGoMenu" type="Button" parent="GameManager/GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+text = "Volver al Menu"
+
+[node name="BtnQuitGame" type="Button" parent="GameManager/GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+text = "Salir"
+
+[node name="PauseMenu" type="Control" parent="GameManager"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="BgPanel" type="ColorRect" parent="GameManager/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameManager/PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -100.0
+offset_right = 120.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="GameManager/PauseMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "PAUSA"
+horizontal_alignment = 1
+
+[node name="BtnResume" type="Button" parent="GameManager/PauseMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 40)
+theme_override_font_sizes/font_size = 18
+text = "Reanudar"
+
+[node name="BtnMainMenu" type="Button" parent="GameManager/PauseMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 40)
+theme_override_font_sizes/font_size = 18
+text = "Volver al Menu"
+
+[node name="BtnQuit" type="Button" parent="GameManager/PauseMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 40)
+theme_override_font_sizes/font_size = 18
+text = "Salir"
