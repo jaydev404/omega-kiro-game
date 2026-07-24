@@ -446,3 +446,18 @@
 ### Assets utilizados
 - `Assets/Objects/Items/sprGoldCoin.png` (64x16, 4 frames)
 - `Assets/Objects/Items/sprSilverCoin.png` (64x16, 4 frames)
+
+
+---
+
+## Tienda - Ajuste de costo
+
+### Costo no sube hasta completar nivel
+- El precio de compra se mantiene constante durante todas las compras del mismo nivel.
+- Solo sube cuando se completa el nivel entero (todas las compras necesarias para ese nivel).
+- Ejemplo: nivel 1 de cant (necesita 2 compras) → ambas cuestan 10. Al completar, nivel 2 cuesta 15.
+- `_get_cost()` ahora recibe el nivel completado, no las compras totales.
+
+### Reset de datos
+- Se eliminaron `coins.save` y `upgrades.save` del directorio de usuario.
+- Dinero reiniciado a 0, tienda reiniciada a nivel 0 en ambos stats.

@@ -28,11 +28,11 @@ func _ready() -> void:
 	_load_data()
 	_update_ui()
 
-## Calcula el costo actual basado en las compras totales.
-## Cada compra cuesta: valor anterior + la mitad (redondeado).
-func _get_cost(total_purchases: int) -> int:
+## Calcula el costo actual basado en el nivel completado.
+## El costo solo sube cuando se completa un nivel entero.
+func _get_cost(level: int) -> int:
 	var cost := BASE_COST
-	for i in range(total_purchases):
+	for i in range(level):
 		cost = cost + cost / 2
 	return cost
 
@@ -65,7 +65,7 @@ func _purchases_in_current_cant_level() -> int:
 	return cant_purchases - spent
 
 func _on_buy_vel() -> void:
-	var cost := _get_cost(vel_purchases)
+	var cost := _get_cost(vel_level)
 	if coins >= cost and vel_level < MAX_LEVEL:
 		coins -= cost
 		vel_purchases += 1
@@ -77,7 +77,7 @@ func _on_buy_vel() -> void:
 		_update_ui()
 
 func _on_buy_cant() -> void:
-	var cost := _get_cost(cant_purchases)
+	var cost := _get_cost(cant_level)
 	if coins >= cost and cant_level < MAX_LEVEL:
 		coins -= cost
 		cant_purchases += 1
@@ -98,8 +98,8 @@ func _update_ui() -> void:
 	_cant_level_label.text = str(cant_level) + "/" + str(MAX_LEVEL)
 	_coins_label.text = "$ " + str(coins)
 
-	var vel_cost := _get_cost(vel_purchases)
-	var cant_cost := _get_cost(cant_purchases)
+	var vel_cost := _get_cost(vel_level)
+	var cant_cost := _get_cost(cant_level)
 
 	_vel_cost_label.text = "($" + str(vel_cost) + ")"
 	_cant_cost_label.text = "($" + str(cant_cost) + ")"
