@@ -4,7 +4,7 @@ extends CharacterBody2D
 # -- Exportables --
 @export var move_speed: float = 150.0
 @export var sprint_multiplier: float = 1.6
-@export var carry_distance: float = 28.0  ## distancia del CarryPoint al centro
+@export var carry_distance: float = 14.0  ## distancia del CarryPoint al centro
 
 # -- Señales --
 signal moved(direction: Vector2)

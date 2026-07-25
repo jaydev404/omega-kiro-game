@@ -39,7 +39,6 @@ animations = [{
 }]
 
 [node name="DirtyExplosion" type="AnimatedSprite2D"]
-scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_1")
 animation = &"explode"
 autoplay = "explode"

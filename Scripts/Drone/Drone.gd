@@ -6,7 +6,7 @@ signal package_delivered(package: PackageBody)
 signal drone_finished()
 
 ## Config
-@export var speed: float = 200.0
+@export var speed: float = 120.0
 
 ## Internos
 enum State { FLYING_IN, CHASING, DROPPING, FLYING_OUT, DONE }
@@ -20,8 +20,10 @@ var _package: PackageBody = null
 var _drop_wait: float = 0.0
 var _lifetime: float = 0.0
 var _chase_player: bool = false
+var _chase_delay: float = 0.0
 const _MAX_LIFETIME := 15.0
 const _CHASE_DROP_DISTANCE := 20.0
+const _CHASE_DROP_DELAY := 0.6  ## Tiempo que espera antes de soltar (da tiempo a esquivar)
 
 func init(origin: Vector2, target: Vector2, drop_pos: Vector2, package_scene: PackedScene) -> void:
 	_origin   = origin
@@ -31,7 +33,7 @@ func init(origin: Vector2, target: Vector2, drop_pos: Vector2, package_scene: Pa
 
 	_package = package_scene.instantiate() as PackageBody
 	add_child(_package)
-	_package.position = Vector2(0.0, 24.0)
+	_package.position = Vector2(0.0, 12.0)
 	_package.z_index = 12
 	_package.pick_up()
 
@@ -63,15 +65,16 @@ func _physics_process(delta: float) -> void:
 		State.CHASING:
 			var player_pos := _get_player_position()
 			if player_pos != Vector2.INF:
-				# Perseguir al player (a su misma altura Y - 60 para estar encima)
-				var chase_target := Vector2(player_pos.x, player_pos.y - 60.0)
+				var chase_target := Vector2(player_pos.x, player_pos.y - 30.0)
 				_move_to(chase_target, delta)
-				# Si está suficientemente cerca, soltar
+				# Si está suficientemente cerca, iniciar delay antes de soltar
 				if global_position.distance_to(chase_target) < _CHASE_DROP_DISTANCE:
-					_drop_pos = player_pos
-					_try_release_package()
-					_state = State.DROPPING
-					_drop_wait = 0.2
+					_chase_delay += delta
+					if _chase_delay >= _CHASE_DROP_DELAY:
+						_drop_pos = player_pos
+						_try_release_package()
+						_state = State.DROPPING
+						_drop_wait = 0.2
 
 		State.DROPPING:
 			_drop_wait -= delta

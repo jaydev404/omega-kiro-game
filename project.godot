@@ -11,9 +11,17 @@ config_version=5
 [application]
 
 config/name="omega-kiro"
-run/main_scene="res://Scenes/UI/MainMenu.tscn"
+run/main_scene="res://Scenes/UI/ChaosMainMenu.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=352
+window/size/window_width_override=1280
+window/size/window_height_override=704
+window/stretch/mode="canvas_items"
 
 [input]
 
