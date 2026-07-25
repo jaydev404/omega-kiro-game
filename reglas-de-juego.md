@@ -14,23 +14,13 @@ Este documento es para definir los comportamientos del jugador y elementos dentr
 - Los paquetes solo podran ser recogidos cuando sean dejados por el dron
 - Si un dron deja un paquete en un lugar donde ya hay otro paquete, se destruyen ambos paquetes y si el usuario esta alrededor recibira x cantidad de dano
 - Los drones podran llevar y soltar monedas
+- Los drones tendran una velocidad de movimiento para recoger y soltar paquetes
 - El jugador obtendra x cantidad de dinero al entregar paquetes
 - El jugador contara con unas estadisticas especificas al inicio del juego
 - El juego tendra una pantalla de inicio
 - La pantalla de inicio tendra un contador que nos mostrara el dinero que  tiene el jugador y los botones de Jugar, Power-ups y Salir
 - Inicialmente solo abra un escenario por lo cual Jugar llevara directamente a ese escenario
-- Power-ups nos llevara a otra pantalla la cual podremos gast
+- Power-ups nos llevara a otra pantalla la cual podremos gastar el dinero obtenido
+- Los power ups son permanentes, es decir, cada power-up comprado hara que las siguientes partidas tengamos ese power-up
+- Inicialmente los power-ups seran de comprar vida para iniciar con mas vida en el juego, velocidad para aumentar la velocidad del juego, fuerza para aumentar la capacidad de paquetes que podemos cargar en el juego, Revivir para poder volver al juego si perdimos nuestras vidas, Dron este power up hara que aparezca un dron aliado que nos ayude a recoger paquetes.
 
----
-- El Jugador tendra nivel 1 al iniciar la partida
-- El jugador tendra una barra de progresion de nivel para ver visualmente como avanza
-- El jugador obtendra puntos de experiencia para subir de nivel entregando paquetes
-- A partir de que sube de nivel dependiendo del nivel variaran la cantidad de puntos que se necesitan para subir al siguiente nivel
-- Al subir de nivel el jugador podra escoger entre unas mejoras para buffearse
-- Las mejoras disponibles son, velocidad de movimiento, vida, y fuerza
-- 
-
-# Mecanica
-
-# Compras
-Poder comprar un dron, el cual ayudara a recoger los paquetes
