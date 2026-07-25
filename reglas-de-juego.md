@@ -1,26 +1,228 @@
-# Reglas del juego
+# Reglas del Juego - Startup Logistics
 
-Este documento es para definir los comportamientos del jugador y elementos dentro del juego.
+> Documento maestro de diseno. Define todas las mecanicas, entidades y comportamientos.
 
-- El jugador contara con los atributos de vida, velocidad de movimiento y fuerza
-- Mientras tenga vidas el jugador podra seguir jugando cuando se acaben terminara la partida, puede aumentar la cantidad de vida
-- La velocidad de movimiento, definira la velocidad con la que se mueve el jugador en la partida, la cual puede aumentar mediante otros metidis
-- Fuerza es el atributo que le permitira cargar definir cuanto puede cargar el jugador
-- Los paquetes, son los elementos que el jugador debe recoger o soltar y llevar al punto de entrega, entregarlos le dara puntos de experiencia
-- Hay diferentes tipos de paquetes con diferentes puntos de entrega
-- Los paquetes seran llevados al escenario mediante drones de manera aleatoria dentro del escenario de la partida
-- Inicialmente abra x cantidad de drones que llevaran paquetes que iran aumentando mediante avance la partida
-- La velocidad en la que los drones se mueven aumentara mediante avanza la partida
-- Los paquetes solo podran ser recogidos cuando sean dejados por el dron
-- Si un dron deja un paquete en un lugar donde ya hay otro paquete, se destruyen ambos paquetes y si el usuario esta alrededor recibira x cantidad de dano
-- Los drones podran llevar y soltar monedas
-- Los drones tendran una velocidad de movimiento para recoger y soltar paquetes
-- El jugador obtendra x cantidad de dinero al entregar paquetes
-- El jugador contara con unas estadisticas especificas al inicio del juego
-- El juego tendra una pantalla de inicio
-- La pantalla de inicio tendra un contador que nos mostrara el dinero que  tiene el jugador y los botones de Jugar, Power-ups y Salir
-- Inicialmente solo abra un escenario por lo cual Jugar llevara directamente a ese escenario
-- Power-ups nos llevara a otra pantalla la cual podremos gastar el dinero obtenido
-- Los power ups son permanentes, es decir, cada power-up comprado hara que las siguientes partidas tengamos ese power-up
-- Inicialmente los power-ups seran de comprar vida para iniciar con mas vida en el juego, velocidad para aumentar la velocidad del juego, fuerza para aumentar la capacidad de paquetes que podemos cargar en el juego, Revivir para poder volver al juego si perdimos nuestras vidas, Dron este power up hara que aparezca un dron aliado que nos ayude a recoger paquetes.
+---
 
+## Concepto
+
+Arcade survival de recoleccion y entrega. El jugador recoge paquetes lanzados por drones y los entrega en puntos especificos. La partida dura max 25 minutos y termina al perder toda la vida o acabarse el tiempo.
+
+---
+
+## Estructura de una Partida
+
+[Inicio] > [Gameplay: 25 min max] > [Evento Final: Bombardeo] > [Game Over] > [Resumen + Tienda]
+
+- La partida inicia con el jugador en el escenario.
+- Los drones entregan paquetes, monedas, power-ups y bombas.
+- El jugador recoge y entrega para ganar dinero y XP.
+- A los 25 minutos: bombardeo masivo (game over forzado).
+- Si pierde todas sus vidas antes: game over anticipado.
+- Al terminar: pantalla de resumen. El dinero se acumula entre partidas.
+
+---
+
+## Jugador
+
+### Estadisticas Base (nivel 1, sin power-ups)
+
+| Stat | Valor inicial | Descripcion |
+|---|---|---|
+| Vida | 1 corazon (4 fragmentos) | Cada corazon = 4 fragmentos |
+| Velocidad | 150 px/s (configurable) | Velocidad de movimiento base |
+| Fuerza | 1.0 | floor(fuerza) = paquetes simultaneos |
+| Nivel | 1 | Nivel actual de la partida |
+| XP | 0 | Experiencia acumulada en la partida |
+| Dinero (partida) | 0 | Dinero ganado durante esta partida |
+
+### Vida y Corazones
+
+- Cada corazon = 4 fragmentos.
+- Vida inicial: 1 corazon = 4 fragmentos totales.
+- Al perder todos los fragmentos: game over.
+- Power-ups permanentes agregan corazones al inicio.
+
+### Fuerza y Capacidad de Carga
+
+- capacidad_de_carga = floor(fuerza)
+- Fuerza 1.0 = carga 1 paquete.
+- Fuerza 1.5 = carga 1 (floor = 1).
+- Fuerza 2.0 = carga 2 paquetes.
+- Se acumula por fracciones al subir de nivel.
+
+### Invulnerabilidad
+
+- Al recibir dano: 2 segundos de invulnerabilidad.
+- Visual: parpadeo del sprite.
+
+---
+
+## Sistemas de Progresion
+
+### XP y Level Up (temporal, solo la partida)
+
+| Nivel | XP requerida | XP acumulada |
+|---|---|---|
+| 1-2 | 50 | 50 |
+| 2-3 | 100 | 150 |
+| 3-4 | 150 | 300 |
+| 4-5 | 200 | 500 |
+| 5-6 | 250 | 750 |
+| 6-7 | 300 | 1050 |
+| 7-8 | 350 | 1400 |
+| 8-9 | 400 | 1800 |
+| 9-10 | 450 | 2250 |
+| 10+ | 500 (fijo) | - |
+
+Formula: xp_para_nivel(n) = min(50 * n, 500)
+Parametizable via Resource o export.
+
+Al subir de nivel: ventana de seleccion. Elige UNA mejora temporal:
+- +1 fragmento de vida (cura y aumenta max)
+- +velocidad de movimiento
+- +0.5 fuerza (fraccion configurable)
+- Sprint (habilidad)
+- Regeneracion de vida (lenta)
+- Habilidad de lanzamiento (lanzar paquetes/bombas)
+
+Las mejoras de level up son TEMPORALES: se pierden al terminar la partida.
+
+### Dinero (persistente entre partidas)
+
+- Se gana al entregar paquetes.
+- Se acumula entre partidas.
+- Se gasta en la Tienda de Power-ups.
+
+### Power-ups Permanentes (Tienda)
+
+| ID | Nombre | Efecto | Notas |
+|---|---|---|---|
+| hp_up | Vida Extra | +1 corazon al inicio | Acumulable |
+| speed_up | Velocidad | +% velocidad base | Niveles |
+| force_up | Fuerza | +fuerza base | Niveles |
+| revive | Revivir | Al morir revive con 1 corazon (1 uso/partida) | Unico |
+| ally_drone | Dron Aliado | Dron NPC que recoge y entrega | Unico |
+
+Costos por definir. Configurables por Resource.
+
+---
+
+## Entidades del Escenario
+
+### Drones
+
+- Llegan desde fuera del escenario.
+- Dejan drops en posiciones aleatorias.
+- No colisionan con el jugador.
+- Cantidad y velocidad aumenta con el tiempo.
+- Pueden cargar: paquetes, monedas, power-ups, bombas.
+- Si dejan paquete donde ya hay otro: ambos se destruyen + dano en radio.
+
+### Puntos de Entrega
+
+- Cada tipo de paquete tiene su punto de entrega fijo.
+- Todos presentes desde el inicio.
+- Nuevos tipos se desbloquean con el avance.
+
+### Tipos de Drop
+
+| Drop | Recogida | Efecto |
+|---|---|---|
+| Paquete (A, B, C...) | Tecla E | Entrega en punto fijo: XP + dinero |
+| Moneda | Auto al tocar | Dinero inmediato |
+| Power-up | Auto al tocar | Ventana de seleccion de stat |
+| Bomba inmediata | No se recoge | Explota al caer |
+| Bomba timer | Recoger y lanzar | Explota tras X segundos |
+| Paquete sorpresa | Tecla E | Se revela: moneda, power-up o bomba |
+
+### Bombas
+
+Bomba Inmediata:
+- Explota al contacto con el suelo.
+- Dano: 2 fragmentos.
+- Radio: 64 px (configurable).
+
+Bomba Timer:
+- Countdown al llegar al suelo.
+- Timer: 3 segundos (configurable).
+- Parpadeo que se acelera.
+- Dano: 2 fragmentos.
+- Radio: 80 px (configurable).
+- El jugador puede recogerla y lanzarla.
+
+### Destruccion por Apilamiento
+
+- Dron deja paquete donde ya hay otro: ambos se destruyen.
+- Dano si jugador en radio: 1 fragmento.
+- Radio: 48 px (configurable).
+
+---
+
+## Tabla de Dano
+
+| Fuente | Dano (fragmentos) | Radio | Invulnerabilidad |
+|---|---|---|---|
+| Bomba inmediata | 2 | 64 px | 2s |
+| Bomba timer | 2 | 80 px | 2s |
+| Colision paquetes | 1 | 48 px | 2s |
+
+---
+
+## Evento Final (25 minutos)
+
+- A los 25:00 drones normales desaparecen.
+- Drones de bombardeo masivo aparecen.
+- Bombas continuas y aceleradas.
+- Solo sobrevivir (no se puede entregar).
+- Bonus: segundos_sobrevividos * multiplicador.
+- Termina cuando el jugador muere.
+
+---
+
+## Curva de Dificultad
+
+| Tiempo | Paquetes | Drones | Velocidad | Bombas |
+|---|---|---|---|---|
+| 0:00 - 2:00 | Solo A | 2 | Lenta | Ninguna |
+| 2:00 - 5:00 | A + B | 3 | Normal | Alguna timer |
+| 5:00 - 10:00 | A + B + C | 4-5 | Normal+ | Timer + inmediatas |
+| 10:00 - 18:00 | Todos | 5-8 | Rapida | Frecuentes |
+| 18:00 - 25:00 | Todos + sorpresas | 8-12 | Muy rapida | Muchas |
+| 25:00+ | Evento Final | Bombardeo | - | Solo bombas |
+
+Todos los valores parametrizables.
+
+---
+
+## Pantalla de Inicio
+
+- Dinero acumulado visible.
+- Jugar: inicia partida.
+- Power-ups: tienda permanente.
+- Salir: cierra el juego.
+
+---
+
+## HUD en Partida
+
+| Posicion | Contenido |
+|---|---|
+| Superior izquierda | Corazones (fragmentos) |
+| Superior centro | Timer (25:00 countdown) |
+| Superior derecha | Nivel + barra XP |
+| Inferior izquierda | Dinero partida |
+| Inferior derecha | Carga (paquetes/capacidad) |
+| Centro | Indicador interaccion |
+
+---
+
+## Dron Aliado (power-up permanente)
+
+- NPC autonomo.
+- Recoge paquetes automaticamente.
+- Entrega en punto correcto.
+- Mas lento que el jugador.
+- No recoge monedas ni power-ups.
+- No recibe dano.
+- Prioriza paquete mas cercano.
