@@ -23,37 +23,32 @@
 
 Prueba: el player recibe daño (con un trigger de prueba) y muere.
 
-## Fase 3 — Bombas
+## Fase 3 — Bombas ✅
 
-**Spec: `bombs`**
-- BombData Resource
-- BombImmediate.tscn (explota al caer)
-- BombTimer.tscn (countdown, parpadeo, recogible, lanzable)
-- Integración con DroneSpawner (DropTable)
-- Daño al player en radio
+**Spec: `bombs`** — COMPLETADO
+- BombImmediate: explota al caer, 2 fragmentos daño, radio 24px, apunta al player
+- BombTimer: cae cerca del player, countdown 3s con parpadeo acelerado, recogible/lanzable, explota con radio 32px, 2 fragmentos daño
+- Explosión usa sprWeaponBombExplosion.png (6 frames 32x32)
+- Integración con DroneSpawner: 60% inmediata / 40% timer cuando sale bomba
+- Daño pasa por PlayerHealth (fragmentos)
 
-Prueba: drones sueltan bombas, el player recibe daño al estar en el radio.
+## Fase 4 — Match Timer y Game States ✅
 
-## Fase 4 — Match Timer y Game States
+**Spec: `game-manager`** — COMPLETADO
+- Timer de 25 minutos con display MM:SS
+- Estados: PLAYING → ENDGAME (últimos 30s) → GAME_OVER / VICTORIA
+- Evento final: bombardeo masivo (+10 drones, 80% bombas, intervalo 0.3s)
+- Bonus por supervivencia: +10 monedas al completar los 25 min
+- Victoria muestra puntaje final y guarda monedas
 
-**Spec: `game-manager`**
-- GameManager singleton
-- Timer de 25 min
-- Estados: MENU → PLAYING → ENDGAME → GAME_OVER → SUMMARY
-- Evento final (bombardeo masivo)
-- Bonus por supervivencia
+## Fase 5 — XP y Level Up ✅
 
-Prueba: partida inicia, timer corre, a los 25 min entra el bombardeo.
-
-## Fase 5 — XP y Level Up
-
-**Spec: `xp-leveling`**
-- LevelUpConfig Resource
-- XP al entregar paquetes
-- Ventana de selección al subir de nivel
-- Mejoras temporales aplicadas a RuntimePlayerStats
-
-Prueba: entregar paquetes da XP, al llenar la barra aparece la selección.
+**Spec: `xp-leveling`** — COMPLETADO
+- PlayerXP script: gana XP al entregar paquetes (10 XP por entrega)
+- Barra de XP en HUD panel (5 frames: vacío → lleno)
+- Al llenar la barra: sube de nivel, muestra menú de power-up (+Vel, +Cant, Escudo)
+- XP necesaria escala x1.5 por nivel (30, 45, 67, 101...)
+- Barra se actualiza visualmente frame a frame según progreso
 
 ## Fase 6 — Economía y Dinero
 

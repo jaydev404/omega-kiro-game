@@ -2,7 +2,7 @@ class_name PackageBody
 extends CharacterBody2D
 
 ## Tipos de paquete
-enum PackageType { BOX, BLUEPOT, BOMB, RUBY, GOLD_COIN, SILVER_COIN }
+enum PackageType { BOX, BLUEPOT, BOMB, RUBY, GOLD_COIN, SILVER_COIN, BOMB_TIMER }
 
 ## Estados de la caja
 enum State { FREE, CARRIED }
@@ -73,10 +73,10 @@ func _check_landing_collision() -> void:
 
 	# Verificar si cae sobre el player
 	var player := get_tree().current_scene.get_node_or_null("Player") as PlayerController
-	if player and global_position.distance_to(player.global_position) < 30.0:
-		var game_manager := get_tree().current_scene.get_node_or_null("GameManager") as GameManager
-		if game_manager:
-			game_manager.lose_points(2)
+	if player and global_position.distance_to(player.global_position) < landing_hit_radius:
+		var health := player.get_node_or_null("PlayerHealth") as PlayerHealth
+		if health:
+			health.take_damage(landing_damage)  # Paquete cayendo = 1 fragmento de daño
 		# Destruir el paquete que cayó encima
 		var effect := _dirty_explosion_scene.instantiate()
 		get_tree().current_scene.add_child(effect)
@@ -109,7 +109,10 @@ func _check_landing_collision() -> void:
 				return
 
 ## La bomba explota: ejecuta BombExplosion, destruye objetos cercanos con DirtyExplosion.
-const _BOMB_RADIUS := 48.0
+@export var bomb_radius: float = 24.0
+@export var bomb_damage: int = 2
+@export var landing_damage: int = 1
+@export var landing_hit_radius: float = 16.0
 
 func _bomb_explode() -> void:
 	if not is_inside_tree():
@@ -120,24 +123,20 @@ func _bomb_explode() -> void:
 	get_tree().current_scene.add_child(bomb_effect)
 	bomb_effect.global_position = global_position
 
-	# Verificar si el player tiene escudo y está cerca
+	# Verificar si el player está cerca → aplicar daño via PlayerHealth
 	var player := get_tree().current_scene.get_node_or_null("Player") as PlayerController
-	if player and global_position.distance_to(player.global_position) < _BOMB_RADIUS:
-		if player.has_shield:
-			player.has_shield = false  # consumir escudo
-			queue_free()
-			return
-		else:
-			# Game Over
-			queue_free()
-			_trigger_game_over()
-			return
+	if player and global_position.distance_to(player.global_position) < bomb_radius:
+		var health := player.get_node_or_null("PlayerHealth") as PlayerHealth
+		if health:
+			health.take_damage(bomb_damage)
+		queue_free()
+		return
 
 	# Buscar objetos cercanos para destruir
 	var space: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
 	var shape_params := PhysicsShapeQueryParameters2D.new()
 	var circle := CircleShape2D.new()
-	circle.radius = _BOMB_RADIUS
+	circle.radius = bomb_radius
 	shape_params.shape = circle
 	shape_params.transform = Transform2D(0.0, global_position)
 	shape_params.collision_mask = 4  # layer package

@@ -5,16 +5,21 @@ extends Node
 signal package_picked_up(package: PackageBody)
 signal package_dropped(package: PackageBody)
 
+## Config
+@export var drop_check_radius: float = 10.0
+@export var stack_offset: float = 12.0
+@export var drop_distance_extra: float = 12.0
+
 @onready var _carry_point: Marker2D = $"../CarryPoint"
 @onready var _interaction: PlayerInteraction = $"../PlayerInteraction"
 @onready var _visual: PlayerVisual = $"../Visual"
 @onready var _controller: PlayerController = get_parent() as PlayerController
 
 ## Radio para detectar si hay algo bloqueando la posición de drop
-const _DROP_CHECK_RADIUS := 18.0
+const _DROP_CHECK_RADIUS := 10.0
 
 ## Distancia vertical entre paquetes apilados
-const _STACK_OFFSET := 20.0
+const _STACK_OFFSET := 12.0
 
 ## Paquetes cargados (array, se apilan)
 var _carried_packages: Array[PackageBody] = []
@@ -56,13 +61,13 @@ func _pick_up(package: PackageBody) -> void:
 	package.pick_up()
 	package.reparent(_carry_point)
 	# Apilar: cada paquete va más arriba
-	package.position = Vector2(0, -_carried_packages.size() * _STACK_OFFSET)
+	package.position = Vector2(0, -_carried_packages.size() * stack_offset)
 	_carried_packages.append(package)
 	_visual.set_carrying(true)
 	emit_signal("package_picked_up", package)
 
 func _try_drop() -> void:
-	var drop_pos := _controller.global_position + _controller._facing * (_controller.carry_distance + 20.0)
+	var drop_pos := _controller.global_position + _controller._facing * (_controller.carry_distance + drop_distance_extra)
 	if _is_drop_blocked(drop_pos):
 		return
 	_drop_at(drop_pos)
@@ -102,7 +107,7 @@ func _is_drop_blocked(pos: Vector2) -> bool:
 	var space: PhysicsDirectSpaceState2D = _controller.get_world_2d().direct_space_state
 	var shape_params := PhysicsShapeQueryParameters2D.new()
 	var circle := CircleShape2D.new()
-	circle.radius = _DROP_CHECK_RADIUS
+	circle.radius = drop_check_radius
 	shape_params.shape = circle
 	shape_params.transform = Transform2D(0.0, pos)
 	shape_params.collision_mask = 5

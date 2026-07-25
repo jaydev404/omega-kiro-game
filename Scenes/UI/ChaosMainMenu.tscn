@@ -1,0 +1,127 @@
+[gd_scene format=3 uid="uid://mcom8d0g0ucc"]
+
+[ext_resource type="Script" uid="uid://c2fn6cxkw8q86" path="res://Scripts/UI/ChaosMainMenu.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://bm75afube0qfi" path="res://Assets/UI/Menu/backgrounMenu.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://bye47q3y5ipqu" path="res://Assets/UI/Menu/Menu.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://ck2kujfx1uty4" path="res://Assets/UI/Menu/title.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://cihkys1oo33i" path="res://Assets/UI/Menu/button.png" id="5"]
+
+[sub_resource type="FontVariation" id="FontVariation_0kg5h"]
+
+[sub_resource type="AtlasTexture" id="btn_frame0"]
+atlas = ExtResource("5")
+region = Rect2(0, 0, 96, 22)
+
+[sub_resource type="AtlasTexture" id="btn_frame1"]
+atlas = ExtResource("5")
+region = Rect2(96, 0, 96, 22)
+
+[sub_resource type="AtlasTexture" id="btn_frame2"]
+atlas = ExtResource("5")
+region = Rect2(192, 0, 96, 22)
+
+[sub_resource type="AtlasTexture" id="btn_frame3"]
+atlas = ExtResource("5")
+region = Rect2(288, 0, 96, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_btn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("btn_frame0")
+}, {
+"duration": 1.0,
+"texture": SubResource("btn_frame1")
+}, {
+"duration": 1.0,
+"texture": SubResource("btn_frame2")
+}, {
+"duration": 1.0,
+"texture": SubResource("btn_frame3")
+}],
+"loop": false,
+"name": &"states",
+"speed": 1.0
+}]
+
+[sub_resource type="FontVariation" id="FontVariation_73ow6"]
+
+[sub_resource type="FontVariation" id="FontVariation_jcyqo"]
+
+[sub_resource type="FontVariation" id="FontVariation_d30n5"]
+
+[node name="ChaosMainMenu" type="Node2D" unique_id=1540120764]
+script = ExtResource("1")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=679520515]
+position = Vector2(320, 176)
+scale = Vector2(6.67, 3.67)
+texture = ExtResource("2")
+
+[node name="MenuPanel" type="Sprite2D" parent="." unique_id=315513484]
+position = Vector2(320, 176)
+texture = ExtResource("3")
+
+[node name="Title" type="Sprite2D" parent="." unique_id=571698593]
+position = Vector2(320, 110)
+texture = ExtResource("4")
+
+[node name="Label" type="Label" parent="Title" unique_id=2135421302]
+offset_left = -48.0
+offset_top = -16.0
+offset_right = 48.0
+offset_bottom = 16.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("FontVariation_0kg5h")
+theme_override_font_sizes/font_size = 8
+text = "Chaos Delivery"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnStartSprite" type="AnimatedSprite2D" parent="." unique_id=713252921]
+position = Vector2(320, 155)
+sprite_frames = SubResource("SpriteFrames_btn")
+animation = &"states"
+
+[node name="Label" type="Label" parent="BtnStartSprite" unique_id=1213102135]
+offset_left = -48.0
+offset_top = -11.0
+offset_right = 48.0
+offset_bottom = 11.0
+theme_override_fonts/font = SubResource("FontVariation_73ow6")
+theme_override_font_sizes/font_size = 8
+text = "Comenzar"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnShopSprite" type="AnimatedSprite2D" parent="." unique_id=2036509632]
+position = Vector2(320, 183)
+sprite_frames = SubResource("SpriteFrames_btn")
+animation = &"states"
+
+[node name="Label" type="Label" parent="BtnShopSprite" unique_id=1228732654]
+offset_left = -48.0
+offset_top = -11.0
+offset_right = 48.0
+offset_bottom = 11.0
+theme_override_fonts/font = SubResource("FontVariation_jcyqo")
+theme_override_font_sizes/font_size = 8
+text = "Tienda"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnExitSprite" type="AnimatedSprite2D" parent="." unique_id=1845638929]
+position = Vector2(320, 211)
+sprite_frames = SubResource("SpriteFrames_btn")
+animation = &"states"
+
+[node name="Label" type="Label" parent="BtnExitSprite" unique_id=129118827]
+offset_left = -48.0
+offset_top = -11.0
+offset_right = 48.0
+offset_bottom = 11.0
+theme_override_fonts/font = SubResource("FontVariation_d30n5")
+theme_override_font_sizes/font_size = 8
+text = "Salir"
+horizontal_alignment = 1
+vertical_alignment = 1

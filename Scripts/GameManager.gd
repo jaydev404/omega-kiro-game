@@ -4,6 +4,24 @@ extends Node
 ## Señales
 signal score_changed(new_score: int)
 signal bomb_chance_changed(new_chance: float)
+signal match_timer_updated(seconds_left: int)
+signal match_ended()
+
+## Config
+@export var match_duration: float = 1500.0  ## 25 minutos en segundos
+@export var endgame_duration: float = 30.0  ## Últimos X segundos = bombardeo
+@export var endgame_extra_drones: int = 10
+@export var endgame_bomb_chance: float = 0.8
+@export var endgame_spawn_interval: float = 0.3
+@export var survival_bonus_coins: int = 10
+
+## Estados
+enum GameState { PLAYING, ENDGAME, GAME_OVER }
+var _state: GameState = GameState.PLAYING
+
+## Timer de partida
+var _match_timer: float = 0.0
+var _endgame_triggered: bool = false
 
 ## Puntaje
 var score: int = 0
@@ -13,25 +31,26 @@ var _coins_this_run: int = 0  ## Monedas ganadas en esta partida (se guardan sol
 
 ## Referencia al spawner para modificar bomb_chance
 @onready var _spawner: DroneSpawner = get_node_or_null("../DroneSpawner")
-@onready var _score_label: Label = $ScoreLabel
-@onready var _drone_count_label: Label = $DroneHUD/DroneCountLabel
-@onready var _vel_label: Label = $PlayerStatsHUD/VelLabel
-@onready var _cant_label: Label = $PlayerStatsHUD/CantLabel
+@onready var _score_label: Label = get_node_or_null("ScoreLabel")
+@onready var _drone_count_label: Label = get_node_or_null("DroneHUD/DroneCountLabel")
+@onready var _vel_label: Label = get_node_or_null("PlayerStatsHUD/VelLabel")
+@onready var _cant_label: Label = get_node_or_null("PlayerStatsHUD/CantLabel")
 @onready var _player: PlayerController = get_node_or_null("../Player") as PlayerController
-@onready var _coins_label: Label = $CoinsHUD/CoinsLabel
-@onready var _power_menu: Control = $PowerUpMenu
-@onready var _btn_vel: Button = $PowerUpMenu/VBoxContainer/BtnVel
-@onready var _btn_cant: Button = $PowerUpMenu/VBoxContainer/BtnCant
-@onready var _btn_shield: Button = $PowerUpMenu/VBoxContainer/BtnShield
-@onready var _game_over_menu: Control = $GameOverMenu
-@onready var _game_over_score: Label = $GameOverMenu/VBoxContainer/FinalScore
-@onready var _btn_restart: Button = $GameOverMenu/VBoxContainer/BtnRestart
-@onready var _btn_go_menu: Button = $GameOverMenu/VBoxContainer/BtnGoMenu
-@onready var _btn_quit_game: Button = $GameOverMenu/VBoxContainer/BtnQuitGame
-@onready var _pause_menu: Control = $PauseMenu
-@onready var _btn_resume: Button = $PauseMenu/VBoxContainer/BtnResume
-@onready var _btn_main_menu: Button = $PauseMenu/VBoxContainer/BtnMainMenu
-@onready var _btn_quit: Button = $PauseMenu/VBoxContainer/BtnQuit
+@onready var _coins_label: Label = get_node_or_null("CoinsHUD/CoinsLabel")
+@onready var _hearts_label: Label = get_node_or_null("HealthHUD/HeartsLabel")
+@onready var _power_menu: Control = get_node_or_null("PowerUpMenu")
+@onready var _btn_vel: Button = get_node_or_null("PowerUpMenu/VBoxContainer/BtnVel")
+@onready var _btn_cant: Button = get_node_or_null("PowerUpMenu/VBoxContainer/BtnCant")
+@onready var _btn_shield: Button = get_node_or_null("PowerUpMenu/VBoxContainer/BtnShield")
+@onready var _game_over_menu: Control = get_node_or_null("GameOverMenu")
+@onready var _game_over_score: Label = get_node_or_null("GameOverMenu/Panel/VBoxContainer/FinalScore")
+@onready var _btn_restart: Button = get_node_or_null("GameOverMenu/Panel/VBoxContainer/BtnRestart")
+@onready var _btn_go_menu: Button = get_node_or_null("GameOverMenu/Panel/VBoxContainer/BtnGoMenu")
+@onready var _btn_quit_game: Button = get_node_or_null("GameOverMenu/Panel/VBoxContainer/BtnQuitGame")
+@onready var _pause_menu: Control = get_node_or_null("PauseMenu")
+@onready var _btn_resume: Button = get_node_or_null("PauseMenu/Panel/VBoxContainer/BtnResume")
+@onready var _btn_main_menu: Button = get_node_or_null("PauseMenu/Panel/VBoxContainer/BtnMainMenu")
+@onready var _btn_quit: Button = get_node_or_null("PauseMenu/Panel/VBoxContainer/BtnQuit")
 
 func _ready() -> void:
 	# Conectar las señales de entrega de ambos camiones
@@ -43,39 +62,105 @@ func _ready() -> void:
 				zone.package_delivered.connect(_on_delivery)
 
 	# Conectar señal de ruby del player
-	var interaction := _player.get_node_or_null("PlayerInteraction") as PlayerInteraction
-	if interaction:
-		interaction.ruby_collected.connect(_on_ruby_collected)
+	if _player:
+		var interaction := _player.get_node_or_null("PlayerInteraction") as PlayerInteraction
+		if interaction:
+			interaction.ruby_collected.connect(_on_ruby_collected)
+		var health := _player.get_node_or_null("PlayerHealth") as PlayerHealth
+		if health:
+			health.died.connect(_on_player_died)
+			health.health_changed.connect(_on_health_changed)
+		var xp := _player.get_node_or_null("PlayerXP") as PlayerXP
+		if xp:
+			xp.leveled_up.connect(_on_leveled_up)
+			xp.xp_changed.connect(_on_xp_changed)
 
-	_btn_vel.pressed.connect(_on_power_vel)
-	_btn_cant.pressed.connect(_on_power_cant)
-	_btn_shield.pressed.connect(_on_power_shield)
-	_btn_restart.pressed.connect(_on_restart)
-	_btn_go_menu.pressed.connect(_on_gameover_main_menu)
-	_btn_quit_game.pressed.connect(_on_quit)
-	_btn_resume.pressed.connect(_on_resume)
-	_btn_main_menu.pressed.connect(_on_main_menu)
-	_btn_quit.pressed.connect(_on_quit)
+	if _btn_vel:
+		_btn_vel.pressed.connect(_on_power_vel)
+	if _btn_cant:
+		_btn_cant.pressed.connect(_on_power_cant)
+	if _btn_shield:
+		_btn_shield.pressed.connect(_on_power_shield)
+	if _btn_restart:
+		_btn_restart.pressed.connect(_on_restart)
+	if _btn_go_menu:
+		_btn_go_menu.pressed.connect(_on_gameover_main_menu)
+	if _btn_quit_game:
+		_btn_quit_game.pressed.connect(_on_quit)
+	if _btn_resume:
+		_btn_resume.pressed.connect(_on_resume)
+	if _btn_main_menu:
+		_btn_main_menu.pressed.connect(_on_main_menu)
+	if _btn_quit:
+		_btn_quit.pressed.connect(_on_quit)
 
-	_power_menu.visible = false
-	_game_over_menu.visible = false
-	_pause_menu.visible = false
+	if _power_menu:
+		_power_menu.visible = false
+	if _game_over_menu:
+		_game_over_menu.visible = false
+	if _pause_menu:
+		_pause_menu.visible = false
 	_load_coins()
 	_load_upgrades()
+	_match_timer = match_duration
 	_update_label()
+
+func _process(delta: float) -> void:
+	if _state != GameState.PLAYING:
+		return
+
+	_match_timer -= delta
+	emit_signal("match_timer_updated", int(_match_timer))
+
+	# Actualizar label del timer si existe
+	var timer_label := get_node_or_null("TimerLabel") as Label
+	if timer_label:
+		var mins := int(_match_timer) / 60
+		var secs := int(_match_timer) % 60
+		timer_label.text = "%02d:%02d" % [mins, secs]
+
+	# Evento final: bombardeo masivo en los últimos 30 segundos
+	if _match_timer <= endgame_duration and not _endgame_triggered:
+		_endgame_triggered = true
+		_start_endgame()
+
+	# Fin de partida
+	if _match_timer <= 0.0:
+		_match_timer = 0.0
+		_state = GameState.GAME_OVER
+		_match_victory()
+
+func _start_endgame() -> void:
+	if _spawner:
+		_spawner._max_concurrent_drones += endgame_extra_drones
+		_spawner.bomb_chance = endgame_bomb_chance
+		_spawner.spawn_interval = endgame_spawn_interval
+
+func _match_victory() -> void:
+	get_tree().paused = true
+	coins += _coins_this_run
+	coins += survival_bonus_coins
+	_save_coins()
+	if _game_over_score:
+		_game_over_score.text = "VICTORIA! Puntaje: " + str(score)
+	if _game_over_menu:
+		_game_over_menu.visible = true
+	emit_signal("match_ended")
 
 func _on_delivery(_count: int) -> void:
 	score += 1
 	emit_signal("score_changed", score)
 
+	# Dar XP al player
+	if _player:
+		var xp := _player.get_node_or_null("PlayerXP") as PlayerXP
+		if xp:
+			xp.add_xp(xp.xp_per_delivery)
+
 	# Aumentar bomb_chance en 1% por cada entrega (máximo 50%)
 	if _spawner:
 		_spawner.bomb_chance = min(0.5, _spawner.bomb_chance + 0.01)
 		emit_signal("bomb_chance_changed", _spawner.bomb_chance)
-
-	# Cada 3 puntos, aumentar en 1 los drones que aparecen por oleada
-	if _spawner and score % 3 == 0:
-		_spawner._max_concurrent_drones += 1
 
 	# Ruby aparece solo al alcanzar el siguiente umbral (no cuenta puntos recuperados)
 	if _spawner and score >= _next_ruby_at:
@@ -97,7 +182,8 @@ func _on_ruby_collected(item: PackageBody) -> void:
 	elif item_type == PackageBody.PackageType.RUBY:
 		# Pausar el juego y mostrar menú de power-up
 		get_tree().paused = true
-		_power_menu.visible = true
+		if _power_menu:
+			_power_menu.visible = true
 
 func _on_power_vel() -> void:
 	if _player:
@@ -112,10 +198,12 @@ func _on_power_cant() -> void:
 func _on_power_shield() -> void:
 	if _player:
 		_player.has_shield = true
+	_update_shield_icon()
 	_close_menu()
 
 func _close_menu() -> void:
-	_power_menu.visible = false
+	if _power_menu:
+		_power_menu.visible = false
 	get_tree().paused = false
 	_update_label()
 
@@ -130,19 +218,58 @@ func _update_label() -> void:
 		_cant_label.text = "Cant: " + str(_player.max_carry)
 	if _coins_label:
 		_coins_label.text = str(coins + _coins_this_run)
+	_update_shield_icon()
+	_update_stats_panel()
+
+func _update_shield_icon() -> void:
+	var shield_icon := get_tree().current_scene.get_node_or_null("HUDPanel/ShieldIcon")
+	if shield_icon and _player:
+		shield_icon.visible = _player.has_shield
+
+func _update_stats_panel() -> void:
+	var vel_label := get_tree().current_scene.get_node_or_null("HUDPanel/StatsPanel/VelLabel")
+	if vel_label and _player:
+		vel_label.text = "Vel:" + str(int(_player.move_speed))
+	var cant_label := get_tree().current_scene.get_node_or_null("HUDPanel/StatsPanel/CantLabel")
+	if cant_label and _player:
+		cant_label.text = "Cant:" + str(_player.max_carry)
 
 func game_over() -> void:
+	_state = GameState.GAME_OVER
 	get_tree().paused = true
-	# Al perder, se acumulan las monedas de esta partida
 	coins += _coins_this_run
 	_save_coins()
-	_game_over_score.text = "Puntaje final: " + str(score)
-	_game_over_menu.visible = true
+	if _game_over_score:
+		_game_over_score.text = "Puntaje final: " + str(score)
+	if _game_over_menu:
+		_game_over_menu.visible = true
 
 func lose_points(amount: int) -> void:
 	score = max(0, score - amount)
 	emit_signal("score_changed", score)
 	_update_label()
+
+func _on_player_died() -> void:
+	game_over()
+
+func _on_health_changed(current_fragments: int, max_fragments: int, hearts: int, max_h: int) -> void:
+	# Actualizar HUD de corazones si existen en la escena
+	var hud_panel := get_tree().current_scene.get_node_or_null("HUDPanel")
+	if hud_panel == null:
+		return
+	for i in range(5):
+		var heart_node: AnimatedSprite2D = hud_panel.get_node_or_null("Heart" + str(i + 1))
+		if heart_node == null:
+			continue
+		if i < max_h:
+			heart_node.visible = true
+			# Calcular fragmentos de este corazón
+			var heart_fragments := clampi(current_fragments - i * 4, 0, 4)
+			# Frame: 4=lleno, 3=3/4, 2=mitad, 1=1/4, 0=vacío
+			heart_node.frame = heart_fragments
+		else:
+			heart_node.visible = false
+	_update_shield_icon()
 
 func _on_restart() -> void:
 	get_tree().paused = false
@@ -164,10 +291,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _pause_game() -> void:
 	get_tree().paused = true
-	_pause_menu.visible = true
+	if _pause_menu:
+		_pause_menu.visible = true
 
 func _on_resume() -> void:
-	_pause_menu.visible = false
+	if _pause_menu:
+		_pause_menu.visible = false
 	get_tree().paused = false
 
 func _on_main_menu() -> void:
@@ -205,3 +334,26 @@ func _load_upgrades() -> void:
 			if _player:
 				_player.move_speed += vel_level * 15.0  # cada nivel de tienda = +15 vel
 				_player.max_carry += cant_level          # cada nivel = +1 carry
+
+## XP y Level Up
+func _on_leveled_up(_new_level: int) -> void:
+	# Al subir de nivel, mostrar menú de power-up
+	get_tree().paused = true
+	if _power_menu:
+		_power_menu.visible = true
+	# Escalar dificultad de drones
+	if _spawner:
+		_spawner.on_player_level_up(_new_level)
+
+func _on_xp_changed(current_xp: int, xp_needed: int) -> void:
+	# Actualizar barra de XP (ColorRect Fill)
+	var fill := get_tree().current_scene.get_node_or_null("HUDPanel/XPBar/Fill")
+	if fill and fill is ColorRect:
+		var progress := float(current_xp) / float(xp_needed) if xp_needed > 0 else 0.0
+		fill.offset_right = 2.0 + 188.0 * progress
+	# Actualizar label de nivel
+	var level_label := get_tree().current_scene.get_node_or_null("HUDPanel/LevelLabel")
+	if level_label and _player:
+		var xp := _player.get_node_or_null("PlayerXP") as PlayerXP
+		if xp:
+			level_label.text = "Lv." + str(xp.get_level())
