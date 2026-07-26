@@ -2,7 +2,7 @@ class_name PackageBody
 extends CharacterBody2D
 
 ## Tipos de paquete
-enum PackageType { BOX, BLUEPOT, BOMB, RUBY, GOLD_COIN, SILVER_COIN, BOMB_TIMER }
+enum PackageType { BOX, BLUEPOT, THIRDBOX, BOMB, RUBY, GOLD_COIN, SILVER_COIN, BOMB_TIMER, SURPRISE }
 
 ## Estados de la caja
 enum State { FREE, CARRIED }
@@ -16,6 +16,9 @@ signal dropped(package: PackageBody)
 
 # -- Internos --
 var _state: State = State.FREE
+
+## Si es true, no puede ser recogido automáticamente (delay post-spawn de SurpriseBox)
+var pickup_blocked: bool = false
 
 @onready var _collision: CollisionShape2D = $CollisionShape2D
 

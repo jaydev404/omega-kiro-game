@@ -1,0 +1,66 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://Scripts/DeliveryTruck/DeliveryZone.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Assets/Container/sprOldLadyW.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1"]
+atlas = ExtResource("2")
+region = Rect2(16, 0, 16, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
+size = Vector2(24, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_solid"]
+size = Vector2(16, 24)
+
+[node name="DeliveryTruckThird" type="Node2D"]
+
+[node name="Visual" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_1")
+animation = &"idle"
+autoplay = "idle"
+modulate = Color(0.4, 1.0, 0.5, 1.0)
+
+[node name="TruckBody" type="StaticBody2D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="TruckCollision" type="CollisionShape2D" parent="TruckBody"]
+shape = SubResource("RectangleShape2D_solid")
+
+[node name="DeliveryZone" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1")
+accepted_type = 2
+
+[node name="ZoneCollision" type="CollisionShape2D" parent="DeliveryZone"]
+shape = SubResource("RectangleShape2D_zone")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -12.0
+offset_top = 14.0
+offset_right = 12.0
+offset_bottom = 24.0
+theme_override_font_sizes/font_size = 6
+theme_override_colors/font_color = Color(0.4, 1.0, 0.5, 0.8)
+text = "3RD"
+horizontal_alignment = 1

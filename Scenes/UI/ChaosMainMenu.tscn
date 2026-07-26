@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bye47q3y5ipqu" path="res://Assets/UI/Menu/Menu.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://ck2kujfx1uty4" path="res://Assets/UI/Menu/title.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://cihkys1oo33i" path="res://Assets/UI/Menu/button.png" id="5"]
+[ext_resource type="Script" path="res://Scripts/UI/DebugSavePanel.gd" id="6"]
 
 [sub_resource type="FontVariation" id="FontVariation_0kg5h"]
 
@@ -125,3 +126,24 @@ theme_override_font_sizes/font_size = 8
 text = "Salir"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="DebugSavePanel" type="Node2D" parent="."]
+position = Vector2(4, 4)
+script = ExtResource("6")
+
+[node name="Label" type="Label" parent="DebugSavePanel"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 200.0
+offset_bottom = 130.0
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 7
+text = "..."
+
+[node name="BtnReset" type="Button" parent="DebugSavePanel"]
+offset_left = 0.0
+offset_top = 132.0
+offset_right = 100.0
+offset_bottom = 148.0
+theme_override_font_sizes/font_size = 7
+text = "RESET SAVE"

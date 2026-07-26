@@ -1,26 +1,30 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dbycyrm4h6njc"]
 
-[ext_resource type="Script" path="res://Scripts/Drone/DroneSpawner.gd" id="1"]
+[ext_resource type="Script" uid="uid://cdeftk51nal1v" path="res://Scripts/Drone/DroneSpawner.gd" id="1"]
 [ext_resource type="PackedScene" path="res://Scenes/Drone/Drone.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://Scenes/Packages/Package.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://Scenes/Packages/BluePot.tscn" id="4"]
+[ext_resource type="Resource" path="res://Resources/DifficultyConfig.tres" id="4_0xtuu"]
 [ext_resource type="PackedScene" path="res://Scenes/Packages/Bomb.tscn" id="5"]
-[ext_resource type="PackedScene" path="res://Scenes/Packages/BombTimer.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://Scenes/Packages/ThirdBox.tscn" id="5_pplfg"]
 [ext_resource type="PackedScene" path="res://Scenes/Packages/Ruby.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://Scenes/Packages/SurpriseBox.tscn" id="6_802f0"]
 [ext_resource type="PackedScene" path="res://Scenes/Packages/GoldCoin.tscn" id="7"]
 [ext_resource type="PackedScene" path="res://Scenes/Packages/SilverCoin.tscn" id="8"]
+[ext_resource type="PackedScene" path="res://Scenes/Packages/BombTimer.tscn" id="9"]
 
-[node name="DroneSpawner" type="Node2D"]
+[node name="DroneSpawner" type="Node2D" unique_id=372217234]
 script = ExtResource("1")
+spawn_interval = 1.0
+max_packages = 10
 drone_scene = ExtResource("2")
 package_scene = ExtResource("3")
+difficulty_config = ExtResource("4_0xtuu")
 bluepot_scene = ExtResource("4")
+third_package_scene = ExtResource("5_pplfg")
+surprise_box_scene = ExtResource("6_802f0")
 bomb_scene = ExtResource("5")
 bomb_timer_scene = ExtResource("9")
 ruby_scene = ExtResource("6")
 gold_coin_scene = ExtResource("7")
 silver_coin_scene = ExtResource("8")
-spawn_interval = 1.0
-max_packages = 10
-bomb_chance = 0.1
-target_player_chance = 0.3

@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://dg0ytw06hyjgk"]
 
 [ext_resource type="PackedScene" path="res://Scenes/Player/Player.tscn" id="1"]
-[ext_resource type="PackedScene" path="res://Scenes/Drone/DroneSpawner.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://dbycyrm4h6njc" path="res://Scenes/Drone/DroneSpawner.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://Scenes/DeliveryTruck/DeliveryTruck.tscn" id="3"]
 [ext_resource type="TileSet" uid="uid://sna0cpia7snv" path="res://Resources/IceZoneTileSet.tres" id="4"]
 [ext_resource type="PackedScene" path="res://Scenes/DeliveryTruck/DeliveryTruckBluePot.tscn" id="5"]
@@ -41,6 +41,7 @@ animations = [{
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=1142898308]
 layer = -1
+visible = false
 
 [node name="BgColor" type="ColorRect" parent="Background" unique_id=953861185]
 anchors_preset = 15
@@ -73,6 +74,7 @@ process_mode = 3
 script = ExtResource("6")
 
 [node name="ScoreLabel" type="Label" parent="GameManager" unique_id=522178792]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -85,6 +87,7 @@ text = "Puntaje: 0"
 horizontal_alignment = 1
 
 [node name="DroneHUD" type="Control" parent="GameManager" unique_id=1018668699]
+visible = false
 layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
@@ -112,6 +115,7 @@ text = "x3"
 vertical_alignment = 1
 
 [node name="PlayerStatsHUD" type="VBoxContainer" parent="GameManager" unique_id=1576562503]
+visible = false
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 200.0
@@ -127,7 +131,8 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Cant: 1"
 
-[node name="CoinsHUD" type="HBoxContainer" parent="GameManager"]
+[node name="CoinsHUD" type="HBoxContainer" parent="GameManager" unique_id=1325002928]
+visible = false
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -137,18 +142,19 @@ offset_right = 150.0
 offset_bottom = -10.0
 grow_vertical = 0
 
-[node name="CoinIcon" type="Label" parent="GameManager/CoinsHUD"]
+[node name="CoinIcon" type="Label" parent="GameManager/CoinsHUD" unique_id=646184142]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "$ "
 
-[node name="CoinsLabel" type="Label" parent="GameManager/CoinsHUD"]
+[node name="CoinsLabel" type="Label" parent="GameManager/CoinsHUD" unique_id=1837057142]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "0"
 
 [node name="PowerUpMenu" type="Control" parent="GameManager" unique_id=899393155]
 process_mode = 3
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -200,6 +206,7 @@ text = "Escudo (protege de bombas)"
 
 [node name="GameOverMenu" type="Control" parent="GameManager" unique_id=1577846968]
 process_mode = 3
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -245,27 +252,27 @@ custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 text = "Reiniciar"
 
-[node name="BtnGoMenu" type="Button" parent="GameManager/GameOverMenu/VBoxContainer"]
+[node name="BtnGoMenu" type="Button" parent="GameManager/GameOverMenu/VBoxContainer" unique_id=1348091379]
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 text = "Volver al Menu"
 
-[node name="BtnQuitGame" type="Button" parent="GameManager/GameOverMenu/VBoxContainer"]
+[node name="BtnQuitGame" type="Button" parent="GameManager/GameOverMenu/VBoxContainer" unique_id=760065365]
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 text = "Salir"
 
-[node name="PauseMenu" type="Control" parent="GameManager"]
+[node name="PauseMenu" type="Control" parent="GameManager" unique_id=660905693]
 process_mode = 3
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 
-[node name="BgPanel" type="ColorRect" parent="GameManager/PauseMenu"]
+[node name="BgPanel" type="ColorRect" parent="GameManager/PauseMenu" unique_id=1806123561]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -274,7 +281,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.7)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameManager/PauseMenu"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GameManager/PauseMenu" unique_id=1680915020]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -289,26 +296,26 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 15
 
-[node name="Title" type="Label" parent="GameManager/PauseMenu/VBoxContainer"]
+[node name="Title" type="Label" parent="GameManager/PauseMenu/VBoxContainer" unique_id=1916061173]
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "PAUSA"
 horizontal_alignment = 1
 
-[node name="BtnResume" type="Button" parent="GameManager/PauseMenu/VBoxContainer"]
-layout_mode = 2
+[node name="BtnResume" type="Button" parent="GameManager/PauseMenu/VBoxContainer" unique_id=1564574534]
 custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Reanudar"
 
-[node name="BtnMainMenu" type="Button" parent="GameManager/PauseMenu/VBoxContainer"]
-layout_mode = 2
+[node name="BtnMainMenu" type="Button" parent="GameManager/PauseMenu/VBoxContainer" unique_id=1013520911]
 custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Volver al Menu"
 
-[node name="BtnQuit" type="Button" parent="GameManager/PauseMenu/VBoxContainer"]
-layout_mode = 2
+[node name="BtnQuit" type="Button" parent="GameManager/PauseMenu/VBoxContainer" unique_id=1095417265]
 custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Salir"

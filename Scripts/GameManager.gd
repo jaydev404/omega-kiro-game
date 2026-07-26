@@ -14,6 +14,7 @@ signal match_ended()
 @export var endgame_bomb_chance: float = 0.8
 @export var endgame_spawn_interval: float = 0.3
 @export var survival_bonus_coins: int = 10
+@export var third_package_unlock_time: float = 1490.0  ## 10 segundos de prueba (1500-10)
 
 ## Estados
 enum GameState { PLAYING, ENDGAME, GAME_OVER }
@@ -22,6 +23,8 @@ var _state: GameState = GameState.PLAYING
 ## Timer de partida
 var _match_timer: float = 0.0
 var _endgame_triggered: bool = false
+var _third_package_unlocked: bool = false
+var _difficulty_phase: int = 0  ## fase de dificultad activa
 
 ## Puntaje
 var score: int = 0
@@ -44,6 +47,8 @@ var _coins_this_run: int = 0  ## Monedas ganadas en esta partida (se guardan sol
 @onready var _btn_shield: Button = get_node_or_null("PowerUpMenu/VBoxContainer/BtnShield")
 @onready var _game_over_menu: Control = get_node_or_null("GameOverMenu")
 @onready var _game_over_score: Label = get_node_or_null("GameOverMenu/Panel/VBoxContainer/FinalScore")
+@onready var _game_over_coins_earned: Label = get_node_or_null("GameOverMenu/Panel/VBoxContainer/CoinsEarned")
+@onready var _game_over_coins_total: Label  = get_node_or_null("GameOverMenu/Panel/VBoxContainer/CoinsTotal")
 @onready var _btn_restart: Button = get_node_or_null("GameOverMenu/Panel/VBoxContainer/BtnRestart")
 @onready var _btn_go_menu: Button = get_node_or_null("GameOverMenu/Panel/VBoxContainer/BtnGoMenu")
 @onready var _btn_quit_game: Button = get_node_or_null("GameOverMenu/Panel/VBoxContainer/BtnQuitGame")
@@ -100,8 +105,7 @@ func _ready() -> void:
 		_game_over_menu.visible = false
 	if _pause_menu:
 		_pause_menu.visible = false
-	_load_coins()
-	_load_upgrades()
+	_load_save()
 	_match_timer = match_duration
 	_update_label()
 
@@ -118,6 +122,15 @@ func _process(delta: float) -> void:
 		var mins := int(_match_timer) / 60
 		var secs := int(_match_timer) % 60
 		timer_label.text = "%02d:%02d" % [mins, secs]
+
+	# Tercer paquete se desbloquea al minuto 5
+	if not _third_package_unlocked and _match_timer <= third_package_unlock_time:
+		_third_package_unlocked = true
+		if _spawner:
+			_spawner.enable_third_package()
+
+	# Curva de dificultad por tiempo
+	_check_difficulty_phase()
 
 	# Evento final: bombardeo masivo en los últimos 30 segundos
 	if _match_timer <= endgame_duration and not _endgame_triggered:
@@ -140,9 +153,8 @@ func _match_victory() -> void:
 	get_tree().paused = true
 	coins += _coins_this_run
 	coins += survival_bonus_coins
-	_save_coins()
-	if _game_over_score:
-		_game_over_score.text = "VICTORIA! Puntaje: " + str(score)
+	_save_run()
+	_show_summary("VICTORIA! Puntaje: " + str(score))
 	if _game_over_menu:
 		_game_over_menu.visible = true
 	emit_signal("match_ended")
@@ -238,9 +250,8 @@ func game_over() -> void:
 	_state = GameState.GAME_OVER
 	get_tree().paused = true
 	coins += _coins_this_run
-	_save_coins()
-	if _game_over_score:
-		_game_over_score.text = "Puntaje final: " + str(score)
+	_save_run()
+	_show_summary("Puntaje final: " + str(score))
 	if _game_over_menu:
 		_game_over_menu.visible = true
 
@@ -307,33 +318,47 @@ func _on_main_menu() -> void:
 func _on_quit() -> void:
 	get_tree().quit()
 
-## Guarda las monedas en un archivo para persistir entre partidas.
-func _save_coins() -> void:
-	var file := FileAccess.open("user://coins.save", FileAccess.WRITE)
-	if file:
-		file.store_32(coins)
-		file.close()
+## Verifica y aplica la fase de dificultad según el timer actual.
+func _check_difficulty_phase() -> void:
+	if _spawner == null or _spawner.difficulty_config == null:
+		return
+	var cfg := _spawner.difficulty_config
+	var new_phase := _difficulty_phase
+	if _match_timer <= cfg.phase4_start_at:
+		new_phase = 4
+	elif _match_timer <= cfg.phase3_start_at:
+		new_phase = 3
+	elif _match_timer <= cfg.phase2_start_at:
+		new_phase = 2
+	elif _match_timer <= cfg.phase1_start_at:
+		new_phase = 1
+	if new_phase != _difficulty_phase:
+		_difficulty_phase = new_phase
+		_spawner.apply_difficulty_phase(new_phase)
 
-## Carga las monedas guardadas.
-func _load_coins() -> void:
-	if FileAccess.file_exists("user://coins.save"):
-		var file := FileAccess.open("user://coins.save", FileAccess.READ)
-		if file:
-			coins = file.get_32()
-			file.close()
+## Carga save centralizado y aplica stats al player.
+func _load_save() -> void:
+	coins = SaveManager.coins
+	if _player:
+		_player.move_speed = SaveManager.get_effective_move_speed()
+		_player.max_carry  = SaveManager.get_effective_max_carry()
+		var health := _player.get_node_or_null("PlayerHealth") as PlayerHealth
+		if health:
+			health.max_hearts = SaveManager.get_effective_max_hearts()
 
-## Carga los upgrades de la tienda y los aplica al player.
-func _load_upgrades() -> void:
-	if FileAccess.file_exists("user://upgrades.save"):
-		var upgrades := FileAccess.open("user://upgrades.save", FileAccess.READ)
-		if upgrades:
-			var vel_level: int = upgrades.get_32()
-			var cant_level: int = upgrades.get_32()
-			# vel_purchases y cant_purchases también se guardan pero no los necesitamos aquí
-			upgrades.close()
-			if _player:
-				_player.move_speed += vel_level * 15.0  # cada nivel de tienda = +15 vel
-				_player.max_carry += cant_level          # cada nivel = +1 carry
+## Sincroniza monedas al SaveManager y persiste.
+func _save_run() -> void:
+	SaveManager.coins = coins
+	SaveManager.save_data()
+
+## Rellena los labels del panel de Game Over / Victoria.
+func _show_summary(title: String) -> void:
+	if _game_over_score:
+		_game_over_score.text = title
+	if _game_over_coins_earned:
+		_game_over_coins_earned.text = "Monedas ganadas: +" + str(_coins_this_run)
+	if _game_over_coins_total:
+		_game_over_coins_total.text  = "Total acumulado: " + str(coins)
 
 ## XP y Level Up
 func _on_leveled_up(_new_level: int) -> void:

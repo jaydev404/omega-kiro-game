@@ -49,7 +49,7 @@ size = Vector2(24, 24)
 collision_layer = 4
 collision_mask = 7
 script = ExtResource("1")
-package_type = 5
+package_type = 6
 
 [node name="Visual" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_1")

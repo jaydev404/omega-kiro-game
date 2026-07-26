@@ -30,12 +30,14 @@ func _ready() -> void:
 # ------------------------------------------------------------------ público --
 
 func is_carrying() -> bool:
+	# Limpia referencias a nodos ya liberados antes de verificar
+	_carried_packages = _carried_packages.filter(func(p): return is_instance_valid(p))
 	return not _carried_packages.is_empty()
 
 func get_carried_package() -> PackageBody:
+	_carried_packages = _carried_packages.filter(func(p): return is_instance_valid(p))
 	if _carried_packages.is_empty():
 		return null
-	# Retorna el de arriba (último agregado)
 	return _carried_packages[-1]
 
 func get_carry_count() -> int:
@@ -44,6 +46,11 @@ func get_carry_count() -> int:
 # ------------------------------------------------------------------ interno --
 
 func _on_interact_pressed(interactable: Node) -> void:
+	# Limpiar paquetes liberados antes de cualquier operación
+	_carried_packages = _carried_packages.filter(func(p): return is_instance_valid(p))
+	if not is_instance_valid(interactable):
+		return
+
 	if interactable is DeliveryZone and is_carrying():
 		_deliver(interactable as DeliveryZone)
 	elif interactable is PackageBody and not (interactable as PackageBody).is_carried():
@@ -52,6 +59,11 @@ func _on_interact_pressed(interactable: Node) -> void:
 		_try_drop()
 
 func _try_pick_up(package: PackageBody) -> void:
+	# La caja sorpresa se revela en el lugar sin cargarse
+	if package.package_type == PackageBody.PackageType.SURPRISE:
+		if package.has_method("reveal_at"):
+			package.call("reveal_at", package.global_position)
+		return
 	# Verificar si puede cargar más
 	if _carried_packages.size() >= _controller.max_carry:
 		return
@@ -75,6 +87,12 @@ func _try_drop() -> void:
 func _drop_at(drop_pos: Vector2) -> void:
 	# Suelta el paquete de arriba (último)
 	var package: PackageBody = _carried_packages.pop_back()
+
+	if not is_instance_valid(package):
+		if _carried_packages.is_empty():
+			_visual.set_carrying(false)
+		return
+
 	var scene_root := get_tree().current_scene
 	package.reparent(scene_root)
 	package.global_position = drop_pos
@@ -89,6 +107,12 @@ func _drop_at(drop_pos: Vector2) -> void:
 func _deliver(zone: DeliveryZone) -> void:
 	# Entrega el paquete de arriba (último)
 	var package: PackageBody = _carried_packages[-1]
+
+	if not is_instance_valid(package):
+		_carried_packages.pop_back()
+		if _carried_packages.is_empty():
+			_visual.set_carrying(false)
+		return
 
 	if not zone.accepts(package):
 		return

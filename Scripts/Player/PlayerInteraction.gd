@@ -35,7 +35,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	# Cargando fuera de zona sin objeto cerca → suelta
 	if _carry.is_carrying():
-		emit_signal("interact_pressed", _carry.get_carried_package())
+		var pkg := _carry.get_carried_package()
+		if is_instance_valid(pkg):
+			emit_signal("interact_pressed", pkg)
 		return
 
 # ------------------------------------------------------------------ interno --
@@ -44,7 +46,7 @@ func _on_body_entered(body: Node) -> void:
 	# Ruby y monedas se recogen automáticamente al contacto
 	if body is PackageBody:
 		var pkg := body as PackageBody
-		if not pkg.is_carried():
+		if not pkg.is_carried() and not pkg.pickup_blocked:
 			if pkg.package_type == PackageBody.PackageType.RUBY \
 				or pkg.package_type == PackageBody.PackageType.GOLD_COIN \
 				or pkg.package_type == PackageBody.PackageType.SILVER_COIN:

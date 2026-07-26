@@ -11,13 +11,24 @@ signal spawn_blocked()
 @export var drone_scene: PackedScene
 @export var package_scene: PackedScene
 
+## Curva de dificultad — asignar DifficultyConfig.tres desde el inspector
+@export var difficulty_config: DifficultyConfig
+
 ## Escenas adicionales de objetos
 @export var bluepot_scene: PackedScene
+@export var third_package_scene: PackedScene
+@export var surprise_box_scene: PackedScene
 @export var bomb_scene: PackedScene
 @export var bomb_timer_scene: PackedScene
 @export var ruby_scene: PackedScene
 @export var gold_coin_scene: PackedScene
 @export var silver_coin_scene: PackedScene
+
+## Probabilidad (0-1) de que salga una caja sorpresa
+@export_range(0.0, 1.0) var surprise_chance: float = 0.08
+
+## Escenas de paquetes entregables activas (se amplía con el tiempo)
+var _active_delivery_scenes: Array[PackedScene] = []
 
 ## Probabilidad (0-1) de que salga una bomba
 @export_range(0.0, 1.0) var bomb_chance: float = 0.1
@@ -51,11 +62,18 @@ var _drop_zone_max: Vector2 = Vector2.ZERO
 ## Dificultad: incrementos cada 10 segundos
 var _max_concurrent_drones: int = 3
 var _drone_speed_bonus: float = 0.0
+var _current_phase: int = 0  ## fase de dificultad activa
 
 # ------------------------------------------------------------------ ciclo --
 
 func _ready() -> void:
 	_viewport_size = get_viewport_rect().size
+	# Construir lista inicial de paquetes entregables (BOX + BLUEPOT)
+	_active_delivery_scenes.clear()
+	if package_scene:
+		_active_delivery_scenes.append(package_scene)
+	if bluepot_scene:
+		_active_delivery_scenes.append(bluepot_scene)
 	# Buscar markers de zona de drop en la escena
 	var scene := get_tree().current_scene
 	var top_left := scene.get_node_or_null("DropZoneTopLeft") as Marker2D
@@ -64,9 +82,44 @@ func _ready() -> void:
 		_drop_zone_min = top_left.global_position
 		_drop_zone_max = bottom_right.global_position
 	else:
-		# Fallback: usar todo el viewport con margen
 		_drop_zone_min = Vector2(30, 30)
 		_drop_zone_max = _viewport_size - Vector2(30, 30)
+
+## Activa el tercer tipo de paquete. Llamado por GameManager al minuto 5.
+func enable_third_package() -> void:
+	if third_package_scene and not _active_delivery_scenes.has(third_package_scene):
+		_active_delivery_scenes.append(third_package_scene)
+
+## Aplica los parámetros de una fase de dificultad. Llamado por GameManager.
+func apply_difficulty_phase(phase: int) -> void:
+	if difficulty_config == null or phase <= _current_phase:
+		return
+	_current_phase = phase
+	match phase:
+		1:
+			spawn_interval      = difficulty_config.phase1_spawn_interval
+			_max_concurrent_drones = difficulty_config.phase1_max_drones
+			_drone_speed_bonus  = difficulty_config.phase1_drone_speed - 120.0
+			bomb_chance         = difficulty_config.phase1_bomb_chance
+			chase_chance        = difficulty_config.phase1_chase_chance
+		2:
+			spawn_interval      = difficulty_config.phase2_spawn_interval
+			_max_concurrent_drones = difficulty_config.phase2_max_drones
+			_drone_speed_bonus  = difficulty_config.phase2_drone_speed - 120.0
+			bomb_chance         = difficulty_config.phase2_bomb_chance
+			chase_chance        = difficulty_config.phase2_chase_chance
+		3:
+			spawn_interval      = difficulty_config.phase3_spawn_interval
+			_max_concurrent_drones = difficulty_config.phase3_max_drones
+			_drone_speed_bonus  = difficulty_config.phase3_drone_speed - 120.0
+			bomb_chance         = difficulty_config.phase3_bomb_chance
+			chase_chance        = difficulty_config.phase3_chase_chance
+		4:
+			spawn_interval      = difficulty_config.phase4_spawn_interval
+			_max_concurrent_drones = difficulty_config.phase4_max_drones
+			_drone_speed_bonus  = difficulty_config.phase4_drone_speed - 120.0
+			bomb_chance         = difficulty_config.phase4_bomb_chance
+			chase_chance        = difficulty_config.phase4_chase_chance
 
 func _process(delta: float) -> void:
 	# Timer para gold coin (cada 30 segundos)
@@ -138,7 +191,7 @@ func _launch_drone() -> void:
 	drone.drone_finished.connect(_on_drone_finished)
 	_drones_in_flight += 1
 
-## Elige qué objeto soltar: ruby/gold/silver si toca, si no 10% bomba, 90% se reparte entre box y bluepot.
+## Elige qué objeto soltar: ruby/gold/silver si toca, si no 10% bomba, resto reparte entre paquetes activos.
 func _pick_package_scene() -> PackedScene:
 	if _spawn_ruby_next and ruby_scene:
 		_spawn_ruby_next = false
@@ -154,7 +207,6 @@ func _pick_package_scene() -> PackedScene:
 
 	var roll := randf()
 	if roll < bomb_chance:
-		# 60% bomba inmediata, 40% bomba timer
 		if randf() < 0.6 and bomb_scene:
 			return bomb_scene
 		elif bomb_timer_scene:
@@ -162,8 +214,14 @@ func _pick_package_scene() -> PackedScene:
 		else:
 			return bomb_scene
 
-	if randf() < 0.5 and bluepot_scene:
-		return bluepot_scene
+	# Caja sorpresa con probabilidad baja
+	if randf() < surprise_chance and surprise_box_scene:
+		return surprise_box_scene
+
+	# Selección aleatoria uniforme entre los paquetes entregables activos
+	if not _active_delivery_scenes.is_empty():
+		return _active_delivery_scenes[randi() % _active_delivery_scenes.size()]
+
 	return package_scene
 
 ## Llamado por GameManager cada 5 puntos para que el próximo drone traiga un ruby.
