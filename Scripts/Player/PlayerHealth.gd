@@ -105,6 +105,7 @@ func init_hearts(hearts: int) -> void:
 	max_hearts        = hearts
 	_max_fragments    = max_hearts * fragments_per_heart
 	_current_fragments = _max_fragments
+	_is_dead          = false
 	_emit_health_changed()
 
 # ------------------------------------------------------------------ interno --

@@ -62,6 +62,8 @@ var _drop_zone_max: Vector2 = Vector2.ZERO
 ## Dificultad: incrementos cada 10 segundos
 var _max_concurrent_drones: int = 3
 var _drone_speed_bonus: float = 0.0
+var _drone_vel_powerup_bonus: float = 0.0  ## +15 por cada powerup de vel del player
+var _drone_cant_powerup_bonus: int = 0  ## +2 por cada powerup de cant del player
 var _current_phase: int = 0  ## fase de dificultad activa
 
 # ------------------------------------------------------------------ ciclo --
@@ -89,6 +91,21 @@ func _ready() -> void:
 func enable_third_package() -> void:
 	if third_package_scene and not _active_delivery_scenes.has(third_package_scene):
 		_active_delivery_scenes.append(third_package_scene)
+
+## Llamado por GameManager cuando el player elige powerup de velocidad.
+func on_player_vel_powerup() -> void:
+	_drone_vel_powerup_bonus += 15.0
+
+## Llamado por GameManager cuando el player elige powerup de cantidad.
+func on_player_cant_powerup() -> void:
+	_drone_cant_powerup_bonus += 1
+
+## Calcula el máximo de drones concurrentes basado en la capacidad del player.
+func get_max_drones() -> int:
+	var player := get_tree().current_scene.get_node_or_null("Player") as PlayerController
+	var carry := player.max_carry if player else 1
+	# Drones iniciales = 3 + cant extra del player, más bonus por powerups
+	return 3 + (carry - 1) + _drone_cant_powerup_bonus
 
 ## Aplica los parámetros de una fase de dificultad. Llamado por GameManager.
 func apply_difficulty_phase(phase: int) -> void:
@@ -140,15 +157,14 @@ func _process(delta: float) -> void:
 		_try_spawn()
 
 func _increase_difficulty() -> void:
-	_drone_speed_bonus += 30.0
+	_drone_speed_bonus += 10.0
 	spawn_interval = max(0.5, spawn_interval - 0.2)
 
 ## Llamado cuando el player sube de nivel para escalar dificultad.
 func on_player_level_up(level: int) -> void:
-	# Cada nivel: +1 drone concurrente
-	_max_concurrent_drones += 1
-	# Cada 2 niveles: aumentar velocidad y chase chance
+	# Cada 2 niveles: +1 drone concurrente, aumentar velocidad y chase chance
 	if level % 2 == 0:
+		_max_concurrent_drones += 1
 		_increase_difficulty()
 		chase_chance = min(0.3, chase_chance + 0.02)
 
@@ -156,7 +172,7 @@ func on_player_level_up(level: int) -> void:
 
 func _try_spawn() -> void:
 	# Lanzar drones hasta alcanzar el máximo concurrente
-	while _drones_in_flight < _max_concurrent_drones:
+	while _drones_in_flight < get_max_drones():
 		_launch_drone()
 
 func _launch_drone() -> void:
@@ -178,12 +194,16 @@ func _launch_drone() -> void:
 
 	var drone: Drone = drone_scene.instantiate()
 	add_child(drone)
-	drone.speed += _drone_speed_bonus
+	# Velocidad base = velocidad del player + 30, más bonus por powerups de vel
+	var player := get_tree().current_scene.get_node_or_null("Player") as PlayerController
+	var player_speed := player.move_speed if player else 150.0
+	drone.speed = player_speed + 15.0 + _drone_vel_powerup_bonus
 	drone.init(spawn_origin, fly_target, drop_pos, chosen_scene)
 
 	# 5% de probabilidad de que un drone con box/pot persiga al player
 	if chosen_scene != bomb_scene and chosen_scene != bomb_timer_scene and chosen_scene != ruby_scene \
-		and chosen_scene != gold_coin_scene and chosen_scene != silver_coin_scene:
+		and chosen_scene != gold_coin_scene and chosen_scene != silver_coin_scene \
+		and chosen_scene != surprise_box_scene:
 		if randf() < chase_chance:
 			drone.set_chase_mode(true)
 

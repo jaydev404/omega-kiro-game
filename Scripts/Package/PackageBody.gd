@@ -24,6 +24,9 @@ var pickup_blocked: bool = false
 
 # ------------------------------------------------------------------ público --
 
+func _ready() -> void:
+	add_to_group("packages")
+
 func interact() -> void:
 	pass  # lógica gestionada por PlayerCarry
 
@@ -77,9 +80,13 @@ func _check_landing_collision() -> void:
 	# Verificar si cae sobre el player
 	var player := get_tree().current_scene.get_node_or_null("Player") as PlayerController
 	if player and global_position.distance_to(player.global_position) < landing_hit_radius:
+		# Ruby y monedas no hacen daño ni muestran explosión al caer
+		var no_damage := package_type in [PackageType.RUBY, PackageType.GOLD_COIN, PackageType.SILVER_COIN]
+		if no_damage:
+			return
 		var health := player.get_node_or_null("PlayerHealth") as PlayerHealth
 		if health:
-			health.take_damage(landing_damage)  # Paquete cayendo = 1 fragmento de daño
+			health.take_damage(landing_damage)
 		# Destruir el paquete que cayó encima
 		var effect := _dirty_explosion_scene.instantiate()
 		get_tree().current_scene.add_child(effect)

@@ -11,6 +11,9 @@ signal package_rejected(package: PackageBody)
 ## Internos
 var _delivery_count: int = 0
 
+func _ready() -> void:
+	add_to_group("delivery_zones")
+
 ## Implementa la interfaz Interactable — detectado por PlayerInteraction
 func interact() -> void:
 	pass  # la lógica la invoca PlayerCarry.deliver()
