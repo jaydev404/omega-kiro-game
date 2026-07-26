@@ -64,6 +64,9 @@ func _try_pick_up(package: PackageBody) -> void:
 		if package.has_method("reveal_at"):
 			package.call("reveal_at", package.global_position)
 		return
+	# Ruby y monedas no se cargan — solo se recogen al tocar
+	if package.package_type in [PackageBody.PackageType.RUBY, PackageBody.PackageType.GOLD_COIN, PackageBody.PackageType.SILVER_COIN]:
+		return
 	# Verificar si puede cargar más
 	if _carried_packages.size() >= _controller.max_carry:
 		return

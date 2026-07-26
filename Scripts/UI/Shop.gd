@@ -1,16 +1,17 @@
 class_name Shop
-extends Control
+extends Node2D
 
 const MAX_VEL_LEVEL  := 5
 const MAX_CANT_LEVEL := 3
 const MAX_HP_LEVEL   := 3
 const REVIVE_COST    := 100
+const HELPER_COST    := 300
 
 ## Costos fijos por nivel de corazón (índice = nivel a comprar, 0-indexed)
 const HP_COSTS: Array[int] = [10, 20, 50]
 
 ## Modo dev: las compras son gratis. Cambiar a false para producción.
-const DEV_MODE := true
+const DEV_MODE := false
 
 var coins: int = 0
 var vel_level: int = 0
@@ -19,37 +20,50 @@ var cant_level: int = 0
 var cant_purchases: int = 0
 var hp_level: int = 0
 var has_revive: bool = false
+var has_helper: bool = false
 
-@onready var _vel_bar: ProgressBar    = $VBoxContainer/VelRow/VelBar
-@onready var _vel_level_label: Label  = $VBoxContainer/VelRow/VelLevelLabel
-@onready var _vel_cost_label: Label   = $VBoxContainer/VelRow/VelCostLabel
-@onready var _btn_buy_vel: Button     = $VBoxContainer/VelRow/BtnBuyVel
-@onready var _cant_bar: ProgressBar   = $VBoxContainer/CantRow/CantBar
-@onready var _cant_level_label: Label = $VBoxContainer/CantRow/CantLevelLabel
-@onready var _cant_cost_label: Label  = $VBoxContainer/CantRow/CantCostLabel
-@onready var _btn_buy_cant: Button    = $VBoxContainer/CantRow/BtnBuyCant
-@onready var _hp_bar: ProgressBar     = $VBoxContainer/HpRow/HpBar
-@onready var _hp_level_label: Label   = $VBoxContainer/HpRow/HpLevelLabel
-@onready var _hp_cost_label: Label    = $VBoxContainer/HpRow/HpCostLabel
-@onready var _btn_buy_hp: Button      = $VBoxContainer/HpRow/BtnBuyHp
-@onready var _revive_cost_label: Label = $VBoxContainer/ReviveRow/ReviveCostLabel
-@onready var _btn_buy_revive: Button   = $VBoxContainer/ReviveRow/BtnBuyRevive
-@onready var _coins_label: Label      = $VBoxContainer/CoinsLabel
-@onready var _btn_back: Button        = $VBoxContainer/BtnBack
-@onready var _dev_panel: Control      = $VBoxContainer/DevPanel
-@onready var _btn_dev_max: Button     = $VBoxContainer/DevPanel/BtnDevMax
-@onready var _btn_dev_reset: Button   = $VBoxContainer/DevPanel/BtnDevReset
+@onready var _vel_bar: ColorRect       = get_node_or_null("VelRow/VelFill")
+@onready var _vel_level_label: Label  = get_node_or_null("VelRow/VelLevelLabel")
+@onready var _vel_cost_label: Label   = get_node_or_null("VelRow/VelCostLabel")
+@onready var _btn_buy_vel: Button     = get_node_or_null("VelRow/BtnBuyVel")
+@onready var _cant_bar: ColorRect     = get_node_or_null("CantRow/CantFill")
+@onready var _cant_level_label: Label = get_node_or_null("CantRow/CantLevelLabel")
+@onready var _cant_cost_label: Label  = get_node_or_null("CantRow/CantCostLabel")
+@onready var _btn_buy_cant: Button    = get_node_or_null("CantRow/BtnBuyCant")
+@onready var _hp_bar: ColorRect       = get_node_or_null("HpRow/HpFill")
+@onready var _hp_level_label: Label   = get_node_or_null("HpRow/HpLevelLabel")
+@onready var _hp_cost_label: Label    = get_node_or_null("HpRow/HpCostLabel")
+@onready var _btn_buy_hp: Button      = get_node_or_null("HpRow/BtnBuyHp")
+@onready var _revive_cost_label: Label = get_node_or_null("ReviveRow/ReviveCostLabel")
+@onready var _btn_buy_revive: Button   = get_node_or_null("ReviveRow/BtnBuyRevive")
+@onready var _helper_cost_label: Label = get_node_or_null("HelperRow/HelperCostLabel")
+@onready var _btn_buy_helper: Button   = get_node_or_null("HelperRow/BtnBuyHelper")
+@onready var _coins_label: Label      = get_node_or_null("CoinsLabel")
+@onready var _btn_back: Button        = get_node_or_null("BtnBack")
+@onready var _dev_panel: Control      = get_node_or_null("DevPanel")
+@onready var _btn_dev_max: Button     = get_node_or_null("DevPanel/BtnDevMax")
+@onready var _btn_dev_reset: Button   = get_node_or_null("DevPanel/BtnDevReset")
 @onready var _dev_label: Label        = $VBoxContainer/DevPanel/DevLabel
 
 func _ready() -> void:
-	_btn_buy_vel.pressed.connect(_on_buy_vel)
-	_btn_buy_cant.pressed.connect(_on_buy_cant)
-	_btn_buy_hp.pressed.connect(_on_buy_hp)
-	_btn_buy_revive.pressed.connect(_on_buy_revive)
-	_btn_back.pressed.connect(_on_back)
-	_btn_dev_max.pressed.connect(_on_dev_max)
-	_btn_dev_reset.pressed.connect(_on_dev_reset)
-	_dev_panel.visible = DEV_MODE
+	if _btn_buy_vel:
+		_btn_buy_vel.pressed.connect(_on_buy_vel)
+	if _btn_buy_cant:
+		_btn_buy_cant.pressed.connect(_on_buy_cant)
+	if _btn_buy_hp:
+		_btn_buy_hp.pressed.connect(_on_buy_hp)
+	if _btn_buy_revive:
+		_btn_buy_revive.pressed.connect(_on_buy_revive)
+	if _btn_buy_helper:
+		_btn_buy_helper.pressed.connect(_on_buy_helper)
+	if _btn_back:
+		_btn_back.pressed.connect(_on_back)
+	if _btn_dev_max:
+		_btn_dev_max.pressed.connect(_on_dev_max)
+	if _btn_dev_reset:
+		_btn_dev_reset.pressed.connect(_on_dev_reset)
+	if _dev_panel:
+		_dev_panel.visible = DEV_MODE
 	_load_data()
 	_update_ui()
 
@@ -74,10 +88,10 @@ func _get_hp_cost() -> int:
 	return HP_COSTS[hp_level]
 
 func _purchases_needed_for_vel_level(level: int) -> int:
-	return 2 if level < 5 else 3
+	return 1
 
 func _purchases_needed_for_cant_level(level: int) -> int:
-	return 2 if level < 5 else 3
+	return 2
 
 func _purchases_in_current_vel_level() -> int:
 	var spent := 0
@@ -129,12 +143,20 @@ func _on_buy_revive() -> void:
 		_save_data()
 		_update_ui()
 
+func _on_buy_helper() -> void:
+	var cost := 0 if DEV_MODE else HELPER_COST
+	if coins >= cost and not has_helper:
+		coins -= cost
+		has_helper = true
+		_save_data()
+		_update_ui()
+
 func _on_back() -> void:
 	get_tree().change_scene_to_file("res://Scenes/UI/ChaosMainMenu.tscn")
-
 # ------------------------------------------------------------------ dev mode
 
 func _on_dev_max() -> void:
+	coins          = 99999999
 	vel_level      = MAX_VEL_LEVEL
 	vel_purchases  = _total_purchases_for_level(MAX_VEL_LEVEL, true)
 	cant_level     = MAX_CANT_LEVEL
@@ -158,31 +180,74 @@ func _total_purchases_for_level(target_level: int, is_vel: bool) -> int:
 # ------------------------------------------------------------------ UI
 
 func _update_ui() -> void:
-	_vel_bar.value         = vel_level
-	_vel_level_label.text  = str(vel_level)  + "/" + str(MAX_VEL_LEVEL)
-	_cant_bar.value        = cant_level
-	_cant_level_label.text = str(cant_level) + "/" + str(MAX_CANT_LEVEL)
-	_hp_bar.value          = hp_level
-	_hp_level_label.text   = str(hp_level)   + "/" + str(MAX_HP_LEVEL)
-	_coins_label.text      = "$ " + str(coins) + (" [DEV]" if DEV_MODE else "")
+	if _vel_bar:
+		var vel_max_width := 58.0
+		_vel_bar.offset_right = _vel_bar.offset_left + vel_max_width * (float(vel_level) / MAX_VEL_LEVEL)
+	if _vel_level_label:
+		_vel_level_label.text  = str(vel_level)  + "/" + str(MAX_VEL_LEVEL)
+	if _cant_bar:
+		var cant_max_width := 58.0
+		_cant_bar.offset_right = _cant_bar.offset_left + cant_max_width * (float(cant_level) / MAX_CANT_LEVEL)
+	if _cant_level_label:
+		_cant_level_label.text = str(cant_level) + "/" + str(MAX_CANT_LEVEL)
+	if _hp_bar:
+		var hp_max_width := 58.0
+		_hp_bar.offset_right = _hp_bar.offset_left + hp_max_width * (float(hp_level) / MAX_HP_LEVEL)
+	if _hp_level_label:
+		_hp_level_label.text   = str(hp_level)   + "/" + str(MAX_HP_LEVEL)
+	if _coins_label:
+		_coins_label.text      = "$ " + str(coins)
 
 	var vel_cost  := _get_cost(vel_level)
 	var cant_cost := _get_cost(cant_level)
 	var hp_cost   := _get_hp_cost()
 
-	_vel_cost_label.text  = "(GRATIS)" if DEV_MODE else "($" + str(vel_cost)  + ")"
-	_cant_cost_label.text = "(GRATIS)" if DEV_MODE else "($" + str(cant_cost) + ")"
-	_hp_cost_label.text   = "(GRATIS)" if DEV_MODE else ("($" + str(hp_cost) + ")" if hp_level < MAX_HP_LEVEL else "(MAX)")
+	if _vel_cost_label:
+		_vel_cost_label.visible = false
+	if _cant_cost_label:
+		_cant_cost_label.visible = false
+	if _hp_cost_label:
+		_hp_cost_label.visible = false
 
-	_btn_buy_vel.disabled  = vel_level  >= MAX_VEL_LEVEL
-	_btn_buy_cant.disabled = cant_level >= MAX_CANT_LEVEL
-	_btn_buy_hp.disabled   = hp_level   >= MAX_HP_LEVEL
-	var revive_cost := 0 if DEV_MODE else REVIVE_COST
-	_revive_cost_label.text = "(GRATIS)" if DEV_MODE else ("($" + str(REVIVE_COST) + ")" if not has_revive else "(COMPRADO)")
-	_btn_buy_revive.disabled = has_revive or (not DEV_MODE and coins < REVIVE_COST)
-
-	if DEV_MODE and _dev_label:
-		_dev_label.text = "Vel: x" + str(vel_level) + "  Cant: x" + str(cant_level) + "  HP: x" + str(hp_level) + "  Rev:" + ("SI" if has_revive else "NO")
+	if _btn_buy_vel:
+		if vel_level >= MAX_VEL_LEVEL:
+			_btn_buy_vel.text = "MAX"
+			_btn_buy_vel.disabled = true
+		else:
+			_btn_buy_vel.text = "$" + str(vel_cost)
+			_btn_buy_vel.disabled = coins < vel_cost
+	if _btn_buy_cant:
+		if cant_level >= MAX_CANT_LEVEL:
+			_btn_buy_cant.text = "MAX"
+			_btn_buy_cant.disabled = true
+		else:
+			_btn_buy_cant.text = "$" + str(cant_cost)
+			_btn_buy_cant.disabled = coins < cant_cost
+	if _btn_buy_hp:
+		if hp_level >= MAX_HP_LEVEL:
+			_btn_buy_hp.text = "MAX"
+			_btn_buy_hp.disabled = true
+		else:
+			_btn_buy_hp.text = "$" + str(hp_cost)
+			_btn_buy_hp.disabled = coins < hp_cost
+	if _revive_cost_label:
+		_revive_cost_label.visible = false
+	if _btn_buy_revive:
+		if has_revive:
+			_btn_buy_revive.text = "Comprado"
+			_btn_buy_revive.disabled = true
+		else:
+			_btn_buy_revive.text = "$" + str(REVIVE_COST)
+			_btn_buy_revive.disabled = coins < REVIVE_COST
+	if _helper_cost_label:
+		_helper_cost_label.visible = false
+	if _btn_buy_helper:
+		if has_helper:
+			_btn_buy_helper.text = "Comprado"
+			_btn_buy_helper.disabled = true
+		else:
+			_btn_buy_helper.text = "$" + str(HELPER_COST)
+			_btn_buy_helper.disabled = coins < HELPER_COST
 
 # ------------------------------------------------------------------ persistencia
 
@@ -194,6 +259,7 @@ func _save_data() -> void:
 	SaveManager.cant_purchases = cant_purchases
 	SaveManager.hp_level       = hp_level
 	SaveManager.has_revive     = has_revive
+	SaveManager.has_helper     = has_helper
 	SaveManager.save_data()
 
 func _load_data() -> void:
@@ -204,3 +270,4 @@ func _load_data() -> void:
 	cant_purchases = SaveManager.cant_purchases
 	hp_level       = SaveManager.hp_level
 	has_revive     = SaveManager.has_revive
+	has_helper     = SaveManager.has_helper

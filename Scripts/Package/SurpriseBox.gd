@@ -14,6 +14,7 @@ extends PackageBody
 @export var chance_bomb: float       = 0.20
 
 func _ready() -> void:
+	super()
 	package_type = PackageType.SURPRISE
 
 ## Sobreescribe pick_up: en lugar de cargarse, se revela en el lugar.

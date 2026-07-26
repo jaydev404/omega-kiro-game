@@ -17,7 +17,9 @@ const DEFAULT_SPRINT_MULT := 1.6
 
 ## ---------------------------------------------------------------- datos en memoria
 
-var coins: int = 0
+var coins: int = 0:
+	set(value):
+		coins = clampi(value, 0, 99999999)
 
 var vel_level: int      = 0
 var vel_purchases: int  = 0
@@ -25,6 +27,7 @@ var cant_level: int     = 0
 var cant_purchases: int = 0
 var hp_level: int       = 0
 var has_revive: bool    = false   ## si compró el revive en la tienda
+var has_helper: bool    = false   ## si compró el drone helper en la tienda
 
 ## Estado de uso del revive — se resetea al inicio de cada partida, no persiste
 var revive_used: bool   = false
@@ -68,7 +71,7 @@ func save_data() -> void:
 
 ## Velocidad efectiva al inicio de partida (base + bonus de tienda).
 func get_effective_move_speed() -> float:
-	return base_move_speed + vel_level * 15.0
+	return base_move_speed + vel_level * 5.0
 
 ## Capacidad de carga efectiva (base + bonus de tienda).
 func get_effective_max_carry() -> int:
@@ -106,6 +109,7 @@ func _reset_to_defaults() -> void:
 	cant_purchases = 0
 	hp_level       = 0
 	has_revive     = false
+	has_helper     = false
 	base_move_speed        = DEFAULT_MOVE_SPEED
 	base_max_carry         = DEFAULT_MAX_CARRY
 	base_max_hearts        = DEFAULT_MAX_HEARTS
@@ -121,7 +125,8 @@ func _to_dict() -> Dictionary:
 			"cant_level":     cant_level,
 			"cant_purchases": cant_purchases,
 			"hp_level":       hp_level,
-			"has_revive":     has_revive
+			"has_revive":     has_revive,
+			"has_helper":     has_helper
 		},
 		"base_stats": {
 			"move_speed":        base_move_speed,
@@ -141,6 +146,7 @@ func _load_from_dict(data: Dictionary) -> void:
 	cant_purchases = upg.get("cant_purchases", 0)
 	hp_level       = upg.get("hp_level",       0)
 	has_revive     = upg.get("has_revive",     false)
+	has_helper     = upg.get("has_helper",     false)
 
 	var stats: Dictionary = data.get("base_stats", {})
 	base_move_speed        = stats.get("move_speed",        DEFAULT_MOVE_SPEED)

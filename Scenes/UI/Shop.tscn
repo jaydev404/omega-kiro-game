@@ -1,223 +1,281 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://vb76xjhlofu7"]
 
-[ext_resource type="Script" path="res://Scripts/UI/Shop.gd" id="1"]
+[ext_resource type="Script" uid="uid://cn4llv6yho03d" path="res://Scripts/UI/Shop.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://c47neb7fisosf" path="res://Assets/UI/Shop/backgroudShop (1).png" id="2"]
+[ext_resource type="Texture2D" uid="uid://b2x8h18w87oym" path="res://Assets/UI/Shop/MenuShop.png" id="3"]
+[ext_resource type="FontFile" uid="uid://d21uixh14b4m4" path="res://Assets/UI/font/pixelFont-7-8x14-sproutLands.ttf" id="5"]
+[ext_resource type="Texture2D" uid="uid://ck2kujfx1uty4" path="res://Assets/UI/Menu/title.png" id="6"]
 
-[node name="Shop" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Shop" type="Node2D" unique_id=951020677]
 script = ExtResource("1")
 
-[node name="Background" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.05, 0.05, 0.15, 1)
+[node name="Background" type="Sprite2D" parent="." unique_id=678493513]
+position = Vector2(320, 176)
+scale = Vector2(6.67, 3.67)
+texture = ExtResource("2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -150.0
-offset_right = 200.0
-offset_bottom = 150.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 20
+[node name="Panel" type="Sprite2D" parent="." unique_id=744216852]
+position = Vector2(305, 175)
+scale = Vector2(2.0416667, 1.9479165)
+texture = ExtResource("3")
 
-[node name="Title" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Tienda"
+[node name="Title" type="Sprite2D" parent="." unique_id=267105256]
+position = Vector2(304, 99)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("6")
+
+[node name="CoinsLabel" type="Label" parent="." unique_id=1510325775]
+offset_left = 259.0
+offset_top = 94.0
+offset_right = 349.0
+offset_bottom = 106.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 8
+text = "$0"
 horizontal_alignment = 1
 
-[node name="CoinsLabel" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "$ 0"
-horizontal_alignment = 1
+[node name="VelRow" type="Node2D" parent="." unique_id=34805604]
+position = Vector2(236, 122)
 
-[node name="VelRow" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
+[node name="VelLabel" type="Label" parent="VelRow" unique_id=860732106]
+offset_left = -1.0
+offset_right = 21.0
+offset_bottom = 10.0
+pivot_offset = Vector2(78, -22)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 6
+text = "Vel"
 
-[node name="VelLabel" type="Label" parent="VBoxContainer/VelRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(60, 0)
-theme_override_font_sizes/font_size = 16
-text = "Vel:"
+[node name="VelBar" type="ColorRect" parent="VelRow" unique_id=1812420448]
+offset_left = 23.0
+offset_top = 1.0
+offset_right = 83.0
+offset_bottom = 9.0
+pivot_offset = Vector2(54, -23)
+color = Color(0.15, 0.12, 0.2, 1)
 
-[node name="VelBar" type="ProgressBar" parent="VBoxContainer/VelRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(150, 25)
-max_value = 5.0
-value = 0.0
-show_percentage = false
+[node name="VelFill" type="ColorRect" parent="VelRow" unique_id=1953302713]
+offset_left = 25.0
+offset_top = 2.0
+offset_right = 25.0
+offset_bottom = 8.0
+color = Color(0.2, 0.7, 0.3, 1)
 
-[node name="VelLevelLabel" type="Label" parent="VBoxContainer/VelRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(50, 0)
-theme_override_font_sizes/font_size = 14
+[node name="VelLevelLabel" type="Label" parent="VelRow" unique_id=971084245]
+offset_left = 86.0
+offset_right = 106.0
+offset_bottom = 10.0
+pivot_offset = Vector2(-29, -22)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 6
 text = "0/10"
-horizontal_alignment = 1
 
-[node name="VelCostLabel" type="Label" parent="VBoxContainer/VelRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(60, 0)
-theme_override_font_sizes/font_size = 12
+[node name="BtnBuyVel" type="Button" parent="VelRow" unique_id=1680850074]
+offset_left = 106.0
+offset_top = -1.0
+offset_right = 135.0
+offset_bottom = 11.0
+pivot_offset = Vector2(-55, -21)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 5
+text = "Comprar"
+
+[node name="VelCostLabel" type="Label" parent="VelRow" unique_id=608706218]
+offset_left = 129.0
+offset_top = 1.0
+offset_right = 158.0
+offset_bottom = 9.0
+pivot_offset = Vector2(-55, -33)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 5
 text = "($10)"
 horizontal_alignment = 1
 
-[node name="BtnBuyVel" type="Button" parent="VBoxContainer/VelRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(80, 30)
-theme_override_font_sizes/font_size = 14
-text = "Comprar"
+[node name="CantRow" type="Node2D" parent="." unique_id=356126835]
+position = Vector2(236, 150)
 
-[node name="CantRow" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
+[node name="CantLabel" type="Label" parent="CantRow" unique_id=509876393]
+offset_left = -1.0
+offset_right = 21.0
+offset_bottom = 10.0
+pivot_offset = Vector2(78, -50)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 6
+text = "Cant"
 
-[node name="CantLabel" type="Label" parent="VBoxContainer/CantRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(60, 0)
-theme_override_font_sizes/font_size = 16
-text = "Cant:"
+[node name="CantBar" type="ColorRect" parent="CantRow" unique_id=1886089622]
+offset_left = 23.0
+offset_top = 1.0
+offset_right = 83.0
+offset_bottom = 9.0
+pivot_offset = Vector2(54, -51)
+color = Color(0.15, 0.12, 0.2, 1)
 
-[node name="CantBar" type="ProgressBar" parent="VBoxContainer/CantRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(150, 25)
-max_value = 3.0
-value = 0.0
-show_percentage = false
+[node name="CantFill" type="ColorRect" parent="CantRow" unique_id=1720286883]
+offset_left = 25.0
+offset_top = 2.0
+offset_right = 25.0
+offset_bottom = 8.0
+color = Color(0.3, 0.5, 1, 1)
 
-[node name="CantLevelLabel" type="Label" parent="VBoxContainer/CantRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(50, 0)
-theme_override_font_sizes/font_size = 14
+[node name="CantLevelLabel" type="Label" parent="CantRow" unique_id=422856754]
+offset_left = 86.0
+offset_right = 106.0
+offset_bottom = 10.0
+pivot_offset = Vector2(-29, -50)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 6
 text = "0/10"
-horizontal_alignment = 1
 
-[node name="CantCostLabel" type="Label" parent="VBoxContainer/CantRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(60, 0)
-theme_override_font_sizes/font_size = 12
+[node name="BtnBuyCant" type="Button" parent="CantRow" unique_id=1903642587]
+offset_left = 106.0
+offset_top = -1.0
+offset_right = 135.0
+offset_bottom = 11.0
+pivot_offset = Vector2(-55, -49)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 5
+text = "Comprar"
+
+[node name="CantCostLabel" type="Label" parent="CantRow" unique_id=809007099]
+offset_left = 131.0
+offset_top = 1.0
+offset_right = 160.0
+offset_bottom = 9.0
+pivot_offset = Vector2(-55, -61)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 5
 text = "($10)"
 horizontal_alignment = 1
 
-[node name="BtnBuyCant" type="Button" parent="VBoxContainer/CantRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(80, 30)
-theme_override_font_sizes/font_size = 14
+[node name="HpRow" type="Node2D" parent="." unique_id=1175493777]
+position = Vector2(236, 178)
+
+[node name="HpLabel" type="Label" parent="HpRow" unique_id=1542597752]
+offset_left = -1.0
+offset_right = 21.0
+offset_bottom = 10.0
+pivot_offset = Vector2(78, -78)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 6
+text = "Vida"
+
+[node name="HpBar" type="ColorRect" parent="HpRow" unique_id=351356481]
+offset_left = 23.0
+offset_top = 1.0
+offset_right = 83.0
+offset_bottom = 9.0
+pivot_offset = Vector2(54, -79)
+color = Color(0.15, 0.12, 0.2, 1)
+
+[node name="HpFill" type="ColorRect" parent="HpRow" unique_id=285489260]
+offset_left = 25.0
+offset_top = 2.0
+offset_right = 25.0
+offset_bottom = 8.0
+color = Color(1, 0.3, 0.3, 1)
+
+[node name="HpLevelLabel" type="Label" parent="HpRow" unique_id=1733616372]
+offset_left = 86.0
+offset_right = 106.0
+offset_bottom = 10.0
+pivot_offset = Vector2(-29, -78)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 6
+text = "0/5"
+
+[node name="BtnBuyHp" type="Button" parent="HpRow" unique_id=918152824]
+offset_left = 106.0
+offset_top = -1.0
+offset_right = 135.0
+offset_bottom = 11.0
+pivot_offset = Vector2(-55, -77)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 5
 text = "Comprar"
 
-[node name="HpRow" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="HpLabel" type="Label" parent="VBoxContainer/HpRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(60, 0)
-theme_override_font_sizes/font_size = 16
-text = "❤ Vida:"
-
-[node name="HpBar" type="ProgressBar" parent="VBoxContainer/HpRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(150, 25)
-max_value = 3.0
-value = 0.0
-show_percentage = false
-
-[node name="HpLevelLabel" type="Label" parent="VBoxContainer/HpRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(50, 0)
-theme_override_font_sizes/font_size = 14
-text = "0/3"
+[node name="HpCostLabel" type="Label" parent="HpRow" unique_id=1267708808]
+offset_left = 129.0
+offset_top = 1.0
+offset_right = 158.0
+offset_bottom = 9.0
+pivot_offset = Vector2(-55, -89)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 5
+text = "($15)"
 horizontal_alignment = 1
 
-[node name="HpCostLabel" type="Label" parent="VBoxContainer/HpRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(60, 0)
-theme_override_font_sizes/font_size = 12
-text = "($10)"
-horizontal_alignment = 1
+[node name="ReviveRow" type="Node2D" parent="." unique_id=537038412]
+position = Vector2(236, 192)
 
-[node name="BtnBuyHp" type="Button" parent="VBoxContainer/HpRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(80, 30)
-theme_override_font_sizes/font_size = 14
-text = "Comprar"
+[node name="ReviveLabel" type="Label" parent="ReviveRow" unique_id=324719911]
+offset_left = -1.0
+offset_top = 5.0
+offset_right = 39.0
+offset_bottom = 15.0
+pivot_offset = Vector2(78, -106)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 6
+text = "Revivir"
 
-[node name="ReviveRow" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="ReviveLabel" type="Label" parent="VBoxContainer/ReviveRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(60, 0)
-theme_override_font_sizes/font_size = 16
-text = "Revivir:"
-
-[node name="ReviveDesc" type="Label" parent="VBoxContainer/ReviveRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(150, 0)
-theme_override_font_sizes/font_size = 12
-theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
-text = "1 uso por partida"
-vertical_alignment = 1
-
-[node name="ReviveCostLabel" type="Label" parent="VBoxContainer/ReviveRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(80, 0)
-theme_override_font_sizes/font_size = 12
+[node name="ReviveCostLabel" type="Label" parent="ReviveRow" unique_id=1410210958]
+offset_left = 131.0
+offset_top = 3.0
+offset_right = 160.0
+offset_bottom = 11.0
+pivot_offset = Vector2(-29, -106)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 5
 text = "($100)"
 horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="BtnBuyRevive" type="Button" parent="VBoxContainer/ReviveRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(80, 30)
-theme_override_font_sizes/font_size = 14
+[node name="BtnBuyRevive" type="Button" parent="ReviveRow" unique_id=107881879]
+offset_left = 107.0
+offset_top = 1.0
+offset_right = 136.0
+offset_bottom = 13.0
+pivot_offset = Vector2(-55, -105)
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 5
 text = "Comprar"
 
-[node name="BtnBack" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-custom_minimum_size = Vector2(200, 40)
-theme_override_font_sizes/font_size = 18
+[node name="HelperRow" type="Node2D" parent="." unique_id=1369184606]
+position = Vector2(236, 208)
+
+[node name="HelperLabel" type="Label" parent="HelperRow" unique_id=554860057]
+offset_left = -1.0
+offset_top = 6.0
+offset_right = 39.0
+offset_bottom = 16.0
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 6
+text = "Ayuda"
+
+[node name="HelperCostLabel" type="Label" parent="HelperRow" unique_id=1021845599]
+offset_left = 130.0
+offset_top = 1.0
+offset_right = 159.0
+offset_bottom = 9.0
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 5
+text = "($300)"
+horizontal_alignment = 1
+
+[node name="BtnBuyHelper" type="Button" parent="HelperRow" unique_id=1166418065]
+offset_left = 107.0
+offset_top = -1.0
+offset_right = 136.0
+offset_bottom = 11.0
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 5
+text = "Comprar"
+
+[node name="BtnBack" type="Button" parent="." unique_id=1320268767]
+offset_left = 280.0
+offset_top = 234.0
+offset_right = 330.0
+offset_bottom = 246.0
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 7
 text = "Volver"
-
-[node name="DevPanel" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="DevLabel" type="Label" parent="VBoxContainer/DevPanel"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 0)
-theme_override_font_sizes/font_size = 11
-theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
-text = "[DEV]"
-vertical_alignment = 1
-
-[node name="BtnDevMax" type="Button" parent="VBoxContainer/DevPanel"]
-layout_mode = 2
-custom_minimum_size = Vector2(100, 28)
-theme_override_font_sizes/font_size = 12
-theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
-text = "MAX TODO"
-
-[node name="BtnDevReset" type="Button" parent="VBoxContainer/DevPanel"]
-layout_mode = 2
-custom_minimum_size = Vector2(100, 28)
-theme_override_font_sizes/font_size = 12
-theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
-text = "RESET"

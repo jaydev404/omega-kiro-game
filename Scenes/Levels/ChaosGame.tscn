@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" path="res://Scenes/DeliveryTruck/DeliveryTruckThird.tscn" id="12_n0a8c"]
 [ext_resource type="Texture2D" uid="uid://ob73uwqs0gwi" path="res://Assets/UI/menuPlayer/stats2.png" id="13"]
 [ext_resource type="Texture2D" uid="uid://coo5cm7vnpkn7" path="res://Assets/UI/menuPlayer/20240713dragonShieldFrame.png" id="14"]
+[ext_resource type="PackedScene" path="res://Scenes/Drone/HelperDroneCat.tscn" id="15_helper"]
+[ext_resource type="Texture2D" uid="uid://dyxoket1t1oqr" path="res://Assets/UI/menuPlayer/revivir.png" id="16_revive"]
 
 [sub_resource type="AtlasTexture" id="heart_frame0"]
 atlas = ExtResource("7")
@@ -89,6 +91,7 @@ position = Vector2(80, 176)
 [node name="GameManager" type="Node" parent="." unique_id=1621890323]
 process_mode = 3
 script = ExtResource("6")
+helper_cat_scene = ExtResource("15_helper")
 
 [node name="TimerLabel" type="Label" parent="GameManager" unique_id=826543372]
 offset_left = 277.0
@@ -101,10 +104,10 @@ text = "25:00"
 horizontal_alignment = 1
 
 [node name="ScoreLabel" type="Label" parent="GameManager" unique_id=1547129234]
-offset_left = 540.0
-offset_top = 324.0
-offset_right = 636.0
-offset_bottom = 348.0
+offset_left = 527.0
+offset_top = 328.0
+offset_right = 623.0
+offset_bottom = 352.0
 theme_override_font_sizes/font_size = 10
 text = "Puntaje: 0"
 horizontal_alignment = 2
@@ -197,15 +200,18 @@ anchor_bottom = 1.0
 color = Color(0.1, 0, 0, 0.5)
 
 [node name="Panel" type="TextureRect" parent="GameManager/GameOverMenu" unique_id=418571602]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -72.0
 offset_top = -72.0
-offset_right = 72.0
-offset_bottom = 72.0
+offset_right = 104.0
+offset_bottom = 97.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("9")
 stretch_mode = 5
 
@@ -215,8 +221,8 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
-offset_top = 12.0
-offset_right = -16.0
+offset_top = 18.0
+offset_right = -17.0
 offset_bottom = -12.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -274,7 +280,7 @@ theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 8
 text = "Salir"
 
-[node name="ReviveMenu" type="Control" parent="GameManager"]
+[node name="ReviveMenu" type="Control" parent="GameManager" unique_id=110646255]
 process_mode = 3
 visible = false
 layout_mode = 3
@@ -284,13 +290,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Bg" type="ColorRect" parent="GameManager/ReviveMenu"]
+[node name="Bg" type="ColorRect" parent="GameManager/ReviveMenu" unique_id=1389281015]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0.15, 0.7)
 
-[node name="Panel" type="TextureRect" parent="GameManager/ReviveMenu"]
+[node name="Panel" type="TextureRect" parent="GameManager/ReviveMenu" unique_id=243854975]
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -303,7 +309,7 @@ offset_bottom = 60.0
 texture = ExtResource("9")
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameManager/ReviveMenu/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GameManager/ReviveMenu/Panel" unique_id=550922299]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -317,29 +323,29 @@ grow_vertical = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Title" type="Label" parent="GameManager/ReviveMenu/Panel/VBoxContainer"]
+[node name="Title" type="Label" parent="GameManager/ReviveMenu/Panel/VBoxContainer" unique_id=282512179]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 10
-theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
 text = "REVIVIR"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="GameManager/ReviveMenu/Panel/VBoxContainer"]
+[node name="Subtitle" type="Label" parent="GameManager/ReviveMenu/Panel/VBoxContainer" unique_id=811828457]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 7
 text = "Vida completa restaurada"
 horizontal_alignment = 1
 
-[node name="BtnRevive" type="Button" parent="GameManager/ReviveMenu/Panel/VBoxContainer"]
+[node name="BtnRevive" type="Button" parent="GameManager/ReviveMenu/Panel/VBoxContainer" unique_id=1099770974]
 custom_minimum_size = Vector2(96, 20)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 8
 text = "Revivir"
 
-[node name="BtnGoMenu" type="Button" parent="GameManager/ReviveMenu/Panel/VBoxContainer"]
+[node name="BtnGoMenu" type="Button" parent="GameManager/ReviveMenu/Panel/VBoxContainer" unique_id=1447843716]
 custom_minimum_size = Vector2(96, 20)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
@@ -402,7 +408,8 @@ text = "Escudo"
 position = Vector2(0, 320)
 
 [node name="PanelBg" type="ColorRect" parent="HUDPanel" unique_id=1397498734]
-offset_right = 640.0
+offset_left = -1.0
+offset_right = 639.0
 offset_bottom = 32.0
 color = Color(0.12, 0.1, 0.18, 0.9)
 
@@ -441,7 +448,7 @@ animation = &"states"
 frame = 4
 
 [node name="StatsPanel" type="Node2D" parent="HUDPanel" unique_id=1691052345]
-position = Vector2(430, 0)
+position = Vector2(421, 0)
 
 [node name="StatsBg" type="Sprite2D" parent="HUDPanel/StatsPanel" unique_id=489222610]
 position = Vector2(39, 15.5)
@@ -461,6 +468,7 @@ offset_bottom = 22.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 10
 text = "Vel:150"
+metadata/_edit_use_anchors_ = true
 
 [node name="CantLabel" type="Label" parent="HUDPanel/StatsPanel" unique_id=265733187]
 offset_left = 97.0
@@ -470,12 +478,19 @@ offset_bottom = 22.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 10
 text = "Cant:1"
+metadata/_edit_use_anchors_ = true
 
 [node name="ShieldIcon" type="Sprite2D" parent="HUDPanel" unique_id=809689148]
 visible = false
 position = Vector2(192, 16)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("14")
+
+[node name="ReviveIcon" type="Sprite2D" parent="HUDPanel" unique_id=996689167]
+visible = false
+position = Vector2(174, 16)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("16_revive")
 
 [node name="XPBar" type="Node2D" parent="HUDPanel" unique_id=812809541]
 position = Vector2(224, 10)
@@ -498,6 +513,17 @@ offset_top = 2.0
 offset_right = 2.0
 offset_bottom = 10.0
 color = Color(0.2, 0.6, 1, 1)
+
+[node name="CoinsLabel" type="Label" parent="HUDPanel" unique_id=298349104]
+offset_left = 224.0
+offset_top = -2.0
+offset_right = 416.0
+offset_bottom = 10.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 7
+text = "$ 0"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="LevelLabel" type="Label" parent="HUDPanel" unique_id=1202004328]
 offset_left = 200.0

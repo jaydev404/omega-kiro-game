@@ -15,6 +15,8 @@ signal match_ended()
 @export var endgame_spawn_interval: float = 0.3
 @export var survival_bonus_coins: int = 10
 @export var third_package_unlock_time: float = 1490.0  ## 10 segundos de prueba (1500-10)
+@export var helper_cat_scene: PackedScene  ## Escena del drone gato helper
+@export var helper_cat_spawn_level: int = 1  ## Nivel al que aparece el helper
 
 ## Estados
 enum GameState { PLAYING, ENDGAME, GAME_OVER }
@@ -24,6 +26,7 @@ var _state: GameState = GameState.PLAYING
 var _match_timer: float = 0.0
 var _endgame_triggered: bool = false
 var _third_package_unlocked: bool = false
+var _helper_cat_spawned: bool = false
 var _difficulty_phase: int = 0  ## fase de dificultad activa
 
 ## Puntaje
@@ -39,7 +42,7 @@ var _coins_this_run: int = 0  ## Monedas ganadas en esta partida (se guardan sol
 @onready var _vel_label: Label = get_node_or_null("PlayerStatsHUD/VelLabel")
 @onready var _cant_label: Label = get_node_or_null("PlayerStatsHUD/CantLabel")
 @onready var _player: PlayerController = get_node_or_null("../Player") as PlayerController
-@onready var _coins_label: Label = get_node_or_null("CoinsHUD/CoinsLabel")
+@onready var _coins_label: Label = get_node_or_null("../HUDPanel/CoinsLabel")
 @onready var _hearts_label: Label = get_node_or_null("HealthHUD/HeartsLabel")
 @onready var _power_menu: Control = get_node_or_null("PowerUpMenu")
 @onready var _btn_vel: Button = get_node_or_null("PowerUpMenu/VBoxContainer/BtnVel")
@@ -208,12 +211,16 @@ func _on_ruby_collected(item: PackageBody) -> void:
 
 func _on_power_vel() -> void:
 	if _player:
-		_player.move_speed += 30.0
+		_player.move_speed += 5.0
+	if _spawner:
+		_spawner.on_player_vel_powerup()
 	_close_menu()
 
 func _on_power_cant() -> void:
 	if _player:
 		_player.max_carry += 1
+	if _spawner:
+		_spawner.on_player_cant_powerup()
 	_close_menu()
 
 func _on_power_shield() -> void:
@@ -232,13 +239,13 @@ func _update_label() -> void:
 	if _score_label:
 		_score_label.text = "Puntaje: " + str(score)
 	if _drone_count_label and _spawner:
-		_drone_count_label.text = "x" + str(_spawner._max_concurrent_drones)
+		_drone_count_label.text = "x" + str(_spawner.get_max_drones())
 	if _vel_label and _player:
 		_vel_label.text = "Vel: " + str(int(_player.move_speed))
 	if _cant_label and _player:
 		_cant_label.text = "Cant: " + str(_player.max_carry)
 	if _coins_label:
-		_coins_label.text = str(coins + _coins_this_run)
+		_coins_label.text = "$ " + str(_coins_this_run)
 	_update_shield_icon()
 	_update_stats_panel()
 
@@ -246,6 +253,9 @@ func _update_shield_icon() -> void:
 	var shield_icon := get_tree().current_scene.get_node_or_null("HUDPanel/ShieldIcon")
 	if shield_icon and _player:
 		shield_icon.visible = _player.has_shield
+	var revive_icon := get_tree().current_scene.get_node_or_null("HUDPanel/ReviveIcon")
+	if revive_icon:
+		revive_icon.visible = SaveManager.has_revive and not SaveManager.revive_used
 
 func _update_stats_panel() -> void:
 	var vel_label := get_tree().current_scene.get_node_or_null("HUDPanel/StatsPanel/VelLabel")
@@ -318,7 +328,7 @@ func _on_restart() -> void:
 func _on_gameover_main_menu() -> void:
 	# Al perder las monedas ya se guardaron en game_over()
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://Scenes/UI/MainMenu.tscn")
+	get_tree().change_scene_to_file("res://Scenes/UI/ChaosMainMenu.tscn")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
@@ -342,7 +352,7 @@ func _on_resume() -> void:
 func _on_main_menu() -> void:
 	# No guardar monedas de esta partida al volver al menú
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://Scenes/UI/MainMenu.tscn")
+	get_tree().change_scene_to_file("res://Scenes/UI/ChaosMainMenu.tscn")
 
 func _on_quit() -> void:
 	get_tree().quit()
@@ -400,6 +410,14 @@ func _on_leveled_up(_new_level: int) -> void:
 	# Escalar dificultad de drones
 	if _spawner:
 		_spawner.on_player_level_up(_new_level)
+	# Spawn helper cat al alcanzar el nivel configurado
+	if not _helper_cat_spawned and _new_level >= helper_cat_spawn_level and helper_cat_scene and SaveManager.has_helper:
+		_helper_cat_spawned = true
+		SaveManager.has_helper = false  # Un solo uso por partida
+		SaveManager.save_data()
+		var helper: Node2D = helper_cat_scene.instantiate()
+		helper.global_position = Vector2(320, 50)
+		get_tree().current_scene.add_child(helper)
 
 func _on_xp_changed(current_xp: int, xp_needed: int) -> void:
 	# Actualizar barra de XP (ColorRect Fill)
