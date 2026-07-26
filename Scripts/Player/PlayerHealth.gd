@@ -99,6 +99,14 @@ func add_max_heart(amount: int = 1) -> void:
 	_current_fragments = _max_fragments
 	_emit_health_changed()
 
+## Inicializa la vida desde un valor externo (llamado por GameManager al cargar save).
+## Recalcula fragmentos y actualiza el HUD.
+func init_hearts(hearts: int) -> void:
+	max_hearts        = hearts
+	_max_fragments    = max_hearts * fragments_per_heart
+	_current_fragments = _max_fragments
+	_emit_health_changed()
+
 # ------------------------------------------------------------------ interno --
 
 func _start_invulnerability() -> void:

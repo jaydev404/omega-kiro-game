@@ -46,6 +46,9 @@ var _coins_this_run: int = 0  ## Monedas ganadas en esta partida (se guardan sol
 @onready var _btn_cant: Button = get_node_or_null("PowerUpMenu/VBoxContainer/BtnCant")
 @onready var _btn_shield: Button = get_node_or_null("PowerUpMenu/VBoxContainer/BtnShield")
 @onready var _game_over_menu: Control = get_node_or_null("GameOverMenu")
+@onready var _revive_menu: Control    = get_node_or_null("ReviveMenu")
+@onready var _btn_revive: Button      = get_node_or_null("ReviveMenu/Panel/VBoxContainer/BtnRevive")
+@onready var _btn_revive_menu: Button = get_node_or_null("ReviveMenu/Panel/VBoxContainer/BtnGoMenu")
 @onready var _game_over_score: Label = get_node_or_null("GameOverMenu/Panel/VBoxContainer/FinalScore")
 @onready var _game_over_coins_earned: Label = get_node_or_null("GameOverMenu/Panel/VBoxContainer/CoinsEarned")
 @onready var _game_over_coins_total: Label  = get_node_or_null("GameOverMenu/Panel/VBoxContainer/CoinsTotal")
@@ -92,6 +95,10 @@ func _ready() -> void:
 		_btn_go_menu.pressed.connect(_on_gameover_main_menu)
 	if _btn_quit_game:
 		_btn_quit_game.pressed.connect(_on_quit)
+	if _btn_revive:
+		_btn_revive.pressed.connect(_on_revive)
+	if _btn_revive_menu:
+		_btn_revive_menu.pressed.connect(_on_gameover_main_menu)
 	if _btn_resume:
 		_btn_resume.pressed.connect(_on_resume)
 	if _btn_main_menu:
@@ -103,6 +110,8 @@ func _ready() -> void:
 		_power_menu.visible = false
 	if _game_over_menu:
 		_game_over_menu.visible = false
+	if _revive_menu:
+		_revive_menu.visible = false
 	if _pause_menu:
 		_pause_menu.visible = false
 	_load_save()
@@ -251,9 +260,29 @@ func game_over() -> void:
 	get_tree().paused = true
 	coins += _coins_this_run
 	_save_run()
+	# Si tiene revive disponible y no lo ha usado, mostrar pantalla de revive
+	if SaveManager.has_revive and not SaveManager.revive_used:
+		if _revive_menu:
+			_revive_menu.visible = true
+		return
+	# Game over definitivo
 	_show_summary("Puntaje final: " + str(score))
 	if _game_over_menu:
 		_game_over_menu.visible = true
+
+## Revive al jugador: restaura vida completa y reanuda la partida.
+func _on_revive() -> void:
+	SaveManager.revive_used = true
+	if _revive_menu:
+		_revive_menu.visible = false
+	# Restaurar vida completa
+	if _player:
+		var health := _player.get_node_or_null("PlayerHealth") as PlayerHealth
+		if health:
+			health.init_hearts(SaveManager.get_effective_max_hearts())
+	# Cambiar estado de vuelta a PLAYING
+	_state = GameState.PLAYING
+	get_tree().paused = false
 
 func lose_points(amount: int) -> void:
 	score = max(0, score - amount)
@@ -339,12 +368,14 @@ func _check_difficulty_phase() -> void:
 ## Carga save centralizado y aplica stats al player.
 func _load_save() -> void:
 	coins = SaveManager.coins
+	SaveManager.revive_used = false  ## resetear por partida
 	if _player:
 		_player.move_speed = SaveManager.get_effective_move_speed()
 		_player.max_carry  = SaveManager.get_effective_max_carry()
 		var health := _player.get_node_or_null("PlayerHealth") as PlayerHealth
 		if health:
-			health.max_hearts = SaveManager.get_effective_max_hearts()
+			# Diferir para que el HUD esté listo antes de emitir health_changed
+			health.call_deferred("init_hearts", SaveManager.get_effective_max_hearts())
 
 ## Sincroniza monedas al SaveManager y persiste.
 func _save_run() -> void:

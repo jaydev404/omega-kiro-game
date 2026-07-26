@@ -111,14 +111,24 @@
 
 Para modificar: DroneSpawner inspector → campo **Difficulty Config** → asignar `DifficultyConfig.tres`
 
-## Fase 10 — Tienda de Power-ups Permanentes ⚠️ PARCIAL
+## Fase 10 — Tienda de Power-ups Permanentes ✅
 
-**Spec: `upgrade-shop`** — EN PROGRESO
-- Shop.tscn existe con UI de tienda
-- Upgrades de velocidad (+15 vel/nivel) y capacidad (+1 carry/nivel) implementados
-- Persistencia migrada a SaveManager (save.json, ya no usa coins.save/upgrades.save)
-- Pendiente: power-ups hp_up (corazón extra), revive, ally_drone
-- Pendiente: mostrar progreso de compras dentro del nivel actual (barra de subnivel)
+**Spec: `upgrade-shop`** — COMPLETADO
+- **Velocidad** (max nivel 5): cada nivel +15 px/s de velocidad base, coste escalado
+- **Capacidad de carga** (max nivel 3): cada nivel +1 paquete simultáneo, coste escalado
+- **Corazones** (max nivel 3): precios fijos $10/$20/$50, +1 corazón permanente por nivel
+  - `PlayerHealth.init_hearts()` aplica el total con recálculo de fragmentos y actualización del HUD
+  - `call_deferred` garantiza que el HUD esté listo al iniciar partida
+- **Revivir** (1 compra, $100): se activa 1 vez por partida al morir
+  - Al morir con revive disponible: muestra `ReviveMenu` (fondo azul, botón Revivir + Volver al Menú)
+  - Al revivir: vida completa restaurada, puntaje/tiempo/estadísticas conservados, juego reanuda
+  - `SaveManager.revive_used` se resetea al inicio de cada partida
+- **Dev Mode** (`const DEV_MODE := true` en Shop.gd):
+  - Todas las compras son gratis ($0)
+  - Botón **MAX TODO**: sube vel/cant/hp al máximo y activa revive
+  - Botón **RESET**: llama `SaveManager.reset_all()` para empezar como jugador nuevo
+  - Label en tiempo real: `Vel: xN  Cant: xN  HP: xN  Rev: SI/NO`
+- Persistencia en `save.json` bajo `upgrades.*` via SaveManager
 
 
 ## Fase 11 — Destrucción por Apilamiento ✅
@@ -129,15 +139,13 @@ Para modificar: DroneSpawner inspector → campo **Difficulty Config** → asign
 - Si cae sobre el player (radio 16px): 1 fragmento de daño + destrucción del paquete
 - Solo aplica a paquetes no-bomba y no-carried
 
-## Fase 12 — Pantalla de Inicio y Flujo Completo ⚠️ PARCIAL
+## Fase 12 — Pantalla de Inicio y Flujo Completo ✅
 
-**Spec: `main-menu`** — EN PROGRESO
+**Spec: `main-menu`** — COMPLETADO
 - ChaosMainMenu.tscn con botones Jugar, Tienda, Salir — estilo pixel art con sprites animados
 - Transiciones a ChaosGame.tscn y Shop.tscn implementadas
 - Monedas acumuladas visibles en menú (desde SaveManager)
 - DebugSavePanel con botón RESET SAVE para testing
-- Pendiente: mostrar resumen de última partida en el menú
-- Pendiente: integración visual completa con Fase 10 (mostrar upgrades comprados)
 
 
 ## Fase 13 — Dron Aliado (post-MVP)
@@ -163,7 +171,8 @@ Para modificar: DroneSpawner inspector → campo **Difficulty Config** → asign
 | Probabilidad de bombas por fase | `Scripts/DifficultyConfig.gd` — `phase0_bomb_chance` ... `phase4_bomb_chance` | Editar DifficultyConfig.tres |
 | Probabilidad de persecución por fase | `Scripts/DifficultyConfig.gd` — `phase0_chase_chance` ... `phase4_chase_chance` | Editar DifficultyConfig.tres |
 | Daño y radio de bombas | `Scripts/Package/PackageBody.gd` — `@export bomb_radius`, `bomb_damage` | Inspector del nodo bomba |
-| Costo base de tienda y máx nivel | `Scripts/UI/Shop.gd` — `const BASE_COST`, `MAX_LEVEL` | Editar constante |
+| Costo base de tienda y máx nivel | `Scripts/UI/Shop.gd` — `const MAX_VEL_LEVEL`, `MAX_CANT_LEVEL`, `MAX_HP_LEVEL`, `REVIVE_COST`, `HP_COSTS` | Editar constantes |
+| Activar/desactivar modo dev tienda | `Scripts/UI/Shop.gd` — `const DEV_MODE` | Cambiar a `false` para producción |
 | Bonus por nivel de tienda (velocidad) | `Scripts/SaveManager.gd` — `get_effective_move_speed()` multiplica `vel_level * 15.0` | Editar el multiplicador |
 | Probabilidades SurpriseBox | `Scripts/Package/SurpriseBox.gd` — `@export chance_gold_coin`, `chance_ruby`, `chance_bomb` | Inspector del nodo SurpriseBox |
 

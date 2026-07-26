@@ -23,6 +23,11 @@ var vel_level: int      = 0
 var vel_purchases: int  = 0
 var cant_level: int     = 0
 var cant_purchases: int = 0
+var hp_level: int       = 0
+var has_revive: bool    = false   ## si compró el revive en la tienda
+
+## Estado de uso del revive — se resetea al inicio de cada partida, no persiste
+var revive_used: bool   = false
 
 var base_move_speed: float        = DEFAULT_MOVE_SPEED
 var base_max_carry: int           = DEFAULT_MAX_CARRY
@@ -71,7 +76,7 @@ func get_effective_max_carry() -> int:
 
 ## Corazones efectivos al inicio de partida.
 func get_effective_max_hearts() -> int:
-	return base_max_hearts
+	return base_max_hearts + hp_level
 
 ## Agrega monedas y guarda.
 func add_coins(amount: int) -> void:
@@ -99,6 +104,8 @@ func _reset_to_defaults() -> void:
 	vel_purchases  = 0
 	cant_level     = 0
 	cant_purchases = 0
+	hp_level       = 0
+	has_revive     = false
 	base_move_speed        = DEFAULT_MOVE_SPEED
 	base_max_carry         = DEFAULT_MAX_CARRY
 	base_max_hearts        = DEFAULT_MAX_HEARTS
@@ -112,7 +119,9 @@ func _to_dict() -> Dictionary:
 			"vel_level":      vel_level,
 			"vel_purchases":  vel_purchases,
 			"cant_level":     cant_level,
-			"cant_purchases": cant_purchases
+			"cant_purchases": cant_purchases,
+			"hp_level":       hp_level,
+			"has_revive":     has_revive
 		},
 		"base_stats": {
 			"move_speed":        base_move_speed,
@@ -130,6 +139,8 @@ func _load_from_dict(data: Dictionary) -> void:
 	vel_purchases  = upg.get("vel_purchases",  0)
 	cant_level     = upg.get("cant_level",     0)
 	cant_purchases = upg.get("cant_purchases", 0)
+	hp_level       = upg.get("hp_level",       0)
+	has_revive     = upg.get("has_revive",     false)
 
 	var stats: Dictionary = data.get("base_stats", {})
 	base_move_speed        = stats.get("move_speed",        DEFAULT_MOVE_SPEED)

@@ -60,7 +60,7 @@ text = "Vel:"
 [node name="VelBar" type="ProgressBar" parent="VBoxContainer/VelRow"]
 layout_mode = 2
 custom_minimum_size = Vector2(150, 25)
-max_value = 10.0
+max_value = 5.0
 value = 0.0
 show_percentage = false
 
@@ -97,7 +97,7 @@ text = "Cant:"
 [node name="CantBar" type="ProgressBar" parent="VBoxContainer/CantRow"]
 layout_mode = 2
 custom_minimum_size = Vector2(150, 25)
-max_value = 10.0
+max_value = 3.0
 value = 0.0
 show_percentage = false
 
@@ -121,8 +121,103 @@ custom_minimum_size = Vector2(80, 30)
 theme_override_font_sizes/font_size = 14
 text = "Comprar"
 
+[node name="HpRow" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HpLabel" type="Label" parent="VBoxContainer/HpRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 0)
+theme_override_font_sizes/font_size = 16
+text = "❤ Vida:"
+
+[node name="HpBar" type="ProgressBar" parent="VBoxContainer/HpRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(150, 25)
+max_value = 3.0
+value = 0.0
+show_percentage = false
+
+[node name="HpLevelLabel" type="Label" parent="VBoxContainer/HpRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(50, 0)
+theme_override_font_sizes/font_size = 14
+text = "0/3"
+horizontal_alignment = 1
+
+[node name="HpCostLabel" type="Label" parent="VBoxContainer/HpRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 0)
+theme_override_font_sizes/font_size = 12
+text = "($10)"
+horizontal_alignment = 1
+
+[node name="BtnBuyHp" type="Button" parent="VBoxContainer/HpRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 30)
+theme_override_font_sizes/font_size = 14
+text = "Comprar"
+
+[node name="ReviveRow" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ReviveLabel" type="Label" parent="VBoxContainer/ReviveRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 0)
+theme_override_font_sizes/font_size = 16
+text = "Revivir:"
+
+[node name="ReviveDesc" type="Label" parent="VBoxContainer/ReviveRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(150, 0)
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+text = "1 uso por partida"
+vertical_alignment = 1
+
+[node name="ReviveCostLabel" type="Label" parent="VBoxContainer/ReviveRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+theme_override_font_sizes/font_size = 12
+text = "($100)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnBuyRevive" type="Button" parent="VBoxContainer/ReviveRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 30)
+theme_override_font_sizes/font_size = 14
+text = "Comprar"
+
 [node name="BtnBack" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 custom_minimum_size = Vector2(200, 40)
 theme_override_font_sizes/font_size = 18
 text = "Volver"
+
+[node name="DevPanel" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="DevLabel" type="Label" parent="VBoxContainer/DevPanel"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 0)
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
+text = "[DEV]"
+vertical_alignment = 1
+
+[node name="BtnDevMax" type="Button" parent="VBoxContainer/DevPanel"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 28)
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
+text = "MAX TODO"
+
+[node name="BtnDevReset" type="Button" parent="VBoxContainer/DevPanel"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 28)
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+text = "RESET"
