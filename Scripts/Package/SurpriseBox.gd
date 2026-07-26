@@ -36,15 +36,28 @@ func reveal_at(pos: Vector2) -> void:
 				pkg.pick_up()
 				pkg.drop()
 			else:
-				# Moneda/Ruby: bloquear recogida brevemente para que el player vea qué salió
+				# Moneda/Ruby: colisión física desactivada durante la animación
+				# para que el player no choque con el item recién spawneado.
 				pkg.pickup_blocked = true
+				pkg.set_collision_layer_value(3, false)  # desactiva layer "package"
+				pkg.set_collision_mask_value(1, false)   # no choca con nada
+				pkg.set_collision_mask_value(2, false)
+				pkg.set_collision_mask_value(3, false)
 				item.scale = Vector2.ZERO
 				var tween := item.create_tween()
 				tween.tween_property(item, "scale", Vector2(1.3, 1.3), 0.15).set_ease(Tween.EASE_OUT)
 				tween.tween_property(item, "scale", Vector2(1.0, 1.0), 0.08)
-				# Desbloquear después de 0.3s — suficiente para ver, no tanto para molestar
 				tween.tween_interval(0.07)
-				tween.tween_callback(func(): pkg.pickup_blocked = false)
+				tween.tween_callback(func():
+					if not is_instance_valid(pkg):
+						return
+					# Reactivar colisión y desbloquear recogida
+					pkg.set_collision_layer_value(3, true)
+					pkg.set_collision_mask_value(1, true)
+					pkg.set_collision_mask_value(2, true)
+					pkg.set_collision_mask_value(3, true)
+					pkg.pickup_blocked = false
+				)
 
 	# Flash de la surprise box antes de desaparecer
 	var tween := create_tween()

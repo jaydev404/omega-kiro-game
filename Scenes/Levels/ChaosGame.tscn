@@ -6,6 +6,8 @@
 [ext_resource type="TileSet" uid="uid://sna0cpia7snv" path="res://Resources/IceZoneTileSet.tres" id="4"]
 [ext_resource type="PackedScene" path="res://Scenes/DeliveryTruck/DeliveryTruckBluePot.tscn" id="5"]
 [ext_resource type="Script" uid="uid://d4aahxdrx7xsk" path="res://Scripts/GameManager.gd" id="6"]
+[ext_resource type="Script" path="res://Scripts/UI/PowerUpMenu.gd" id="17_pmenu"]
+[ext_resource type="Script" path="res://Scripts/UI/KeyboardMenu.gd" id="18_kmenu"]
 [ext_resource type="Texture2D" uid="uid://b47w3ju6wf7e6" path="res://Assets/UI/HUD/sprHUDHeartContainerMeter.png" id="7"]
 [ext_resource type="Texture2D" uid="uid://bye47q3y5ipqu" path="res://Assets/UI/Menu/Menu.png" id="9"]
 [ext_resource type="FontFile" uid="uid://d21uixh14b4m4" path="res://Assets/UI/font/pixelFont-7-8x14-sproutLands.ttf" id="11"]
@@ -115,6 +117,7 @@ horizontal_alignment = 2
 [node name="PauseMenu" type="Control" parent="GameManager" unique_id=1314254610]
 process_mode = 3
 visible = false
+script = ExtResource("18_kmenu")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -186,6 +189,7 @@ text = "Salir"
 [node name="GameOverMenu" type="Control" parent="GameManager" unique_id=1400691577]
 process_mode = 3
 visible = false
+script = ExtResource("18_kmenu")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -283,6 +287,7 @@ text = "Salir"
 [node name="ReviveMenu" type="Control" parent="GameManager" unique_id=110646255]
 process_mode = 3
 visible = false
+script = ExtResource("18_kmenu")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -355,6 +360,7 @@ text = "Volver al Menu"
 [node name="PowerUpMenu" type="Control" parent="GameManager" unique_id=810340509]
 process_mode = 3
 visible = false
+script = ExtResource("17_pmenu")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

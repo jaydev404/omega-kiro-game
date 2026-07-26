@@ -1,6 +1,41 @@
 # Changelog
 
-## [0.3.0] - 2025 — Tienda Completa y MVP Cerrado (Fase 10-12)
+## [0.4.0] - 2025 — Fixes, Dron Aliado y Navegación por Teclado
+
+### Añadido
+
+#### Navegación por teclado en menús
+- `PowerUpMenu.gd` — script para el menú de power-ups en partida:
+  - Flecha `▶` aparece solo cuando el jugador presiona ↑/↓ por primera vez
+  - Enter/Space confirma la selección
+  - Al abrir el menú se enfoca el primer botón automáticamente
+  - Mouse sigue funcionando en paralelo
+- `KeyboardMenu.gd` — script genérico reutilizable para menús con `Button` de Godot:
+  - Adjuntado a GameOverMenu, ReviveMenu y PauseMenu en ChaosGame.tscn
+  - Detecta botones del VBoxContainer automáticamente
+  - Flecha `▶` oculta hasta primera pulsación de teclado
+  - Mouse desactiva la flecha al mover
+- `ChaosMainMenu.gd` — navegación por teclado en menú principal:
+  - Funciona con los `AnimatedSprite2D` custom (no usa Button de Godot)
+  - ↑/↓ navega entre Comenzar/Tienda/Salir, muestra flecha `▶` al activarse
+  - Enter/Space confirma, mouse desactiva la flecha
+
+### Corregido
+
+- `SurpriseBox.gd` — fix definitivo del bug de monedas/ruby no recogibles:
+  - Durante la animación de aparición (0.3s) se desactivan las colisiones físicas del item
+  - Al terminar la animación se reactivan — Godot dispara `body_entered` como una entrada nueva
+  - Eliminado el enfoque fallido de `force_collect` que causaba el bloqueo total
+- `ChaosMainMenu.gd` / `KeyboardMenu.gd` — fix `set_input_as_handled()` sobre viewport nulo al cambiar escena
+
+### Documentado (PR #8 del compañero)
+
+- Fase 13 (Dron Aliado) marcada como completada en roadmap
+- `HelperDroneCat.gd`: estados IDLE→MOVING_TO_PACKAGE→PICKING_UP→MOVING_TO_DELIVERY→DELIVERING→WAITING
+- Shop rediseñada con barras ColorRect custom, DEV_MODE=false en producción
+- DebugSavePanel con botones ±inline para cada stat
+
+
 
 ### Añadido
 

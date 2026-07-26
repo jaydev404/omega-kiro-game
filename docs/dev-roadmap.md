@@ -146,15 +146,34 @@ Para modificar: DroneSpawner inspector → campo **Difficulty Config** → asign
 - Transiciones a ChaosGame.tscn y Shop.tscn implementadas
 - Monedas acumuladas visibles en menú (desde SaveManager)
 - DebugSavePanel con botón RESET SAVE para testing
+- Navegación por teclado: ↑/↓ mueve flecha `▶`, Enter/Space confirma (flecha oculta hasta primer uso)
 
 
-## Fase 13 — Dron Aliado (post-MVP)
+## Fase 13 — Dron Aliado ✅
 
-**Spec: `ally-drone`**
-- NPC con pathfinding simple
-- Recoge paquetes, los entrega
-- Más lento que el player
+**Spec: `ally-drone`** — COMPLETADO por compañero
+- `HelperDroneCat.gd` + `HelperDroneCat.tscn` — NPC autónomo con sprite de gato
+- Estados: `IDLE → MOVING_TO_PACKAGE → PICKING_UP → MOVING_TO_DELIVERY → DELIVERING → WAITING`
+- Solo recoge BOX, BLUEPOT y THIRDBOX que estén libres y no bloqueados
+- Busca la zona de entrega correcta usando `DeliveryZone.accepts()`
+- Si no encuentra zona: suelta el paquete en su posición actual
+- Velocidad fija `@export speed = 100.0` (más lento que el player)
 - No recibe daño
+- Se activa al subir al nivel configurado en `helper_cat_spawn_level` (GameManager)
+- 1 uso por partida: `SaveManager.has_helper = false` después de spawnear
+- `DropMarker.gd` — efecto visual de marcador en zona de drop
+- Tienda: precio $300, compra única, campo **HelperRow** en Shop.tscn
+
+---
+
+## Cambios adicionales del compañero (PR #8)
+
+- **Shop.gd** completamente rediseñado visualmente con barras `ColorRect` custom
+- **DebugSavePanel.gd** ampliado: botones `+/-` inline para editar cada stat desde el menú (coins ±1000, vel, cant, hp, toggle revive/helper)
+- **SaveManager.gd** — `has_helper: bool` añadido, `coins` con setter `clampi(0, 99999999)`, `get_effective_move_speed()` cambiado a `vel_level * 5.0` (antes 15.0)
+- **DEV_MODE** desactivado (`false`) en Shop.gd para producción
+- **DeliveryZone.gd** — ajustes menores
+- **Drone.gd** — ajustes de comportamiento
 
 ---
 
