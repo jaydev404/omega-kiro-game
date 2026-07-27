@@ -27,6 +27,7 @@ atlas = ExtResource("4")
 region = Rect2(0, 0, 16, 16)
 
 [node name="HelpScreen" type="Control" unique_id=2114886498]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
