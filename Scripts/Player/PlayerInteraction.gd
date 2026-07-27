@@ -22,6 +22,9 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not event.is_action_pressed("interact"):
 		return
+	# Bloquear input si hay entrega múltiple en progreso
+	if _carry.is_delivering():
+		return
 
 	# Cargando dentro de zona de entrega → siempre entrega al camión
 	if _carry.is_carrying() and _current_zone != null:

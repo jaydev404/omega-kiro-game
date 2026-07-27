@@ -4,6 +4,8 @@ extends Node
 # -- Señales --
 signal package_picked_up(package: PackageBody)
 signal package_dropped(package: PackageBody)
+signal batch_delivery_started(count: int, duration: float)
+signal batch_delivery_finished()
 
 ## Config
 @export var drop_check_radius: float = 10.0
@@ -20,6 +22,12 @@ const _DROP_CHECK_RADIUS := 10.0
 
 ## Distancia vertical entre paquetes apilados
 const _STACK_OFFSET := 12.0
+
+## ¿Está en proceso de entrega múltiple?
+var _delivering: bool = false
+
+func is_delivering() -> bool:
+	return _delivering
 
 ## Paquetes cargados (array, se apilan)
 var _carried_packages: Array[PackageBody] = []
@@ -108,26 +116,75 @@ func _drop_at(drop_pos: Vector2) -> void:
 	emit_signal("package_dropped", package)
 
 func _deliver(zone: DeliveryZone) -> void:
-	# Entrega el paquete de arriba (último)
-	var package: PackageBody = _carried_packages[-1]
-
-	if not is_instance_valid(package):
-		_carried_packages.pop_back()
-		if _carried_packages.is_empty():
-			_visual.set_carrying(false)
+	if _delivering:
 		return
 
-	if not zone.accepts(package):
+	# Recopilar todos los paquetes que acepta la zona
+	_carried_packages = _carried_packages.filter(func(p): return is_instance_valid(p))
+	var to_deliver: Array[PackageBody] = []
+	for pkg in _carried_packages:
+		if zone.accepts(pkg):
+			to_deliver.append(pkg)
+
+	if to_deliver.is_empty():
 		return
 
-	_carried_packages.pop_back()
-	package.reparent(get_tree().current_scene)
-	zone.receive(package)
+	var count := to_deliver.size()
+	var duration := _get_delivery_duration(count)
+
+	# Entrega instantánea para 1 paquete
+	if count == 1:
+		_do_deliver_single(to_deliver[0], zone)
+		return
+
+	# Entrega múltiple con delay
+	_delivering = true
+	emit_signal("batch_delivery_started", count, duration)
+	_controller.set_delivery_locked(true)
+
+	# Feedback visual sobre el player
+	var ui := DeliveryProgressUI.new()
+	ui.init(count, duration)
+	_controller.add_child(ui)
+
+	await get_tree().create_timer(duration).timeout
+
+	if is_instance_valid(ui):
+		ui.queue_free()
+
+	if not is_inside_tree():
+		return
+
+	for pkg in to_deliver:
+		if is_instance_valid(pkg) and _carried_packages.has(pkg):
+			_carried_packages.erase(pkg)
+			pkg.reparent(get_tree().current_scene)
+			zone.receive(pkg)
+			emit_signal("package_dropped", pkg)
+
+	_delivering = false
+	_controller.set_delivery_locked(false)
+	emit_signal("batch_delivery_finished")
 
 	if _carried_packages.is_empty():
 		_visual.set_carrying(false)
 
+func _do_deliver_single(package: PackageBody, zone: DeliveryZone) -> void:
+	if not is_instance_valid(package):
+		return
+	_carried_packages.erase(package)
+	package.reparent(get_tree().current_scene)
+	zone.receive(package)
+	if _carried_packages.is_empty():
+		_visual.set_carrying(false)
 	emit_signal("package_dropped", package)
+
+## Calcula la duración de la entrega según cantidad de paquetes.
+func _get_delivery_duration(count: int) -> float:
+	if count <= 1:   return 0.0
+	if count <= 3:   return 0.8
+	if count <= 5:   return 1.5
+	return 2.5
 
 ## Verifica si hay un objeto o cuerpo estático bloqueando la posición de drop
 func _is_drop_blocked(pos: Vector2) -> bool:

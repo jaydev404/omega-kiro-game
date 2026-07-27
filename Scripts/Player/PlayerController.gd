@@ -14,10 +14,21 @@ signal stopped()
 @onready var _carry_point: Marker2D = $CarryPoint
 
 var _facing: Vector2 = Vector2.DOWN
+var _delivery_locked: bool = false  ## bloqueado durante entrega múltiple
+
+func set_delivery_locked(locked: bool) -> void:
+	_delivery_locked = locked
+	if locked:
+		velocity = Vector2.ZERO
 var max_carry: int = 1
 var has_shield: bool = false
 
 func _physics_process(_delta: float) -> void:
+	if _delivery_locked:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+
 	var direction := _get_input_direction()
 
 	if direction != Vector2.ZERO:

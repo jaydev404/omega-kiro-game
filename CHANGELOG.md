@@ -1,6 +1,26 @@
 # Changelog
 
-## [0.5.2] - 2025 — Duración de partida reducida a 10 minutos
+## [0.5.3] - 2025 — Entrega múltiple con progreso visual
+
+### Añadido
+
+- `DeliveryProgressUI.gd` — `Node2D` instanciado dinámicamente sobre el player durante entrega múltiple. Dibuja texto "Entregando Nx..." con puntos animados y barra de progreso verde. Se destruye automáticamente al terminar
+
+### Modificado
+
+- `PlayerCarry.gd` — `_deliver()` reemplazado por lógica batch:
+  - Recopila todos los paquetes que la zona acepta (no solo el último)
+  - 1 paquete: entrega instantánea sin bloqueo ni UI
+  - 2+ paquetes: delay según cantidad, player inmóvil, UI de progreso visible
+  - Duración: 2-3 paquetes = 0.8s, 4-5 = 1.5s, 6+ = 2.5s
+  - Señales nuevas: `batch_delivery_started(count, duration)`, `batch_delivery_finished()`
+  - `is_delivering()` expuesto públicamente
+- `PlayerController.gd` — `set_delivery_locked(bool)` + `_delivery_locked` flag. Bloquea `_physics_process` completamente durante la entrega
+- `PlayerInteraction.gd` — ignora input de E mientras `_carry.is_delivering()` es true
+
+---
+
+
 
 ### Modificado
 
