@@ -19,13 +19,12 @@ const TAB_NAMES := ["CÓMO JUGAR", "ITEMS", "ENTREGAS"]
 func _ready() -> void:
 	_tabs = [_tab0, _tab1, _tab2]
 	_btn_prev.pressed.connect(_on_prev)
-	_btn_next.pressed.connect(_on_close if false else _on_prev)
 	_btn_next.pressed.connect(_on_next)
 	_btn_close.pressed.connect(_on_close)
 	_show_tab(0)
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_VISIBILITY_CHANGED and visible:
+	if what == NOTIFICATION_VISIBILITY_CHANGED and visible and is_inside_tree():
 		_show_tab(0)
 
 func _unhandled_input(event: InputEvent) -> void:
