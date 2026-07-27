@@ -30,17 +30,18 @@ Solo escala mediante:
 
 ---
 
-## Curva por Jornada (MVP — 5 jornadas)
+## Curva por Jornada (10 minutos)
 
-| Jornada | Duración | Max pedidos | Intervalo | % Urgentes | Tiempo por pedido |
-|---|---|---|---|---|---|
-| 1 | 180s | 2 | 20s | 0% | 60s |
-| 2 | 180s | 3 | 15s | 10% | 50s |
-| 3 | 200s | 4 | 12s | 20% | 45s |
-| 4 | 200s | 5 | 10s | 30% | 40s |
-| 5 | 220s | 6 | 8s | 40% | 35s |
+| Fase | Tiempo | Drones | Intervalo | Velocidad | % Bombas | % Persecución |
+|---|---|---|---|---|---|---|
+| 0 — Intro | 0:00 - 2:00 | 3 | 5.0s | 120 | 5% | 1% |
+| 1 — Normal | 2:00 - 4:00 | 4 | 3.5s | 155 | 12% | 6% |
+| 2 — Presión | 4:00 - 7:00 | 5 | 2.5s | 190 | 22% | 12% |
+| 3 — Caos | 7:00 - 9:00 | 7 | 1.8s | 230 | 32% | 20% |
+| 4 — Sprint | 9:00 - 9:30 | 10 | 1.2s | 270 | 42% | 28% |
+| Bombardeo | 9:30 - fin | masivo | 0.3s | — | 80% | — |
 
-> Todos los valores son sugeridos. Deben ajustarse con playtest.
+> Todos los valores configurables en `Resources/DifficultyConfig.tres` sin tocar código.
 
 ---
 

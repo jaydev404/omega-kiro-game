@@ -1,6 +1,24 @@
 # Changelog
 
-## [0.5.1] - 2025 — UX: Timer ascendente y hints de navegación
+## [0.5.2] - 2025 — Duración de partida reducida a 10 minutos
+
+### Modificado
+
+- `GameManager.gd` — `match_duration` reducido de 1500s a 600s (10 min). `third_package_unlock_time` ajustado a 360s (minuto 4). `endgame_duration` sin cambio (bombardeo últimos 30s = minuto 9:30)
+- `Scripts/DifficultyConfig.gd` — comentarios y grupos actualizados con tiempos de 10 min. `start_at` defaults recalculados
+- `Resources/DifficultyConfig.tres` — curva de dificultad recalculada para 10 minutos:
+
+| Fase | Tiempo | start_at | Drones | Intervalo | Velocidad | Bombas | Persecución |
+|---|---|---|---|---|---|---|---|
+| 0 Intro | 0:00 | 600s | 3 | 5.0s | 120 | 5% | 1% |
+| 1 Normal | 2:00 | 480s | 4 | 3.5s | 155 | 12% | 6% |
+| 2 Presión | 4:00 | 360s | 5 | 2.5s | 190 | 22% | 12% |
+| 3 Caos | 7:00 | 180s | 7 | 1.8s | 230 | 32% | 20% |
+| 4 Sprint | 9:00 | 60s | 10 | 1.2s | 270 | 42% | 28% |
+
+---
+
+
 
 ### Modificado
 

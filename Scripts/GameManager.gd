@@ -8,13 +8,13 @@ signal match_timer_updated(seconds_left: int)
 signal match_ended()
 
 ## Config
-@export var match_duration: float = 1500.0  ## 25 minutos en segundos
+@export var match_duration: float = 600.0   ## 10 minutos en segundos
 @export var endgame_duration: float = 30.0  ## Últimos X segundos = bombardeo
 @export var endgame_extra_drones: int = 10
 @export var endgame_bomb_chance: float = 0.8
 @export var endgame_spawn_interval: float = 0.3
 @export var survival_bonus_coins: int = 10
-@export var third_package_unlock_time: float = 1490.0  ## 10 segundos de prueba (1500-10)
+@export var third_package_unlock_time: float = 360.0   ## Minuto 4 de 10 (600-240)
 @export var helper_cat_scene: PackedScene  ## Escena del drone gato helper
 @export var helper_cat_spawn_level: int = 1  ## Nivel al que aparece el helper
 
