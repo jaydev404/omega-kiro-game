@@ -5,8 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://bye47q3y5ipqu" path="res://Assets/UI/Menu/Menu.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://ck2kujfx1uty4" path="res://Assets/UI/Menu/title.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://cihkys1oo33i" path="res://Assets/UI/Menu/button.png" id="5"]
-[ext_resource type="Script" path="res://Scripts/UI/DebugSavePanel.gd" id="6"]
+[ext_resource type="Script" uid="uid://7lyir3b6uu04" path="res://Scripts/UI/DebugSavePanel.gd" id="6"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/HelpScreen.tscn" id="7_help"]
+[ext_resource type="AudioStream" path="res://Resources/songs/menu.mp3" id="8_music"]
 
 [sub_resource type="FontVariation" id="FontVariation_0kg5h"]
 
@@ -81,15 +82,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BtnStartSprite" type="AnimatedSprite2D" parent="." unique_id=713252921]
-position = Vector2(320, 155)
+position = Vector2(320, 139)
 sprite_frames = SubResource("SpriteFrames_btn")
 animation = &"states"
 
 [node name="Label" type="Label" parent="BtnStartSprite" unique_id=1213102135]
 offset_left = -48.0
-offset_top = -11.0
+offset_top = -12.0
 offset_right = 48.0
-offset_bottom = 11.0
+offset_bottom = 10.0
 theme_override_fonts/font = SubResource("FontVariation_73ow6")
 theme_override_font_sizes/font_size = 8
 text = "Comenzar"
@@ -97,15 +98,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BtnShopSprite" type="AnimatedSprite2D" parent="." unique_id=2036509632]
-position = Vector2(320, 183)
+position = Vector2(320, 163)
 sprite_frames = SubResource("SpriteFrames_btn")
 animation = &"states"
 
 [node name="Label" type="Label" parent="BtnShopSprite" unique_id=1228732654]
 offset_left = -48.0
-offset_top = -11.0
+offset_top = -12.0
 offset_right = 48.0
-offset_bottom = 11.0
+offset_bottom = 10.0
 theme_override_fonts/font = SubResource("FontVariation_jcyqo")
 theme_override_font_sizes/font_size = 8
 text = "Tienda"
@@ -113,66 +114,69 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BtnExitSprite" type="AnimatedSprite2D" parent="." unique_id=1845638929]
-position = Vector2(320, 239)
+position = Vector2(320, 211)
 sprite_frames = SubResource("SpriteFrames_btn")
 animation = &"states"
 
 [node name="Label" type="Label" parent="BtnExitSprite" unique_id=129118827]
 offset_left = -48.0
-offset_top = -11.0
+offset_top = -12.0
 offset_right = 48.0
-offset_bottom = 11.0
+offset_bottom = 10.0
 theme_override_fonts/font = SubResource("FontVariation_d30n5")
 theme_override_font_sizes/font_size = 8
 text = "Salir"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnHelpSprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(320, 211)
+[node name="BtnHelpSprite" type="AnimatedSprite2D" parent="." unique_id=879956540]
+position = Vector2(320, 187)
 sprite_frames = SubResource("SpriteFrames_btn")
 animation = &"states"
 
-[node name="Label" type="Label" parent="BtnHelpSprite"]
+[node name="Label" type="Label" parent="BtnHelpSprite" unique_id=475483377]
 offset_left = -48.0
-offset_top = -11.0
+offset_top = -12.0
 offset_right = 48.0
-offset_bottom = 11.0
+offset_bottom = 10.0
 theme_override_fonts/font = SubResource("FontVariation_d30n5")
 theme_override_font_sizes/font_size = 8
 text = "Ayuda"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DebugSavePanel" type="Node2D" parent="."]
+[node name="DebugSavePanel" type="Node2D" parent="." unique_id=25283722]
 position = Vector2(4, 4)
 script = ExtResource("6")
 
-[node name="Label" type="Label" parent="DebugSavePanel"]
-offset_left = 0.0
-offset_top = 0.0
+[node name="Label" type="Label" parent="DebugSavePanel" unique_id=2049720868]
 offset_right = 200.0
 offset_bottom = 130.0
 theme_override_colors/font_color = Color(1, 1, 0, 1)
 theme_override_font_sizes/font_size = 7
 text = "..."
 
-[node name="BtnReset" type="Button" parent="DebugSavePanel"]
-offset_left = 0.0
+[node name="BtnReset" type="Button" parent="DebugSavePanel" unique_id=408847844]
 offset_top = 132.0
 offset_right = 100.0
 offset_bottom = 148.0
 theme_override_font_sizes/font_size = 7
 text = "RESET SAVE"
 
-[node name="BtnHelp" type="Button" parent="."]
-position = Vector2(610, 4)
+[node name="BtnHelp" type="Button" parent="." unique_id=1841085855]
+offset_left = 610.0
+offset_top = 4.0
 offset_right = 26.0
 offset_bottom = 18.0
+tooltip_text = "Ayuda"
 theme_override_font_sizes/font_size = 9
 text = "?"
-tooltip_text = "Ayuda"
 
-[node name="HelpScreenLayer" type="CanvasLayer" parent="."]
+[node name="HelpScreenLayer" type="CanvasLayer" parent="." unique_id=731214278]
 
-[node name="HelpScreen" parent="HelpScreenLayer" instance=ExtResource("7_help")]
+[node name="HelpScreen" parent="HelpScreenLayer" unique_id=1845563697 instance=ExtResource("7_help")]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_music")
+autoplay = true
+volume_db = -5.0

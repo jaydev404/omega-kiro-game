@@ -1,12 +1,14 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://crl4yt0oaxp8i"]
 
-[ext_resource type="Script" path="res://Scripts/UI/HelpScreen.gd" id="1"]
-[ext_resource type="Texture2D" path="res://Assets/Objects/Box/sprBox.png" id="2"]
-[ext_resource type="Texture2D" path="res://Assets/Objects/Box/sprBluePot.png" id="3"]
-[ext_resource type="Texture2D" path="res://Assets/Objects/Bombs/sprWeaponBomb.png" id="4"]
-[ext_resource type="Texture2D" path="res://Assets/Objects/Items/sprGoldCoin.png" id="5"]
-[ext_resource type="Texture2D" path="res://Assets/Objects/Items/sprRuby.png" id="6"]
-[ext_resource type="Texture2D" path="res://Assets/Objects/Items/sprSilverCoin.png" id="7"]
+[ext_resource type="Script" uid="uid://dmbygxihm4vfk" path="res://Scripts/UI/HelpScreen.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dw3bx5kf6yjpj" path="res://Assets/Objects/Box/sprBox.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://b2wr46ysemlm" path="res://Assets/Objects/Bombs/sprWeaponBomb.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://ce4krgeqkpcom" path="res://Assets/Objects/Items/sprGoldCoin.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://yk8fhcj8dmx0" path="res://Assets/Objects/Items/sprRuby.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://bw10awjjac3or" path="res://Assets/Objects/Items/sprSilverCoin.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://cun4tx5pnp1fl" path="res://Assets/Container/sprOldLadyW.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://d24uhfyutd86i" path="res://Assets/Container/sprOldManE.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://cxcdkgyy5tlob" path="res://Assets/Container/sprFarmerS.png" id="10"]
 
 [sub_resource type="AtlasTexture" id="atlas_gold"]
 atlas = ExtResource("5")
@@ -24,23 +26,22 @@ region = Rect2(0, 0, 16, 16)
 atlas = ExtResource("4")
 region = Rect2(0, 0, 16, 16)
 
-[node name="HelpScreen" type="Control"]
-visible = false
-script = ExtResource("1")
+[node name="HelpScreen" type="Control" unique_id=2114886498]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1")
 
-[node name="Bg" type="ColorRect" parent="."]
+[node name="Bg" type="ColorRect" parent="." unique_id=827696612]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0.75)
 
-[node name="Panel" type="VBoxContainer" parent="."]
+[node name="Panel" type="VBoxContainer" parent="." unique_id=1470730096]
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -52,342 +53,471 @@ offset_right = 155.0
 offset_bottom = 120.0
 theme_override_constants/separation = 6
 
-[node name="Title" type="Label" parent="Panel"]
+[node name="Title" type="Label" parent="Panel" unique_id=273957345]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
 theme_override_font_sizes/font_size = 11
 text = "AYUDA"
 horizontal_alignment = 1
 
-[node name="NavRow" type="HBoxContainer" parent="Panel"]
+[node name="NavRow" type="HBoxContainer" parent="Panel" unique_id=1425158845]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="BtnPrev" type="Button" parent="Panel/NavRow"]
-layout_mode = 2
+[node name="BtnPrev" type="Button" parent="Panel/NavRow" unique_id=1511772682]
 custom_minimum_size = Vector2(20, 16)
+layout_mode = 2
 theme_override_font_sizes/font_size = 9
 text = "◀"
 
-[node name="TabLabel" type="Label" parent="Panel/NavRow"]
-layout_mode = 2
+[node name="TabLabel" type="Label" parent="Panel/NavRow" unique_id=444416511]
 custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
 theme_override_font_sizes/font_size = 9
 text = "◀  CÓMO JUGAR  ▶"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnNext" type="Button" parent="Panel/NavRow"]
-layout_mode = 2
+[node name="BtnNext" type="Button" parent="Panel/NavRow" unique_id=1014912433]
 custom_minimum_size = Vector2(20, 16)
+layout_mode = 2
 theme_override_font_sizes/font_size = 9
 text = "▶"
 
-[node name="Separator" type="ColorRect" parent="Panel"]
-layout_mode = 2
+[node name="Separator" type="ColorRect" parent="Panel" unique_id=886687950]
 custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
 color = Color(0.5, 0.5, 0.5, 0.5)
 
-[node name="Content" type="Control" parent="Panel"]
-layout_mode = 2
+[node name="Content" type="Control" parent="Panel" unique_id=482661399]
 custom_minimum_size = Vector2(0, 180)
+layout_mode = 2
 
-[node name="Tab0" type="VBoxContainer" parent="Panel/Content"]
+[node name="Tab0" type="VBoxContainer" parent="Panel/Content" unique_id=691549852]
 layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 5
 
-[node name="GameDesc" type="Label" parent="Panel/Content/Tab0"]
+[node name="GameDesc" type="Label" parent="Panel/Content/Tab0" unique_id=99717636]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
 theme_override_font_sizes/font_size = 7
-autowrap_mode = 2
 text = "Eres repartidor de una empresa caótica. Los drones traen paquetes, monedas y... sorpresas. Entrega los paquetes en el punto correcto, recoge monedas y sobrevive 25 minutos."
+autowrap_mode = 2
 
-[node name="Sep1" type="ColorRect" parent="Panel/Content/Tab0"]
-layout_mode = 2
+[node name="Sep1" type="ColorRect" parent="Panel/Content/Tab0" unique_id=511961107]
 custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
 color = Color(0.4, 0.4, 0.4, 0.4)
 
-[node name="ControlsTitle" type="Label" parent="Panel/Content/Tab0"]
+[node name="ControlsTitle" type="Label" parent="Panel/Content/Tab0" unique_id=499268527]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
 theme_override_font_sizes/font_size = 8
 text = "CONTROLES"
 
-[node name="Controls" type="GridContainer" parent="Panel/Content/Tab0"]
+[node name="Controls" type="GridContainer" parent="Panel/Content/Tab0" unique_id=1190140169]
 layout_mode = 2
-columns = 2
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 3
+columns = 2
 
-[node name="K1" type="Label" parent="Panel/Content/Tab0/Controls"]
+[node name="K1" type="Label" parent="Panel/Content/Tab0/Controls" unique_id=614732464]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
 theme_override_font_sizes/font_size = 7
 text = "WASD"
 
-[node name="D1" type="Label" parent="Panel/Content/Tab0/Controls"]
+[node name="D1" type="Label" parent="Panel/Content/Tab0/Controls" unique_id=518736026]
 layout_mode = 2
 theme_override_font_sizes/font_size = 7
 text = "Mover al jugador"
 
-[node name="K2" type="Label" parent="Panel/Content/Tab0/Controls"]
+[node name="K2" type="Label" parent="Panel/Content/Tab0/Controls" unique_id=540593092]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
 theme_override_font_sizes/font_size = 7
 text = "Shift"
 
-[node name="D2" type="Label" parent="Panel/Content/Tab0/Controls"]
+[node name="D2" type="Label" parent="Panel/Content/Tab0/Controls" unique_id=1107498336]
 layout_mode = 2
 theme_override_font_sizes/font_size = 7
 text = "Sprint"
 
-[node name="K3" type="Label" parent="Panel/Content/Tab0/Controls"]
+[node name="K3" type="Label" parent="Panel/Content/Tab0/Controls" unique_id=1758903978]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
 theme_override_font_sizes/font_size = 7
 text = "E"
 
-[node name="D3" type="Label" parent="Panel/Content/Tab0/Controls"]
+[node name="D3" type="Label" parent="Panel/Content/Tab0/Controls" unique_id=346453659]
 layout_mode = 2
 theme_override_font_sizes/font_size = 7
 text = "Recoger / Soltar / Entregar"
 
-[node name="K4" type="Label" parent="Panel/Content/Tab0/Controls"]
+[node name="K4" type="Label" parent="Panel/Content/Tab0/Controls" unique_id=2000015711]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
 theme_override_font_sizes/font_size = 7
 text = "Esc"
 
-[node name="D4" type="Label" parent="Panel/Content/Tab0/Controls"]
+[node name="D4" type="Label" parent="Panel/Content/Tab0/Controls" unique_id=1287504296]
 layout_mode = 2
 theme_override_font_sizes/font_size = 7
 text = "Pausar"
 
-[node name="Sep2" type="ColorRect" parent="Panel/Content/Tab0"]
-layout_mode = 2
+[node name="Sep2" type="ColorRect" parent="Panel/Content/Tab0" unique_id=1620672443]
 custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
 color = Color(0.4, 0.4, 0.4, 0.4)
 
-[node name="ObjectiveTitle" type="Label" parent="Panel/Content/Tab0"]
+[node name="ObjectiveTitle" type="Label" parent="Panel/Content/Tab0" unique_id=1593346754]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
 theme_override_font_sizes/font_size = 8
 text = "OBJETIVO"
 
-[node name="Objective" type="Label" parent="Panel/Content/Tab0"]
+[node name="Objective" type="Label" parent="Panel/Content/Tab0" unique_id=1290914279]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
 theme_override_font_sizes/font_size = 7
-autowrap_mode = 2
 text = "Entrega paquetes en el punto correcto para ganar XP y monedas. Sube de nivel para elegir mejoras temporales. Sobrevive 25 minutos para ganar."
+autowrap_mode = 2
 
-[node name="HintNav" type="Label" parent="Panel/Content/Tab0"]
+[node name="HintNav" type="Label" parent="Panel/Content/Tab0" unique_id=1849380667]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
 theme_override_font_sizes/font_size = 6
 text = "Navega con ↑ ↓  •  Confirma con Enter o Espacio"
 horizontal_alignment = 1
 
-[node name="Tab1" type="VBoxContainer" parent="Panel/Content"]
+[node name="Tab1" type="VBoxContainer" parent="Panel/Content" unique_id=1095834699]
 visible = false
 layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 6
 
-[node name="Row1" type="HBoxContainer" parent="Panel/Content/Tab1"]
+[node name="Row1" type="HBoxContainer" parent="Panel/Content/Tab1" unique_id=1366203520]
 layout_mode = 2
 theme_override_constants/separation = 14
 alignment = 1
 
-[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row1"]
-layout_mode = 2
+[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row1" unique_id=1744690595]
 custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
 texture = ExtResource("2")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row1"]
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row1" unique_id=578869660]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="Name" type="Label" parent="Panel/Content/Tab1/Row1/Text"]
+[node name="Name" type="Label" parent="Panel/Content/Tab1/Row1/Text" unique_id=1581825969]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.55, 0.1, 1)
 theme_override_font_sizes/font_size = 8
 text = "Caja  /  Pot  /  3rd"
 
-[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row1/Text"]
+[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row1/Text" unique_id=1151319706]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
 theme_override_font_sizes/font_size = 6
-autowrap_mode = 2
 text = "Lleva al punto de entrega correcto segun su tipo"
+autowrap_mode = 2
 
-[node name="Row2" type="HBoxContainer" parent="Panel/Content/Tab1"]
+[node name="Row2" type="HBoxContainer" parent="Panel/Content/Tab1" unique_id=1258540820]
 layout_mode = 2
 theme_override_constants/separation = 14
 alignment = 1
 
-[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row2"]
-layout_mode = 2
+[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row2" unique_id=1247320297]
 custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
 texture = SubResource("atlas_gold")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row2"]
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row2" unique_id=406500538]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="Name" type="Label" parent="Panel/Content/Tab1/Row2/Text"]
+[node name="Name" type="Label" parent="Panel/Content/Tab1/Row2/Text" unique_id=1172792049]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.1, 1)
 theme_override_font_sizes/font_size = 8
 text = "Moneda Oro"
 
-[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row2/Text"]
+[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row2/Text" unique_id=1960670780]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
 theme_override_font_sizes/font_size = 6
-autowrap_mode = 2
 text = "+5 monedas. Se recoge automaticamente al tocar"
+autowrap_mode = 2
 
-[node name="Row3" type="HBoxContainer" parent="Panel/Content/Tab1"]
+[node name="Row3" type="HBoxContainer" parent="Panel/Content/Tab1" unique_id=1456367845]
 layout_mode = 2
 theme_override_constants/separation = 14
 alignment = 1
 
-[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row3"]
-layout_mode = 2
+[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row3" unique_id=564324996]
 custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
 texture = SubResource("atlas_silver")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row3"]
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row3" unique_id=1405325065]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="Name" type="Label" parent="Panel/Content/Tab1/Row3/Text"]
+[node name="Name" type="Label" parent="Panel/Content/Tab1/Row3/Text" unique_id=882005320]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
 theme_override_font_sizes/font_size = 8
 text = "Moneda Plata"
 
-[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row3/Text"]
+[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row3/Text" unique_id=165703583]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
 theme_override_font_sizes/font_size = 6
-autowrap_mode = 2
 text = "+1 moneda. Se recoge automaticamente al tocar"
+autowrap_mode = 2
 
-[node name="Row4" type="HBoxContainer" parent="Panel/Content/Tab1"]
+[node name="Row4" type="HBoxContainer" parent="Panel/Content/Tab1" unique_id=25337821]
 layout_mode = 2
 theme_override_constants/separation = 14
 alignment = 1
 
-[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row4"]
-layout_mode = 2
+[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row4" unique_id=1684855832]
 custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
 texture = SubResource("atlas_ruby")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row4"]
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row4" unique_id=416980735]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="Name" type="Label" parent="Panel/Content/Tab1/Row4/Text"]
+[node name="Name" type="Label" parent="Panel/Content/Tab1/Row4/Text" unique_id=430689407]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.2, 0.8, 1)
 theme_override_font_sizes/font_size = 8
 text = "Ruby"
 
-[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row4/Text"]
+[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row4/Text" unique_id=1845005190]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
 theme_override_font_sizes/font_size = 6
-autowrap_mode = 2
 text = "Elige una mejora temporal al recogerlo"
+autowrap_mode = 2
 
-[node name="Row5" type="HBoxContainer" parent="Panel/Content/Tab1"]
+[node name="Row5" type="HBoxContainer" parent="Panel/Content/Tab1" unique_id=2041951871]
 layout_mode = 2
 theme_override_constants/separation = 14
 alignment = 1
 
-[node name="Ico" type="Label" parent="Panel/Content/Tab1/Row5"]
-layout_mode = 2
+[node name="Ico" type="Label" parent="Panel/Content/Tab1/Row5" unique_id=1619192011]
 custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.1, 0.75, 1)
 theme_override_font_sizes/font_size = 16
 text = "?"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row5"]
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row5" unique_id=1467404660]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="Name" type="Label" parent="Panel/Content/Tab1/Row5/Text"]
+[node name="Name" type="Label" parent="Panel/Content/Tab1/Row5/Text" unique_id=1338532869]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.3, 1, 1)
 theme_override_font_sizes/font_size = 8
 text = "Caja Sorpresa"
 
-[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row5/Text"]
+[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row5/Text" unique_id=241698586]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
 theme_override_font_sizes/font_size = 6
-autowrap_mode = 2
 text = "Revela aleatoriamente: moneda, ruby o bomba"
+autowrap_mode = 2
 
-[node name="Row6" type="HBoxContainer" parent="Panel/Content/Tab1"]
+[node name="Row6" type="HBoxContainer" parent="Panel/Content/Tab1" unique_id=1432378697]
 layout_mode = 2
 theme_override_constants/separation = 14
 alignment = 1
 
-[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row6"]
-layout_mode = 2
+[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row6" unique_id=69133944]
 custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
 texture = SubResource("atlas_bomb")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row6"]
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row6" unique_id=1733091076]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="Name" type="Label" parent="Panel/Content/Tab1/Row6/Text"]
+[node name="Name" type="Label" parent="Panel/Content/Tab1/Row6/Text" unique_id=1431474707]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.3, 0.1, 1)
 theme_override_font_sizes/font_size = 8
 text = "Bomba"
 
-[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row6/Text"]
+[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row6/Text" unique_id=745856565]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
 theme_override_font_sizes/font_size = 6
-autowrap_mode = 2
 text = "Inmediata: explota al caer. Timer: cuenta regresiva, puedes recogerla y lanzarla"
+autowrap_mode = 2
 
-[node name="BtnClose" type="Button" parent="Panel"]
+[node name="Tab2" type="VBoxContainer" parent="Panel/Content" unique_id=1845851028]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Panel/Content/Tab2" unique_id=1607064221]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "PUNTOS DE ENTREGA"
+horizontal_alignment = 1
+
+[node name="Desc" type="Label" parent="Panel/Content/Tab2" unique_id=1188581379]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 7
+text = "Lleva cada objeto al NPC correcto para ganar puntos y XP"
+autowrap_mode = 2
+
+[node name="Sep" type="ColorRect" parent="Panel/Content/Tab2" unique_id=1722693239]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.4, 0.4, 0.4, 0.4)
+
+[node name="Row1" type="HBoxContainer" parent="Panel/Content/Tab2" unique_id=1693008969]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Ico" type="TextureRect" parent="Panel/Content/Tab2/Row1" unique_id=674078958]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab2/Row1" unique_id=465203468]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="Name" type="Label" parent="Panel/Content/Tab2/Row1/Text" unique_id=1016351810]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.55, 0.1, 1)
+theme_override_font_sizes/font_size = 8
+text = "OldLady (Señora)"
+
+[node name="Desc" type="Label" parent="Panel/Content/Tab2/Row1/Text" unique_id=1648860594]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 6
+text = "Recibe: Caja (Box). Entregar con E al estar cerca"
+autowrap_mode = 2
+
+[node name="Row2" type="HBoxContainer" parent="Panel/Content/Tab2" unique_id=1037722073]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Ico" type="TextureRect" parent="Panel/Content/Tab2/Row2" unique_id=107267805]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("9")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab2/Row2" unique_id=602865643]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="Name" type="Label" parent="Panel/Content/Tab2/Row2/Text" unique_id=966592750]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.6, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "OldMan (Señor)"
+
+[node name="Desc" type="Label" parent="Panel/Content/Tab2/Row2/Text" unique_id=1086680373]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 6
+text = "Recibe: Poción (BluePot). Entregar con E al estar cerca"
+autowrap_mode = 2
+
+[node name="Row3" type="HBoxContainer" parent="Panel/Content/Tab2" unique_id=1129075729]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Ico" type="TextureRect" parent="Panel/Content/Tab2/Row3" unique_id=2000647819]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("10")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab2/Row3" unique_id=1465442962]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="Name" type="Label" parent="Panel/Content/Tab2/Row3/Text" unique_id=180955363]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 1, 0.5, 1)
+theme_override_font_sizes/font_size = 8
+text = "Farmer (Granjero)"
+
+[node name="Desc" type="Label" parent="Panel/Content/Tab2/Row3/Text" unique_id=1100329878]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 6
+text = "Recibe: 3rd Box (verde). Entregar con E al estar cerca"
+autowrap_mode = 2
+
+[node name="Hint" type="Label" parent="Panel/Content/Tab2" unique_id=522110779]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 6
+text = "Cada NPC tiene un letrero con su tipo. Si entregas el paquete equivocado, no lo aceptará."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BtnClose" type="Button" parent="Panel" unique_id=2037620486]
 custom_minimum_size = Vector2(80, 18)
+layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Cerrar  [Esc]"
 alignment = 4

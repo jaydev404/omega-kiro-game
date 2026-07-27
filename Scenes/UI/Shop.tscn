@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c47neb7fisosf" path="res://Assets/UI/Shop/backgroudShop (1).png" id="2"]
 [ext_resource type="Texture2D" uid="uid://b2x8h18w87oym" path="res://Assets/UI/Shop/MenuShop.png" id="3"]
 [ext_resource type="FontFile" uid="uid://d21uixh14b4m4" path="res://Assets/UI/font/pixelFont-7-8x14-sproutLands.ttf" id="5"]
+[ext_resource type="AudioStream" path="res://Resources/songs/menu.mp3" id="8_music"]
 [ext_resource type="Texture2D" uid="uid://ck2kujfx1uty4" path="res://Assets/UI/Menu/title.png" id="6"]
 
 [node name="Shop" type="Node2D" unique_id=951020677]
@@ -279,3 +280,8 @@ offset_bottom = 246.0
 theme_override_fonts/font = ExtResource("5")
 theme_override_font_sizes/font_size = 7
 text = "Volver"
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_music")
+autoplay = true
+volume_db = -5.0
