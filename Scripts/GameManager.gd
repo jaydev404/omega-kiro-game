@@ -24,6 +24,7 @@ var _state: GameState = GameState.PLAYING
 
 ## Timer de partida
 var _match_timer: float = 0.0
+var _elapsed_time: float = 0.0  ## tiempo transcurrido (sube desde 0)
 var _endgame_triggered: bool = false
 var _third_package_unlocked: bool = false
 var _helper_cat_spawned: bool = false
@@ -124,6 +125,7 @@ func _ready() -> void:
 		_pause_menu.visible = false
 	_load_save()
 	_match_timer = match_duration
+	_elapsed_time = 0.0
 	_update_label()
 
 func _process(delta: float) -> void:
@@ -131,13 +133,14 @@ func _process(delta: float) -> void:
 		return
 
 	_match_timer -= delta
+	_elapsed_time += delta
 	emit_signal("match_timer_updated", int(_match_timer))
 
-	# Actualizar label del timer si existe
+	# Actualizar label del timer — muestra tiempo transcurrido (00:00 → 25:00)
 	var timer_label := get_node_or_null("TimerLabel") as Label
 	if timer_label:
-		var mins := int(_match_timer) / 60
-		var secs := int(_match_timer) % 60
+		var mins := int(_elapsed_time) / 60
+		var secs := int(_elapsed_time) % 60
 		timer_label.text = "%02d:%02d" % [mins, secs]
 
 	# Tercer paquete se desbloquea al minuto 5

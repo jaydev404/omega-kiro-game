@@ -103,7 +103,7 @@ offset_right = 357.0
 offset_bottom = 37.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 17
-text = "25:00"
+text = "00:00"
 horizontal_alignment = 1
 
 [node name="ScoreLabel" type="Label" parent="GameManager" unique_id=1547129234]
@@ -410,6 +410,13 @@ custom_minimum_size = Vector2(100, 18)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Escudo"
+
+[node name="HintNav" type="Label" parent="GameManager/PowerUpMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 6
+text = "↑ ↓ mover  •  Enter / Espacio seleccionar"
+horizontal_alignment = 1
 
 [node name="HUDPanel" type="Node2D" parent="." unique_id=1769797088]
 position = Vector2(0, 320)

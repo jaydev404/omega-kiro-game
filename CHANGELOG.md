@@ -1,6 +1,16 @@
 # Changelog
 
-## [0.5.0] - 2025 — Pantalla de Ayuda y Correcciones de UI
+## [0.5.1] - 2025 — UX: Timer ascendente y hints de navegación
+
+### Modificado
+
+- `GameManager.gd` — timer del HUD ahora muestra tiempo transcurrido (00:00 → 25:00) en lugar de cuenta regresiva. `_elapsed_time` sube desde 0; `_match_timer` sigue contando hacia abajo internamente para las fases de dificultad y el evento final
+- `ChaosGame.tscn` — TimerLabel inicia en "00:00"
+- `ChaosGame.tscn` — hint "↑ ↓ mover  •  Enter / Espacio seleccionar" añadido al pie del PowerUpMenu
+
+---
+
+
 
 ### Añadido
 
