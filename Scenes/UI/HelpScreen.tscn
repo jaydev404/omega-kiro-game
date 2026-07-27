@@ -1,0 +1,393 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/UI/HelpScreen.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Assets/Objects/Box/sprBox.png" id="2"]
+[ext_resource type="Texture2D" path="res://Assets/Objects/Box/sprBluePot.png" id="3"]
+[ext_resource type="Texture2D" path="res://Assets/Objects/Bombs/sprWeaponBomb.png" id="4"]
+[ext_resource type="Texture2D" path="res://Assets/Objects/Items/sprGoldCoin.png" id="5"]
+[ext_resource type="Texture2D" path="res://Assets/Objects/Items/sprRuby.png" id="6"]
+[ext_resource type="Texture2D" path="res://Assets/Objects/Items/sprSilverCoin.png" id="7"]
+
+[sub_resource type="AtlasTexture" id="atlas_gold"]
+atlas = ExtResource("5")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="atlas_silver"]
+atlas = ExtResource("7")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="atlas_ruby"]
+atlas = ExtResource("6")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="atlas_bomb"]
+atlas = ExtResource("4")
+region = Rect2(0, 0, 16, 16)
+
+[node name="HelpScreen" type="Control"]
+visible = false
+script = ExtResource("1")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bg" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.75)
+
+[node name="Panel" type="VBoxContainer" parent="."]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -155.0
+offset_top = -120.0
+offset_right = 155.0
+offset_bottom = 120.0
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Panel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.2, 1)
+theme_override_font_sizes/font_size = 11
+text = "AYUDA"
+horizontal_alignment = 1
+
+[node name="NavRow" type="HBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="BtnPrev" type="Button" parent="Panel/NavRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(20, 16)
+theme_override_font_sizes/font_size = 9
+text = "◀"
+
+[node name="TabLabel" type="Label" parent="Panel/NavRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 0)
+theme_override_font_sizes/font_size = 9
+text = "◀  CÓMO JUGAR  ▶"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnNext" type="Button" parent="Panel/NavRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(20, 16)
+theme_override_font_sizes/font_size = 9
+text = "▶"
+
+[node name="Separator" type="ColorRect" parent="Panel"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 1)
+color = Color(0.5, 0.5, 0.5, 0.5)
+
+[node name="Content" type="Control" parent="Panel"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 180)
+
+[node name="Tab0" type="VBoxContainer" parent="Panel/Content"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 5
+
+[node name="GameDesc" type="Label" parent="Panel/Content/Tab0"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 7
+autowrap_mode = 2
+text = "Eres repartidor de una empresa caótica. Los drones traen paquetes, monedas y... sorpresas. Entrega los paquetes en el punto correcto, recoge monedas y sobrevive 25 minutos."
+
+[node name="Sep1" type="ColorRect" parent="Panel/Content/Tab0"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 1)
+color = Color(0.4, 0.4, 0.4, 0.4)
+
+[node name="ControlsTitle" type="Label" parent="Panel/Content/Tab0"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "CONTROLES"
+
+[node name="Controls" type="GridContainer" parent="Panel/Content/Tab0"]
+layout_mode = 2
+columns = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 3
+
+[node name="K1" type="Label" parent="Panel/Content/Tab0/Controls"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 7
+text = "WASD"
+
+[node name="D1" type="Label" parent="Panel/Content/Tab0/Controls"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Mover al jugador"
+
+[node name="K2" type="Label" parent="Panel/Content/Tab0/Controls"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 7
+text = "Shift"
+
+[node name="D2" type="Label" parent="Panel/Content/Tab0/Controls"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Sprint"
+
+[node name="K3" type="Label" parent="Panel/Content/Tab0/Controls"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 7
+text = "E"
+
+[node name="D3" type="Label" parent="Panel/Content/Tab0/Controls"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Recoger / Soltar / Entregar"
+
+[node name="K4" type="Label" parent="Panel/Content/Tab0/Controls"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 7
+text = "Esc"
+
+[node name="D4" type="Label" parent="Panel/Content/Tab0/Controls"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 7
+text = "Pausar"
+
+[node name="Sep2" type="ColorRect" parent="Panel/Content/Tab0"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 1)
+color = Color(0.4, 0.4, 0.4, 0.4)
+
+[node name="ObjectiveTitle" type="Label" parent="Panel/Content/Tab0"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "OBJETIVO"
+
+[node name="Objective" type="Label" parent="Panel/Content/Tab0"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 7
+autowrap_mode = 2
+text = "Entrega paquetes en el punto correcto para ganar XP y monedas. Sube de nivel para elegir mejoras temporales. Sobrevive 25 minutos para ganar."
+
+[node name="HintNav" type="Label" parent="Panel/Content/Tab0"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 6
+text = "Navega con ↑ ↓  •  Confirma con Enter o Espacio"
+horizontal_alignment = 1
+
+[node name="Tab1" type="VBoxContainer" parent="Panel/Content"]
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 6
+
+[node name="Row1" type="HBoxContainer" parent="Panel/Content/Tab1"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row1"]
+layout_mode = 2
+custom_minimum_size = Vector2(24, 24)
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="Name" type="Label" parent="Panel/Content/Tab1/Row1/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.55, 0.1, 1)
+theme_override_font_sizes/font_size = 8
+text = "Caja  /  Pot  /  3rd"
+
+[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row1/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 6
+autowrap_mode = 2
+text = "Lleva al punto de entrega correcto segun su tipo"
+
+[node name="Row2" type="HBoxContainer" parent="Panel/Content/Tab1"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row2"]
+layout_mode = 2
+custom_minimum_size = Vector2(24, 24)
+texture = SubResource("atlas_gold")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="Name" type="Label" parent="Panel/Content/Tab1/Row2/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.1, 1)
+theme_override_font_sizes/font_size = 8
+text = "Moneda Oro"
+
+[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row2/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 6
+autowrap_mode = 2
+text = "+5 monedas. Se recoge automaticamente al tocar"
+
+[node name="Row3" type="HBoxContainer" parent="Panel/Content/Tab1"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row3"]
+layout_mode = 2
+custom_minimum_size = Vector2(24, 24)
+texture = SubResource("atlas_silver")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="Name" type="Label" parent="Panel/Content/Tab1/Row3/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 8
+text = "Moneda Plata"
+
+[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row3/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 6
+autowrap_mode = 2
+text = "+1 moneda. Se recoge automaticamente al tocar"
+
+[node name="Row4" type="HBoxContainer" parent="Panel/Content/Tab1"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row4"]
+layout_mode = 2
+custom_minimum_size = Vector2(24, 24)
+texture = SubResource("atlas_ruby")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row4"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="Name" type="Label" parent="Panel/Content/Tab1/Row4/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.2, 0.8, 1)
+theme_override_font_sizes/font_size = 8
+text = "Ruby"
+
+[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row4/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 6
+autowrap_mode = 2
+text = "Elige una mejora temporal al recogerlo"
+
+[node name="Row5" type="HBoxContainer" parent="Panel/Content/Tab1"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Ico" type="Label" parent="Panel/Content/Tab1/Row5"]
+layout_mode = 2
+custom_minimum_size = Vector2(24, 24)
+theme_override_colors/font_color = Color(0.55, 0.1, 0.75, 1)
+theme_override_font_sizes/font_size = 16
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row5"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="Name" type="Label" parent="Panel/Content/Tab1/Row5/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.3, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "Caja Sorpresa"
+
+[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row5/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 6
+autowrap_mode = 2
+text = "Revela aleatoriamente: moneda, ruby o bomba"
+
+[node name="Row6" type="HBoxContainer" parent="Panel/Content/Tab1"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row6"]
+layout_mode = 2
+custom_minimum_size = Vector2(24, 24)
+texture = SubResource("atlas_bomb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Panel/Content/Tab1/Row6"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="Name" type="Label" parent="Panel/Content/Tab1/Row6/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.3, 0.1, 1)
+theme_override_font_sizes/font_size = 8
+text = "Bomba"
+
+[node name="Desc" type="Label" parent="Panel/Content/Tab1/Row6/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 6
+autowrap_mode = 2
+text = "Inmediata: explota al caer. Timer: cuenta regresiva, puedes recogerla y lanzarla"
+
+[node name="BtnClose" type="Button" parent="Panel"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 18)
+theme_override_font_sizes/font_size = 8
+text = "Cerrar  [Esc]"
+alignment = 4

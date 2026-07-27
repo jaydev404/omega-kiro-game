@@ -1,6 +1,32 @@
 # Changelog
 
-## [0.4.0] - 2025 — Fixes, Dron Aliado y Navegación por Teclado
+## [0.5.0] - 2025 — Pantalla de Ayuda y Correcciones de UI
+
+### Añadido
+
+#### Pantalla de Ayuda (HelpScreen)
+- `HelpScreen.tscn` + `HelpScreen.gd` — pantalla reutilizable instanciada en el menú principal y en el HUD del juego
+- Dos pestañas navegables con botones `◀ ▶` y flechas izquierda/derecha del teclado:
+  - **CÓMO JUGAR**: descripción del juego, controles (WASD/Shift/E/Esc) y objetivo
+  - **ITEMS**: cada item con icono (TextureRect + AtlasTexture para sprites animados), nombre y descripción en filas `HBoxContainer`
+- Sprites con múltiples frames (GoldCoin/SilverCoin/Ruby/Bomb) recortados al primer frame 16×16 usando `AtlasTexture` como sub-recurso
+- Hint de navegación al pie de la pestaña CÓMO JUGAR: "Navega con ↑ ↓  •  Confirma con Enter o Espacio"
+- Cerrar con botón "Cerrar [Esc]" o tecla Esc; consume todo el input de teclado mientras está visible
+
+#### Botón Ayuda en menú principal
+- `BtnHelpSprite` — cuarto botón del menú principal usando el mismo `AnimatedSprite2D` que los demás
+- Orden final: Comenzar → Tienda → Ayuda → Salir
+- Navegación por teclado actualizada a 4 opciones
+- `HelpScreen` envuelta en `CanvasLayer` en ambas escenas para centrarse en viewport correctamente
+
+### Corregido
+
+- `ChaosMainMenu._is_over()` — ahora usa `get_viewport().get_canvas_transform()` para convertir coordenadas mundo a viewport; corrige que el click en botones no funcionaba
+- `HelpScreen` — Space/Enter ya no cierran la pantalla (solo Esc); evita conflicto con la navegación del menú principal
+- `HelpScreen` — `set_input_as_handled()` consume todo el input de teclado mientras está visible; evita que llegue al menú de fondo
+- Items tab — `Sprite2D` reemplazado por `TextureRect` para participar correctamente en el layout `HBoxContainer`
+
+
 
 ### Añadido
 

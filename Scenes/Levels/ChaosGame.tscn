@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://d4aahxdrx7xsk" path="res://Scripts/GameManager.gd" id="6"]
 [ext_resource type="Script" path="res://Scripts/UI/PowerUpMenu.gd" id="17_pmenu"]
 [ext_resource type="Script" path="res://Scripts/UI/KeyboardMenu.gd" id="18_kmenu"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/HelpScreen.tscn" id="19_help"]
 [ext_resource type="Texture2D" uid="uid://b47w3ju6wf7e6" path="res://Assets/UI/HUD/sprHUDHeartContainerMeter.png" id="7"]
 [ext_resource type="Texture2D" uid="uid://bye47q3y5ipqu" path="res://Assets/UI/Menu/Menu.png" id="9"]
 [ext_resource type="FontFile" uid="uid://d21uixh14b4m4" path="res://Assets/UI/font/pixelFont-7-8x14-sproutLands.ttf" id="11"]
@@ -543,3 +544,16 @@ vertical_alignment = 1
 
 [node name="DeliveryTruckThird" parent="." unique_id=1247381373 instance=ExtResource("12_n0a8c")]
 position = Vector2(321, 75)
+
+[node name="BtnHelp" type="Button" parent="."]
+process_mode = 3
+position = Vector2(610, 4)
+offset_right = 26.0
+offset_bottom = 18.0
+theme_override_font_sizes/font_size = 9
+text = "?"
+
+[node name="HelpScreenLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="HelpScreen" parent="HelpScreenLayer" instance=ExtResource("19_help")]
