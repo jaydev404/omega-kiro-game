@@ -8,15 +8,16 @@ var _tabs: Array[Control] = []
 
 @onready var _tab0: Control = $Panel/Content/Tab0
 @onready var _tab1: Control = $Panel/Content/Tab1
+@onready var _tab2: Control = $Panel/Content/Tab2
 @onready var _btn_prev: Button = $Panel/NavRow/BtnPrev
 @onready var _btn_next: Button = $Panel/NavRow/BtnNext
 @onready var _tab_label: Label = $Panel/NavRow/TabLabel
 @onready var _btn_close: Button = $Panel/BtnClose
 
-const TAB_NAMES := ["CÓMO JUGAR", "ITEMS"]
+const TAB_NAMES := ["CÓMO JUGAR", "ITEMS", "ENTREGAS"]
 
 func _ready() -> void:
-	_tabs = [_tab0, _tab1]
+	_tabs = [_tab0, _tab1, _tab2]
 	_btn_prev.pressed.connect(_on_prev)
 	_btn_next.pressed.connect(_on_close if false else _on_prev)
 	_btn_next.pressed.connect(_on_next)
@@ -53,7 +54,11 @@ func _on_close() -> void:
 func _show_tab(index: int) -> void:
 	_current_tab = index
 	for i in _tabs.size():
-		_tabs[i].visible = (i == index)
-	_tab_label.text = "◀  " + TAB_NAMES[index] + "  ▶"
-	_btn_prev.disabled = false
-	_btn_next.disabled = false
+		if _tabs[i]:
+			_tabs[i].visible = (i == index)
+	if _tab_label:
+		_tab_label.text = "◀  " + TAB_NAMES[index] + "  ▶"
+	if _btn_prev:
+		_btn_prev.disabled = false
+	if _btn_next:
+		_btn_next.disabled = false

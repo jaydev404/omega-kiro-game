@@ -6,9 +6,6 @@
 [ext_resource type="TileSet" uid="uid://sna0cpia7snv" path="res://Resources/IceZoneTileSet.tres" id="4"]
 [ext_resource type="PackedScene" path="res://Scenes/DeliveryTruck/DeliveryTruckBluePot.tscn" id="5"]
 [ext_resource type="Script" uid="uid://d4aahxdrx7xsk" path="res://Scripts/GameManager.gd" id="6"]
-[ext_resource type="Script" path="res://Scripts/UI/PowerUpMenu.gd" id="17_pmenu"]
-[ext_resource type="Script" path="res://Scripts/UI/KeyboardMenu.gd" id="18_kmenu"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/HelpScreen.tscn" id="19_help"]
 [ext_resource type="Texture2D" uid="uid://b47w3ju6wf7e6" path="res://Assets/UI/HUD/sprHUDHeartContainerMeter.png" id="7"]
 [ext_resource type="Texture2D" uid="uid://bye47q3y5ipqu" path="res://Assets/UI/Menu/Menu.png" id="9"]
 [ext_resource type="FontFile" uid="uid://d21uixh14b4m4" path="res://Assets/UI/font/pixelFont-7-8x14-sproutLands.ttf" id="11"]
@@ -17,6 +14,10 @@
 [ext_resource type="Texture2D" uid="uid://coo5cm7vnpkn7" path="res://Assets/UI/menuPlayer/20240713dragonShieldFrame.png" id="14"]
 [ext_resource type="PackedScene" path="res://Scenes/Drone/HelperDroneCat.tscn" id="15_helper"]
 [ext_resource type="Texture2D" uid="uid://dyxoket1t1oqr" path="res://Assets/UI/menuPlayer/revivir.png" id="16_revive"]
+[ext_resource type="AudioStream" uid="uid://0or5tehjpkr4" path="res://Resources/songs/game.mp3" id="17_music"]
+[ext_resource type="Script" uid="uid://daext26wqssmb" path="res://Scripts/UI/PowerUpMenu.gd" id="17_pmenu"]
+[ext_resource type="Script" uid="uid://d1mwgr3msmpl1" path="res://Scripts/UI/KeyboardMenu.gd" id="18_kmenu"]
+[ext_resource type="PackedScene" uid="uid://crl4yt0oaxp8i" path="res://Scenes/UI/HelpScreen.tscn" id="19_help"]
 
 [sub_resource type="AtlasTexture" id="heart_frame0"]
 atlas = ExtResource("7")
@@ -118,13 +119,13 @@ horizontal_alignment = 2
 [node name="PauseMenu" type="Control" parent="GameManager" unique_id=1314254610]
 process_mode = 3
 visible = false
-script = ExtResource("18_kmenu")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("18_kmenu")
 
 [node name="Bg" type="ColorRect" parent="GameManager/PauseMenu" unique_id=155670771]
 layout_mode = 0
@@ -190,13 +191,13 @@ text = "Salir"
 [node name="GameOverMenu" type="Control" parent="GameManager" unique_id=1400691577]
 process_mode = 3
 visible = false
-script = ExtResource("18_kmenu")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("18_kmenu")
 
 [node name="Bg" type="ColorRect" parent="GameManager/GameOverMenu" unique_id=1147054963]
 layout_mode = 0
@@ -288,13 +289,13 @@ text = "Salir"
 [node name="ReviveMenu" type="Control" parent="GameManager" unique_id=110646255]
 process_mode = 3
 visible = false
-script = ExtResource("18_kmenu")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("18_kmenu")
 
 [node name="Bg" type="ColorRect" parent="GameManager/ReviveMenu" unique_id=1389281015]
 layout_mode = 0
@@ -361,13 +362,13 @@ text = "Volver al Menu"
 [node name="PowerUpMenu" type="Control" parent="GameManager" unique_id=810340509]
 process_mode = 3
 visible = false
-script = ExtResource("17_pmenu")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("17_pmenu")
 
 [node name="Bg" type="ColorRect" parent="GameManager/PowerUpMenu" unique_id=1156557673]
 layout_mode = 0
@@ -411,7 +412,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Escudo"
 
-[node name="HintNav" type="Label" parent="GameManager/PowerUpMenu/VBoxContainer"]
+[node name="HintNav" type="Label" parent="GameManager/PowerUpMenu/VBoxContainer" unique_id=1349334549]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
 theme_override_font_sizes/font_size = 6
@@ -552,15 +553,22 @@ vertical_alignment = 1
 [node name="DeliveryTruckThird" parent="." unique_id=1247381373 instance=ExtResource("12_n0a8c")]
 position = Vector2(321, 75)
 
-[node name="BtnHelp" type="Button" parent="."]
+[node name="BtnHelp" type="Button" parent="." unique_id=626501411]
 process_mode = 3
-position = Vector2(610, 4)
+offset_left = 610.0
+offset_top = 4.0
 offset_right = 26.0
 offset_bottom = 18.0
 theme_override_font_sizes/font_size = 9
 text = "?"
 
-[node name="HelpScreenLayer" type="CanvasLayer" parent="."]
+[node name="HelpScreenLayer" type="CanvasLayer" parent="." unique_id=249599407]
 process_mode = 3
+visible = false
 
-[node name="HelpScreen" parent="HelpScreenLayer" instance=ExtResource("19_help")]
+[node name="HelpScreen" parent="HelpScreenLayer" unique_id=1346021477 instance=ExtResource("19_help")]
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=914335691]
+stream = ExtResource("17_music")
+volume_db = -5.0
+autoplay = true
