@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.5.5] - 2025 — WASD, fix flechas ayuda y sprites AtlasTexture
+
+### Añadido
+
+- `project.godot` — WASD mapeado en `ui_left/right/up/down` junto a flechas de cursor. El jugador puede moverse con ambos esquemas
+- `ChaosMainMenu.gd` — W/S navegan el menú principal igual que flechas ↑/↓
+- `HelpScreen.gd` — A/D cambian pestañas igual que flechas ←/→
+
+### Corregido
+
+- `HelpScreen.gd` — `_unhandled_input` → `_input` para que las flechas funcionen aunque un Button tenga foco. `release_focus()` en todos los botones al abrir
+- `HelpScreen.tscn` — sprites de camiones (ids 8,9,10) usan `AtlasTexture` mostrando solo el primer frame 16×16
+- `HelpScreen.tscn` — tutorial actualizado a "WASD / Flechas"
+- `ChaosMainMenu.tscn` / `ChaosGame.tscn` — eliminado `BtnHelp` flotante `?`
+
+---
+
 ## [0.5.4] - 2025 — Shield counter, batch delivery fix y preparación para demo web
 
 ### Añadido

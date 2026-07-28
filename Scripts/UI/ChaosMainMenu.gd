@@ -36,10 +36,11 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	# Navegación por teclado — activa la flecha al primer uso
 	if event is InputEventKey and event.pressed:
-		if event.keycode == KEY_UP or event.keycode == KEY_DOWN:
+		if event.keycode == KEY_UP or event.keycode == KEY_DOWN \
+			or event.keycode == KEY_W or event.keycode == KEY_S:
 			_keyboard_active = true
 			_arrow_label.visible = true
-			var dir := -1 if event.keycode == KEY_UP else 1
+			var dir := -1 if (event.keycode == KEY_UP or event.keycode == KEY_W) else 1
 			_selected_index = (_selected_index + dir + 4) % 4
 			_update_keyboard_selection()
 			get_viewport().set_input_as_handled()
