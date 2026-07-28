@@ -119,12 +119,18 @@ func _deliver(zone: DeliveryZone) -> void:
 	if _delivering:
 		return
 
-	# Recopilar todos los paquetes que acepta la zona
 	_carried_packages = _carried_packages.filter(func(p): return is_instance_valid(p))
+	if _carried_packages.is_empty():
+		return
+
+	# Recopilar paquetes aceptados desde arriba del stack (orden LIFO)
 	var to_deliver: Array[PackageBody] = []
-	for pkg in _carried_packages:
+	for i in range(_carried_packages.size() - 1, -1, -1):
+		var pkg := _carried_packages[i]
 		if zone.accepts(pkg):
 			to_deliver.append(pkg)
+		else:
+			break  # Si hay uno que no coincide, no se puede entregar los de abajo
 
 	if to_deliver.is_empty():
 		return
@@ -137,12 +143,11 @@ func _deliver(zone: DeliveryZone) -> void:
 		_do_deliver_single(to_deliver[0], zone)
 		return
 
-	# Entrega múltiple con delay
+	# Entrega múltiple con delay y barra de progreso
 	_delivering = true
 	emit_signal("batch_delivery_started", count, duration)
 	_controller.set_delivery_locked(true)
 
-	# Feedback visual sobre el player
 	var ui := DeliveryProgressUI.new()
 	ui.init(count, duration)
 	_controller.add_child(ui)

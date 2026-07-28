@@ -25,7 +25,7 @@ func _physics_process(delta: float) -> void:
 			_find_package()
 
 		State.MOVING_TO_PACKAGE:
-			if not _is_valid_target(_target_package):
+			if not is_instance_valid(_target_package) or not _is_valid_target(_target_package):
 				_reset_to_idle()
 				return
 			if _move_to(_target_package.global_position, delta):
@@ -101,7 +101,7 @@ func _find_delivery_zone() -> void:
 # ------------------------------------------------------------------ acciones
 
 func _do_pickup() -> void:
-	if not _is_valid_target(_target_package):
+	if not is_instance_valid(_target_package) or not _is_valid_target(_target_package):
 		_reset_to_idle()
 		return
 
@@ -143,7 +143,9 @@ func _move_to(target: Vector2, delta: float) -> bool:
 	return false
 
 func _is_valid_target(pkg: PackageBody) -> bool:
-	return pkg != null and is_instance_valid(pkg) and not pkg.is_carried() and is_inside_tree()
+	if not is_instance_valid(pkg):
+		return false
+	return not pkg.is_carried() and pkg.is_inside_tree()
 
 func _reset_to_idle() -> void:
 	_target_package = null
