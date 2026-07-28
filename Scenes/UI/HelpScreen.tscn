@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cun4tx5pnp1fl" path="res://Assets/Container/sprOldLadyW.png" id="8"]
 [ext_resource type="Texture2D" uid="uid://d24uhfyutd86i" path="res://Assets/Container/sprOldManE.png" id="9"]
 [ext_resource type="Texture2D" uid="uid://cxcdkgyy5tlob" path="res://Assets/Container/sprFarmerS.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://b2wr46ysemlm2" path="res://Assets/Objects/Box/sprBluePot.png" id="11"]
 
 [sub_resource type="AtlasTexture" id="atlas_gold"]
 atlas = ExtResource("5")
@@ -214,9 +215,24 @@ theme_override_constants/separation = 14
 alignment = 1
 
 [node name="Ico" type="TextureRect" parent="Panel/Content/Tab1/Row1" unique_id=1744690595]
-custom_minimum_size = Vector2(24, 24)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Ico2" type="TextureRect" parent="Panel/Content/Tab1/Row1"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("11")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Ico3" type="TextureRect" parent="Panel/Content/Tab1/Row1"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("11")
+modulate = Color(0.4, 1.0, 0.5, 1.0)
 expand_mode = 1
 stretch_mode = 5
 
