@@ -17,7 +17,7 @@ func _ready() -> void:
 	# Crear labels de flecha para cada botón
 	for i in _buttons.size():
 		var arrow := Label.new()
-		arrow.text = "▶"
+		arrow.text = ">"
 		arrow.add_theme_color_override("font_color", Color(1, 0.9, 0.2, 1))
 		arrow.add_theme_font_size_override("font_size", 8)
 		arrow.visible = false

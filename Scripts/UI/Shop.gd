@@ -196,7 +196,7 @@ func _update_ui() -> void:
 	if _hp_level_label:
 		_hp_level_label.text   = str(hp_level)   + "/" + str(MAX_HP_LEVEL)
 	if _coins_label:
-		_coins_label.text      = "$ " + str(coins)
+		_coins_label.text      = "monedas: " + str(coins)
 
 	var vel_cost  := _get_cost(vel_level)
 	var cant_cost := _get_cost(cant_level)
@@ -214,21 +214,21 @@ func _update_ui() -> void:
 			_btn_buy_vel.text = "MAX"
 			_btn_buy_vel.disabled = true
 		else:
-			_btn_buy_vel.text = "$" + str(vel_cost)
+			_btn_buy_vel.text = "+" + str(vel_cost)
 			_btn_buy_vel.disabled = coins < vel_cost
 	if _btn_buy_cant:
 		if cant_level >= MAX_CANT_LEVEL:
 			_btn_buy_cant.text = "MAX"
 			_btn_buy_cant.disabled = true
 		else:
-			_btn_buy_cant.text = "$" + str(cant_cost)
+			_btn_buy_cant.text = "+" + str(cant_cost)
 			_btn_buy_cant.disabled = coins < cant_cost
 	if _btn_buy_hp:
 		if hp_level >= MAX_HP_LEVEL:
 			_btn_buy_hp.text = "MAX"
 			_btn_buy_hp.disabled = true
 		else:
-			_btn_buy_hp.text = "$" + str(hp_cost)
+			_btn_buy_hp.text = "+" + str(hp_cost)
 			_btn_buy_hp.disabled = coins < hp_cost
 	if _revive_cost_label:
 		_revive_cost_label.visible = false
@@ -237,7 +237,7 @@ func _update_ui() -> void:
 			_btn_buy_revive.text = "Comprado"
 			_btn_buy_revive.disabled = true
 		else:
-			_btn_buy_revive.text = "$" + str(REVIVE_COST)
+			_btn_buy_revive.text = "+" + str(REVIVE_COST)
 			_btn_buy_revive.disabled = coins < REVIVE_COST
 	if _helper_cost_label:
 		_helper_cost_label.visible = false
@@ -246,7 +246,7 @@ func _update_ui() -> void:
 			_btn_buy_helper.text = "Comprado"
 			_btn_buy_helper.disabled = true
 		else:
-			_btn_buy_helper.text = "$" + str(HELPER_COST)
+			_btn_buy_helper.text = "+" + str(HELPER_COST)
 			_btn_buy_helper.disabled = coins < HELPER_COST
 
 # ------------------------------------------------------------------ persistencia

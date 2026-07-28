@@ -33,7 +33,7 @@ offset_bottom = 106.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("5")
 theme_override_font_sizes/font_size = 8
-text = "$0"
+text = "monedas: 0"
 horizontal_alignment = 1
 
 [node name="VelRow" type="Node2D" parent="." unique_id=34805604]
@@ -90,7 +90,7 @@ offset_bottom = 9.0
 pivot_offset = Vector2(-55, -33)
 theme_override_fonts/font = ExtResource("5")
 theme_override_font_sizes/font_size = 5
-text = "($10)"
+text = "(+10)"
 horizontal_alignment = 1
 
 [node name="CantRow" type="Node2D" parent="." unique_id=356126835]
@@ -147,7 +147,7 @@ offset_bottom = 9.0
 pivot_offset = Vector2(-55, -61)
 theme_override_fonts/font = ExtResource("5")
 theme_override_font_sizes/font_size = 5
-text = "($10)"
+text = "(+10)"
 horizontal_alignment = 1
 
 [node name="HpRow" type="Node2D" parent="." unique_id=1175493777]
@@ -204,7 +204,7 @@ offset_bottom = 9.0
 pivot_offset = Vector2(-55, -89)
 theme_override_fonts/font = ExtResource("5")
 theme_override_font_sizes/font_size = 5
-text = "($15)"
+text = "(+15)"
 horizontal_alignment = 1
 
 [node name="ReviveRow" type="Node2D" parent="." unique_id=537038412]
@@ -228,7 +228,7 @@ offset_bottom = 11.0
 pivot_offset = Vector2(-29, -106)
 theme_override_fonts/font = ExtResource("5")
 theme_override_font_sizes/font_size = 5
-text = "($100)"
+text = "(+100)"
 horizontal_alignment = 1
 
 [node name="BtnBuyRevive" type="Button" parent="ReviveRow" unique_id=107881879]
@@ -260,7 +260,7 @@ offset_right = 159.0
 offset_bottom = 9.0
 theme_override_fonts/font = ExtResource("5")
 theme_override_font_sizes/font_size = 5
-text = "($300)"
+text = "(+300)"
 horizontal_alignment = 1
 
 [node name="BtnBuyHelper" type="Button" parent="HelperRow" unique_id=1166418065]

@@ -27,7 +27,7 @@ func _ready() -> void:
 
 	# Crear la flecha de selección
 	_arrow_label = Label.new()
-	_arrow_label.text = "▶"
+	_arrow_label.text = ">"
 	_arrow_label.add_theme_color_override("font_color", Color(1, 0.9, 0.2, 1))
 	_arrow_label.add_theme_font_size_override("font_size", 9)
 	_arrow_label.visible = false

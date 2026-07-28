@@ -61,7 +61,7 @@ func _show_tab(index: int) -> void:
 		if _tabs[i]:
 			_tabs[i].visible = (i == index)
 	if _tab_label:
-		_tab_label.text = "◀  " + TAB_NAMES[index] + "  ▶"
+		_tab_label.text = "<  " + TAB_NAMES[index] + "  >"
 	if _btn_prev:
 		_btn_prev.disabled = false
 	if _btn_next:

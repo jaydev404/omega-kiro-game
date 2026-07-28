@@ -83,13 +83,13 @@ alignment = 1
 custom_minimum_size = Vector2(20, 16)
 layout_mode = 2
 theme_override_font_sizes/font_size = 9
-text = "◀"
+text = "<"
 
 [node name="TabLabel" type="Label" parent="Panel/NavRow" unique_id=444416511]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 9
-text = "◀  CÓMO JUGAR  ▶"
+text = "<  COMO JUGAR  >"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -97,7 +97,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(20, 16)
 layout_mode = 2
 theme_override_font_sizes/font_size = 9
-text = "▶"
+text = ">"
 
 [node name="Separator" type="ColorRect" parent="Panel" unique_id=886687950]
 custom_minimum_size = Vector2(0, 1)
@@ -196,7 +196,7 @@ autowrap_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
 theme_override_font_sizes/font_size = 6
-text = "Navega con ↑ ↓  •  Confirma con Enter o Espacio"
+text = "Navega con W/S o Flechas  -  Confirma con Enter o Espacio"
 horizontal_alignment = 1
 
 [node name="Tab1" type="VBoxContainer" parent="Panel/Content" unique_id=1095834699]
