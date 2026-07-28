@@ -26,6 +26,18 @@ region = Rect2(0, 0, 16, 16)
 atlas = ExtResource("4")
 region = Rect2(0, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="atlas_truck1"]
+atlas = ExtResource("8")
+region = Rect2(0, 0, 16, 24)
+
+[sub_resource type="AtlasTexture" id="atlas_truck2"]
+atlas = ExtResource("9")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="atlas_truck3"]
+atlas = ExtResource("10")
+region = Rect2(0, 0, 16, 16)
+
 [node name="HelpScreen" type="Control" unique_id=2114886498]
 visible = false
 layout_mode = 3
@@ -426,7 +438,7 @@ alignment = 1
 [node name="Ico" type="TextureRect" parent="Panel/Content/Tab2/Row1" unique_id=674078958]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
-texture = ExtResource("8")
+texture = SubResource("atlas_truck1")
 expand_mode = 1
 stretch_mode = 5
 
@@ -456,7 +468,7 @@ alignment = 1
 [node name="Ico" type="TextureRect" parent="Panel/Content/Tab2/Row2" unique_id=107267805]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
-texture = ExtResource("9")
+texture = SubResource("atlas_truck2")
 expand_mode = 1
 stretch_mode = 5
 
@@ -486,7 +498,7 @@ alignment = 1
 [node name="Ico" type="TextureRect" parent="Panel/Content/Tab2/Row3" unique_id=2000647819]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
-texture = ExtResource("10")
+texture = SubResource("atlas_truck3")
 expand_mode = 1
 stretch_mode = 5
 

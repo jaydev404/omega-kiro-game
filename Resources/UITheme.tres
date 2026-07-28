@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=3 format=3]
+
+[ext_resource type="FontFile" path="res://Assets/Fonts/NotoSans-Regular.ttf" id="1"]
+
+[sub_resource type="FontVariation" id="FontVariation_default"]
+base_font = ExtResource("1")
+
+[resource]
+default_font = SubResource("FontVariation_default")
+default_font_size = 8

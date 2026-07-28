@@ -164,15 +164,6 @@ offset_bottom = 148.0
 theme_override_font_sizes/font_size = 7
 text = "RESET SAVE"
 
-[node name="BtnHelp" type="Button" parent="." unique_id=1841085855]
-offset_left = 610.0
-offset_top = 4.0
-offset_right = 26.0
-offset_bottom = 18.0
-tooltip_text = "Ayuda"
-theme_override_font_sizes/font_size = 9
-text = "?"
-
 [node name="HelpScreenLayer" type="CanvasLayer" parent="." unique_id=731214278]
 
 [node name="HelpScreen" parent="HelpScreenLayer" unique_id=1845563697 instance=ExtResource("7_help")]

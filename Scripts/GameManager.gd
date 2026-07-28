@@ -109,11 +109,6 @@ func _ready() -> void:
 		_btn_main_menu.pressed.connect(_on_main_menu)
 	if _btn_quit:
 		_btn_quit.pressed.connect(_on_quit)
-	# Botón de ayuda en HUD
-	var btn_help := get_tree().current_scene.get_node_or_null("BtnHelp") as Button
-	var help_screen := get_tree().current_scene.get_node_or_null("HelpScreenLayer/HelpScreen")
-	if btn_help and help_screen:
-		btn_help.pressed.connect(func(): help_screen.visible = true)
 
 	if _power_menu:
 		_power_menu.visible = false

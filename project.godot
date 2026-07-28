@@ -27,6 +27,10 @@ window/size/window_width_override=1280
 window/size/window_height_override=704
 window/stretch/mode="canvas_items"
 
+[gui]
+
+theme/custom="res://Resources/UITheme.tres"
+
 [input]
 
 sprint={

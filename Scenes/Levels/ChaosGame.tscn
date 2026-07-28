@@ -562,15 +562,6 @@ vertical_alignment = 1
 [node name="DeliveryTruckThird" parent="." unique_id=1247381373 instance=ExtResource("12_n0a8c")]
 position = Vector2(321, 75)
 
-[node name="BtnHelp" type="Button" parent="." unique_id=626501411]
-process_mode = 3
-offset_left = 610.0
-offset_top = 4.0
-offset_right = 26.0
-offset_bottom = 18.0
-theme_override_font_sizes/font_size = 9
-text = "?"
-
 [node name="HelpScreenLayer" type="CanvasLayer" parent="." unique_id=249599407]
 process_mode = 3
 visible = false
