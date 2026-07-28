@@ -16,8 +16,6 @@
 [ext_resource type="Texture2D" uid="uid://dyxoket1t1oqr" path="res://Assets/UI/menuPlayer/revivir.png" id="16_revive"]
 [ext_resource type="AudioStream" uid="uid://0or5tehjpkr4" path="res://Resources/songs/game.mp3" id="17_music"]
 [ext_resource type="Script" path="res://Scripts/UI/MuteButton.gd" id="21_mute"]
-[ext_resource type="Texture2D" path="res://Assets/UI/mute/Volume1.png" id="22_vol_on"]
-[ext_resource type="Texture2D" path="res://Assets/UI/mute/Volume Mute1.png" id="23_vol_off"]
 [ext_resource type="Script" uid="uid://daext26wqssmb" path="res://Scripts/UI/PowerUpMenu.gd" id="17_pmenu"]
 [ext_resource type="Script" uid="uid://d1mwgr3msmpl1" path="res://Scripts/UI/KeyboardMenu.gd" id="18_kmenu"]
 [ext_resource type="PackedScene" uid="uid://crl4yt0oaxp8i" path="res://Scenes/UI/HelpScreen.tscn" id="19_help"]
@@ -576,15 +574,11 @@ stream = ExtResource("17_music")
 autoplay = true
 volume_db = -5.0
 
-[node name="MuteButton" type="TextureButton" parent="."]
+[node name="MuteButton" type="Control" parent="."]
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 20.0
 offset_bottom = 20.0
-texture_normal = ExtResource("22_vol_on")
-stretch_mode = 0
 script = ExtResource("21_mute")
-icon_on = ExtResource("22_vol_on")
-icon_off = ExtResource("23_vol_off")
 volume_db = -5.0
 autoplay = true

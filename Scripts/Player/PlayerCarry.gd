@@ -119,55 +119,16 @@ func _deliver(zone: DeliveryZone) -> void:
 	if _delivering:
 		return
 
-	# Recopilar todos los paquetes que acepta la zona
 	_carried_packages = _carried_packages.filter(func(p): return is_instance_valid(p))
-	var to_deliver: Array[PackageBody] = []
-	for pkg in _carried_packages:
-		if zone.accepts(pkg):
-			to_deliver.append(pkg)
-
-	if to_deliver.is_empty():
-		return
-
-	var count := to_deliver.size()
-	var duration := _get_delivery_duration(count)
-
-	# Entrega instantánea para 1 paquete
-	if count == 1:
-		_do_deliver_single(to_deliver[0], zone)
-		return
-
-	# Entrega múltiple con delay
-	_delivering = true
-	emit_signal("batch_delivery_started", count, duration)
-	_controller.set_delivery_locked(true)
-
-	# Feedback visual sobre el player
-	var ui := DeliveryProgressUI.new()
-	ui.init(count, duration)
-	_controller.add_child(ui)
-
-	await get_tree().create_timer(duration).timeout
-
-	if is_instance_valid(ui):
-		ui.queue_free()
-
-	if not is_inside_tree():
-		return
-
-	for pkg in to_deliver:
-		if is_instance_valid(pkg) and _carried_packages.has(pkg):
-			_carried_packages.erase(pkg)
-			pkg.reparent(get_tree().current_scene)
-			zone.receive(pkg)
-			emit_signal("package_dropped", pkg)
-
-	_delivering = false
-	_controller.set_delivery_locked(false)
-	emit_signal("batch_delivery_finished")
-
 	if _carried_packages.is_empty():
-		_visual.set_carrying(false)
+		return
+
+	# Solo se puede entregar el paquete de arriba (último del stack)
+	var top_package: PackageBody = _carried_packages[-1]
+	if not zone.accepts(top_package):
+		return
+
+	_do_deliver_single(top_package, zone)
 
 func _do_deliver_single(package: PackageBody, zone: DeliveryZone) -> void:
 	if not is_instance_valid(package):

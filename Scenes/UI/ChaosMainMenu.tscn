@@ -9,8 +9,6 @@
 [ext_resource type="PackedScene" path="res://Scenes/UI/HelpScreen.tscn" id="7_help"]
 [ext_resource type="AudioStream" path="res://Resources/songs/menu.mp3" id="8_music"]
 [ext_resource type="Script" path="res://Scripts/UI/MuteButton.gd" id="9_mute"]
-[ext_resource type="Texture2D" path="res://Assets/UI/mute/Volume1.png" id="10_vol_on"]
-[ext_resource type="Texture2D" path="res://Assets/UI/mute/Volume Mute1.png" id="11_vol_off"]
 
 [sub_resource type="FontVariation" id="FontVariation_0kg5h"]
 
@@ -171,16 +169,12 @@ text = "RESET SAVE"
 
 [node name="HelpScreen" parent="HelpScreenLayer" unique_id=1845563697 instance=ExtResource("7_help")]
 
-[node name="MuteButton" type="TextureButton" parent="."]
+[node name="MuteButton" type="Control" parent="."]
 offset_left = 4.0
 offset_top = 334.0
 offset_right = 20.0
 offset_bottom = 350.0
-texture_normal = ExtResource("10_vol_on")
-stretch_mode = 0
 script = ExtResource("9_mute")
-icon_on = ExtResource("10_vol_on")
-icon_off = ExtResource("11_vol_off")
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_music")
