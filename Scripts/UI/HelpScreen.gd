@@ -19,7 +19,6 @@ const TAB_NAMES := ["CÓMO JUGAR", "ITEMS", "ENTREGAS"]
 func _ready() -> void:
 	_tabs = [_tab0, _tab1, _tab2]
 	_btn_prev.pressed.connect(_on_prev)
-	_btn_next.pressed.connect(_on_close if false else _on_prev)
 	_btn_next.pressed.connect(_on_next)
 	_btn_close.pressed.connect(_on_close)
 	_show_tab(0)

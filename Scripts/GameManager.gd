@@ -14,7 +14,7 @@ signal match_ended()
 @export var endgame_bomb_chance: float = 0.8
 @export var endgame_spawn_interval: float = 0.3
 @export var survival_bonus_coins: int = 10
-@export var third_package_unlock_time: float = 360.0   ## Minuto 4 de 10 (600-240)
+@export var third_package_unlock_time: float = 1410.0   ## Aparece al minuto 1:30
 @export var helper_cat_scene: PackedScene  ## Escena del drone gato helper
 @export var helper_cat_spawn_level: int = 1  ## Nivel al que aparece el helper
 
@@ -140,8 +140,8 @@ func _process(delta: float) -> void:
 		var secs := int(_elapsed_time) % 60
 		timer_label.text = "%02d:%02d" % [mins, secs]
 
-	# Tercer paquete se desbloquea al minuto 5
-	if not _third_package_unlocked and _match_timer <= third_package_unlock_time:
+	# Tercer paquete se desbloquea al minuto 1:30
+	if not _third_package_unlocked and _elapsed_time >= 90.0:
 		_third_package_unlocked = true
 		if _spawner:
 			_spawner.enable_third_package()
