@@ -123,12 +123,56 @@ func _deliver(zone: DeliveryZone) -> void:
 	if _carried_packages.is_empty():
 		return
 
-	# Solo se puede entregar el paquete de arriba (último del stack)
-	var top_package: PackageBody = _carried_packages[-1]
-	if not zone.accepts(top_package):
+	# Recopilar paquetes aceptados desde arriba del stack (orden LIFO)
+	var to_deliver: Array[PackageBody] = []
+	for i in range(_carried_packages.size() - 1, -1, -1):
+		var pkg := _carried_packages[i]
+		if zone.accepts(pkg):
+			to_deliver.append(pkg)
+		else:
+			break  # Si hay uno que no coincide, no se puede entregar los de abajo
+
+	if to_deliver.is_empty():
 		return
 
-	_do_deliver_single(top_package, zone)
+	var count := to_deliver.size()
+	var duration := _get_delivery_duration(count)
+
+	# Entrega instantánea para 1 paquete
+	if count == 1:
+		_do_deliver_single(to_deliver[0], zone)
+		return
+
+	# Entrega múltiple con delay y barra de progreso
+	_delivering = true
+	emit_signal("batch_delivery_started", count, duration)
+	_controller.set_delivery_locked(true)
+
+	var ui := DeliveryProgressUI.new()
+	ui.init(count, duration)
+	_controller.add_child(ui)
+
+	await get_tree().create_timer(duration).timeout
+
+	if is_instance_valid(ui):
+		ui.queue_free()
+
+	if not is_inside_tree():
+		return
+
+	for pkg in to_deliver:
+		if is_instance_valid(pkg) and _carried_packages.has(pkg):
+			_carried_packages.erase(pkg)
+			pkg.reparent(get_tree().current_scene)
+			zone.receive(pkg)
+			emit_signal("package_dropped", pkg)
+
+	_delivering = false
+	_controller.set_delivery_locked(false)
+	emit_signal("batch_delivery_finished")
+
+	if _carried_packages.is_empty():
+		_visual.set_carrying(false)
 
 func _do_deliver_single(package: PackageBody, zone: DeliveryZone) -> void:
 	if not is_instance_valid(package):
