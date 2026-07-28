@@ -27,20 +27,25 @@ func _ready() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_VISIBILITY_CHANGED and visible and is_inside_tree():
 		_show_tab(0)
+		# Quitar foco de los botones para que las flechas no queden capturadas por ellos
+		_btn_prev.release_focus()
+		_btn_next.release_focus()
+		_btn_close.release_focus()
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if not visible:
 		return
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
-			KEY_LEFT:
+			KEY_LEFT, KEY_A:
 				_on_prev()
-			KEY_RIGHT:
+				get_viewport().set_input_as_handled()
+			KEY_RIGHT, KEY_D:
 				_on_next()
+				get_viewport().set_input_as_handled()
 			KEY_ESCAPE:
 				_on_close()
-		# Consumir todo el input mientras la pantalla está abierta
-		get_viewport().set_input_as_handled()
+				get_viewport().set_input_as_handled()
 
 func _on_prev() -> void:
 	_show_tab((_current_tab - 1 + _tabs.size()) % _tabs.size())

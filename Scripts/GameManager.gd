@@ -1,7 +1,7 @@
 class_name GameManager
 extends Node
 
-## Señales
+## SeÃ±ales
 signal score_changed(new_score: int)
 signal bomb_chance_changed(new_chance: float)
 signal match_timer_updated(seconds_left: int)
@@ -9,7 +9,7 @@ signal match_ended()
 
 ## Config
 @export var match_duration: float = 600.0   ## 10 minutos en segundos
-@export var endgame_duration: float = 30.0  ## Últimos X segundos = bombardeo
+@export var endgame_duration: float = 30.0  ## Ãšltimos X segundos = bombardeo
 @export var endgame_extra_drones: int = 10
 @export var endgame_bomb_chance: float = 0.8
 @export var endgame_spawn_interval: float = 0.3
@@ -45,27 +45,27 @@ var _coins_this_run: int = 0  ## Monedas ganadas en esta partida (se guardan sol
 @onready var _player: PlayerController = get_node_or_null("../Player") as PlayerController
 @onready var _coins_label: Label = get_node_or_null("../HUDPanel/CoinsLabel")
 @onready var _hearts_label: Label = get_node_or_null("HealthHUD/HeartsLabel")
-@onready var _power_menu: Control = get_node_or_null("PowerUpMenu")
-@onready var _btn_vel: Button = get_node_or_null("PowerUpMenu/VBoxContainer/BtnVel")
-@onready var _btn_cant: Button = get_node_or_null("PowerUpMenu/VBoxContainer/BtnCant")
-@onready var _btn_shield: Button = get_node_or_null("PowerUpMenu/VBoxContainer/BtnShield")
-@onready var _game_over_menu: Control = get_node_or_null("GameOverMenu")
-@onready var _revive_menu: Control    = get_node_or_null("ReviveMenu")
-@onready var _btn_revive: Button      = get_node_or_null("ReviveMenu/Panel/VBoxContainer/BtnRevive")
-@onready var _btn_revive_menu: Button = get_node_or_null("ReviveMenu/Panel/VBoxContainer/BtnGoMenu")
-@onready var _game_over_score: Label = get_node_or_null("GameOverMenu/Panel/VBoxContainer/FinalScore")
-@onready var _game_over_coins_earned: Label = get_node_or_null("GameOverMenu/Panel/VBoxContainer/CoinsEarned")
-@onready var _game_over_coins_total: Label  = get_node_or_null("GameOverMenu/Panel/VBoxContainer/CoinsTotal")
-@onready var _btn_restart: Button = get_node_or_null("GameOverMenu/Panel/VBoxContainer/BtnRestart")
-@onready var _btn_go_menu: Button = get_node_or_null("GameOverMenu/Panel/VBoxContainer/BtnGoMenu")
-@onready var _btn_quit_game: Button = get_node_or_null("GameOverMenu/Panel/VBoxContainer/BtnQuitGame")
-@onready var _pause_menu: Control = get_node_or_null("PauseMenu")
-@onready var _btn_resume: Button = get_node_or_null("PauseMenu/Panel/VBoxContainer/BtnResume")
-@onready var _btn_main_menu: Button = get_node_or_null("PauseMenu/Panel/VBoxContainer/BtnMainMenu")
-@onready var _btn_quit: Button = get_node_or_null("PauseMenu/Panel/VBoxContainer/BtnQuit")
+@onready var _power_menu: Control = get_node_or_null("UILayer/PowerUpMenu")
+@onready var _btn_vel: Button = get_node_or_null("UILayer/PowerUpMenu/VBoxContainer/BtnVel")
+@onready var _btn_cant: Button = get_node_or_null("UILayer/PowerUpMenu/VBoxContainer/BtnCant")
+@onready var _btn_shield: Button = get_node_or_null("UILayer/PowerUpMenu/VBoxContainer/BtnShield")
+@onready var _game_over_menu: Control = get_node_or_null("UILayer/GameOverMenu")
+@onready var _revive_menu: Control    = get_node_or_null("UILayer/ReviveMenu")
+@onready var _btn_revive: Button      = get_node_or_null("UILayer/ReviveMenu/Panel/VBoxContainer/BtnRevive")
+@onready var _btn_revive_menu: Button = get_node_or_null("UILayer/ReviveMenu/Panel/VBoxContainer/BtnGoMenu")
+@onready var _game_over_score: Label = get_node_or_null("UILayer/GameOverMenu/Panel/VBoxContainer/FinalScore")
+@onready var _game_over_coins_earned: Label = get_node_or_null("UILayer/GameOverMenu/Panel/VBoxContainer/CoinsEarned")
+@onready var _game_over_coins_total: Label  = get_node_or_null("UILayer/GameOverMenu/Panel/VBoxContainer/CoinsTotal")
+@onready var _btn_restart: Button = get_node_or_null("UILayer/GameOverMenu/Panel/VBoxContainer/BtnRestart")
+@onready var _btn_go_menu: Button = get_node_or_null("UILayer/GameOverMenu/Panel/VBoxContainer/BtnGoMenu")
+@onready var _btn_quit_game: Button = get_node_or_null("UILayer/GameOverMenu/Panel/VBoxContainer/BtnQuitGame")
+@onready var _pause_menu: Control = get_node_or_null("UILayer/PauseMenu")
+@onready var _btn_resume: Button = get_node_or_null("UILayer/PauseMenu/Panel/VBoxContainer/BtnResume")
+@onready var _btn_main_menu: Button = get_node_or_null("UILayer/PauseMenu/Panel/VBoxContainer/BtnMainMenu")
+@onready var _btn_quit: Button = get_node_or_null("UILayer/PauseMenu/Panel/VBoxContainer/BtnQuit")
 
 func _ready() -> void:
-	# Conectar las señales de entrega de ambos camiones
+	# Conectar las seÃ±ales de entrega de ambos camiones
 	var scene := get_tree().current_scene
 	for child in scene.get_children():
 		if child.name.begins_with("DeliveryTruck"):
@@ -73,7 +73,7 @@ func _ready() -> void:
 			if zone and zone is DeliveryZone:
 				zone.package_delivered.connect(_on_delivery)
 
-	# Conectar señal de ruby del player
+	# Conectar seÃ±al de ruby del player
 	if _player:
 		var interaction := _player.get_node_or_null("PlayerInteraction") as PlayerInteraction
 		if interaction:
@@ -126,12 +126,14 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if _state != GameState.PLAYING:
 		return
+	if get_tree().paused:
+		return
 
 	_match_timer -= delta
 	_elapsed_time += delta
 	emit_signal("match_timer_updated", int(_match_timer))
 
-	# Actualizar label del timer — muestra tiempo transcurrido (00:00 → 25:00)
+	# Actualizar label del timer â€” muestra tiempo transcurrido (00:00 â†’ 25:00)
 	var timer_label := get_node_or_null("TimerLabel") as Label
 	if timer_label:
 		var mins := int(_elapsed_time) / 60
@@ -147,7 +149,7 @@ func _process(delta: float) -> void:
 	# Curva de dificultad por tiempo
 	_check_difficulty_phase()
 
-	# Evento final: bombardeo masivo en los últimos 30 segundos
+	# Evento final: bombardeo masivo en los Ãºltimos 30 segundos
 	if _match_timer <= endgame_duration and not _endgame_triggered:
 		_endgame_triggered = true
 		_start_endgame()
@@ -184,7 +186,7 @@ func _on_delivery(_count: int) -> void:
 		if xp:
 			xp.add_xp(xp.xp_per_delivery)
 
-	# Aumentar bomb_chance en 1% por cada entrega (máximo 50%)
+	# Aumentar bomb_chance en 1% por cada entrega (mÃ¡ximo 50%)
 	if _spawner:
 		_spawner.bomb_chance = min(0.5, _spawner.bomb_chance + 0.01)
 		emit_signal("bomb_chance_changed", _spawner.bomb_chance)
@@ -207,7 +209,7 @@ func _on_ruby_collected(item: PackageBody) -> void:
 		_coins_this_run += 1
 		_update_label()
 	elif item_type == PackageBody.PackageType.RUBY:
-		# Pausar el juego y mostrar menú de power-up
+		# Pausar el juego y mostrar menÃº de power-up
 		get_tree().paused = true
 		if _power_menu:
 			_power_menu.visible = true
@@ -322,9 +324,9 @@ func _on_health_changed(current_fragments: int, max_fragments: int, hearts: int,
 			continue
 		if i < max_h:
 			heart_node.visible = true
-			# Calcular fragmentos de este corazón
+			# Calcular fragmentos de este corazÃ³n
 			var heart_fragments := clampi(current_fragments - i * 4, 0, 4)
-			# Frame: 4=lleno, 3=3/4, 2=mitad, 1=1/4, 0=vacío
+			# Frame: 4=lleno, 3=3/4, 2=mitad, 1=1/4, 0=vacÃ­o
 			heart_node.frame = heart_fragments
 		else:
 			heart_node.visible = false
@@ -342,7 +344,7 @@ func _on_gameover_main_menu() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		if _game_over_menu.visible or _power_menu.visible:
-			return  # No pausar si hay otro menú abierto
+			return  # No pausar si hay otro menÃº abierto
 		if get_tree().paused:
 			_on_resume()
 		else:
@@ -359,14 +361,14 @@ func _on_resume() -> void:
 	get_tree().paused = false
 
 func _on_main_menu() -> void:
-	# No guardar monedas de esta partida al volver al menú
+	# No guardar monedas de esta partida al volver al menÃº
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://Scenes/UI/ChaosMainMenu.tscn")
 
 func _on_quit() -> void:
 	get_tree().quit()
 
-## Verifica y aplica la fase de dificultad según el timer actual.
+## Verifica y aplica la fase de dificultad segÃºn el timer actual.
 func _check_difficulty_phase() -> void:
 	if _spawner == null or _spawner.difficulty_config == null:
 		return
@@ -393,7 +395,7 @@ func _load_save() -> void:
 		_player.max_carry  = SaveManager.get_effective_max_carry()
 		var health := _player.get_node_or_null("PlayerHealth") as PlayerHealth
 		if health:
-			# Diferir para que el HUD esté listo antes de emitir health_changed
+			# Diferir para que el HUD estÃ© listo antes de emitir health_changed
 			health.call_deferred("init_hearts", SaveManager.get_effective_max_hearts())
 
 ## Sincroniza monedas al SaveManager y persiste.
@@ -412,7 +414,7 @@ func _show_summary(title: String) -> void:
 
 ## XP y Level Up
 func _on_leveled_up(_new_level: int) -> void:
-	# Al subir de nivel, mostrar menú de power-up
+	# Al subir de nivel, mostrar menÃº de power-up
 	get_tree().paused = true
 	if _power_menu:
 		_power_menu.visible = true

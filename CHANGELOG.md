@@ -1,5 +1,42 @@
 # Changelog
 
+## [0.5.6] - 2025 — Pause timer fix, UI z-index, Sprint removido, fixes varios
+
+### Añadido
+
+- `ChaosGame.tscn` — `UILayer (CanvasLayer, layer=10)` como contenedor de todos los menús (PauseMenu, GameOverMenu, ReviveMenu, PowerUpMenu). Garantiza que los menús siempre renderizan sobre los paquetes con `z_index=10`
+
+### Modificado
+
+- `GameManager.gd` — `_process()` retorna inmediatamente si `get_tree().paused` es true. El timer ya no avanza durante la pausa aunque el GameManager tenga `process_mode = ALWAYS`
+- `GameManager.gd` — todos los `get_node_or_null()` actualizados a paths con `UILayer/` (ej: `UILayer/PauseMenu`)
+- `HelpScreen.tscn` — fila Sprint (Shift) eliminada de la tabla de controles
+- `HelpScreen.tscn` — tutorial actualizado a "WASD / Flechas"
+- `project.godot` — WASD mapeado en `ui_left/right/up/down`
+
+### Corregido
+
+- `ChaosGame.tscn` / `GameManager.gd` — eliminado BOM UTF-8 introducido por PowerShell `WriteAllText`. Godot no acepta BOM en archivos `.tscn` ni `.gd` (causaba `Parse Error: Expected '['`)
+
+---
+
+
+
+### Añadido
+
+- `project.godot` — WASD mapeado en `ui_left/right/up/down` junto a flechas de cursor. El jugador puede moverse con ambos esquemas
+- `ChaosMainMenu.gd` — W/S navegan el menú principal igual que flechas ↑/↓
+- `HelpScreen.gd` — A/D cambian pestañas igual que flechas ←/→
+
+### Corregido
+
+- `HelpScreen.gd` — `_unhandled_input` → `_input` para que las flechas funcionen aunque un Button tenga foco. `release_focus()` en todos los botones al abrir
+- `HelpScreen.tscn` — sprites de camiones (ids 8,9,10) usan `AtlasTexture` mostrando solo el primer frame 16×16
+- `HelpScreen.tscn` — tutorial actualizado a "WASD / Flechas"
+- `ChaosMainMenu.tscn` / `ChaosGame.tscn` — eliminado `BtnHelp` flotante `?`
+
+---
+
 ## [0.5.4] - 2025 — Shield counter, batch delivery fix y preparación para demo web
 
 ### Añadido
