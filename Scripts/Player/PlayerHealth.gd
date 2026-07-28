@@ -66,8 +66,8 @@ func take_damage(amount: int = 1) -> bool:
 
 	# Escudo absorbe el golpe
 	var controller := get_parent() as PlayerController
-	if controller and controller.has_shield:
-		controller.has_shield = false
+	if controller and controller.shield_count > 0:
+		controller.shield_count -= 1
 		_start_invulnerability()
 		return false
 

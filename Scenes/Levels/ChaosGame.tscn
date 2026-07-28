@@ -501,6 +501,15 @@ position = Vector2(192, 16)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("14")
 
+[node name="ShieldLabel" type="Label" parent="HUDPanel"]
+visible = false
+position = Vector2(200, 8)
+offset_right = 20.0
+offset_bottom = 14.0
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "x1"
+
 [node name="ReviveIcon" type="Sprite2D" parent="HUDPanel" unique_id=996689167]
 visible = false
 position = Vector2(174, 16)

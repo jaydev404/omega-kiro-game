@@ -233,7 +233,7 @@ func _on_power_cant() -> void:
 
 func _on_power_shield() -> void:
 	if _player:
-		_player.has_shield = true
+		_player.shield_count += 1
 	_update_shield_icon()
 	_close_menu()
 
@@ -259,8 +259,14 @@ func _update_label() -> void:
 
 func _update_shield_icon() -> void:
 	var shield_icon := get_tree().current_scene.get_node_or_null("HUDPanel/ShieldIcon")
-	if shield_icon and _player:
-		shield_icon.visible = _player.has_shield
+	var shield_label := get_tree().current_scene.get_node_or_null("HUDPanel/ShieldLabel") as Label
+	if _player:
+		var count := _player.shield_count
+		if shield_icon:
+			shield_icon.visible = count > 0
+		if shield_label:
+			shield_label.visible = count > 0
+			shield_label.text = "x" + str(count)
 	var revive_icon := get_tree().current_scene.get_node_or_null("HUDPanel/ReviveIcon")
 	if revive_icon:
 		revive_icon.visible = SaveManager.has_revive and not SaveManager.revive_used

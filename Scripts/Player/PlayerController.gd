@@ -21,7 +21,7 @@ func set_delivery_locked(locked: bool) -> void:
 	if locked:
 		velocity = Vector2.ZERO
 var max_carry: int = 1
-var has_shield: bool = false
+var shield_count: int = 0
 
 func _physics_process(_delta: float) -> void:
 	if _delivery_locked:

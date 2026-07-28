@@ -146,6 +146,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DebugSavePanel" type="Node2D" parent="." unique_id=25283722]
+visible = false
 position = Vector2(4, 4)
 script = ExtResource("6")
 

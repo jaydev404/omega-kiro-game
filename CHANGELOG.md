@@ -1,6 +1,31 @@
 # Changelog
 
-## [0.5.3] - 2025 — Entrega múltiple con progreso visual
+## [0.5.4] - 2025 — Shield counter, batch delivery fix y preparación para demo web
+
+### Añadido
+
+- `ShieldLabel` en HUDPanel — label "x1", "x2"... junto al ShieldIcon, visible solo cuando hay escudos activos. Color azul claro para diferenciarlo del resto del HUD
+
+### Modificado
+
+- `PlayerController.gd` — `has_shield: bool` reemplazado por `shield_count: int`. El escudo ahora es acumulable (múltiples level-ups de escudo se suman)
+- `PlayerHealth.gd` — al recibir daño decrementa `shield_count -= 1` en lugar de poner a `false`
+- `GameManager._on_power_shield()` — incrementa `shield_count += 1`
+- `GameManager._update_shield_icon()` — actualiza visibilidad y texto del `ShieldLabel`
+- `ChaosMainMenu.tscn` — `DebugSavePanel` ocultado (`visible = false`) para la demo pública. El panel sigue en escena para poder reactivarlo en desarrollo
+- `.gitignore` — añadido `export_presets.cfg` (contiene rutas locales, no debe commitearse)
+
+### Notas de deploy (demo web)
+
+- Export preset Web configurado con `index.html` como nombre de salida
+- Carpeta de export: `export/web/` (fuera del proyecto, no commiteada)
+- Plataforma recomendada: itch.io (soporta headers COOP/COEP requeridos por Godot 4 Web)
+- Viewport configurado en itch.io: 1280×704
+- DEV_MODE en Shop.gd ya estaba en `false` desde el PR anterior
+
+---
+
+
 
 ### Añadido
 

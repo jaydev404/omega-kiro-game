@@ -2,6 +2,7 @@
 .godot/
 .nomedia
 /android/
+export_presets.cfg
 
 
 # Godot-specific ignores
