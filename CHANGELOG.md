@@ -1,6 +1,26 @@
 # Changelog
 
-## [0.5.5] - 2025 — WASD, fix flechas ayuda y sprites AtlasTexture
+## [0.5.6] - 2025 — Pause timer fix, UI z-index, Sprint removido, fixes varios
+
+### Añadido
+
+- `ChaosGame.tscn` — `UILayer (CanvasLayer, layer=10)` como contenedor de todos los menús (PauseMenu, GameOverMenu, ReviveMenu, PowerUpMenu). Garantiza que los menús siempre renderizan sobre los paquetes con `z_index=10`
+
+### Modificado
+
+- `GameManager.gd` — `_process()` retorna inmediatamente si `get_tree().paused` es true. El timer ya no avanza durante la pausa aunque el GameManager tenga `process_mode = ALWAYS`
+- `GameManager.gd` — todos los `get_node_or_null()` actualizados a paths con `UILayer/` (ej: `UILayer/PauseMenu`)
+- `HelpScreen.tscn` — fila Sprint (Shift) eliminada de la tabla de controles
+- `HelpScreen.tscn` — tutorial actualizado a "WASD / Flechas"
+- `project.godot` — WASD mapeado en `ui_left/right/up/down`
+
+### Corregido
+
+- `ChaosGame.tscn` / `GameManager.gd` — eliminado BOM UTF-8 introducido por PowerShell `WriteAllText`. Godot no acepta BOM en archivos `.tscn` ni `.gd` (causaba `Parse Error: Expected '['`)
+
+---
+
+
 
 ### Añadido
 

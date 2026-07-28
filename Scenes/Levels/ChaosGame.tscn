@@ -119,7 +119,10 @@ theme_override_font_sizes/font_size = 10
 text = "Puntaje: 0"
 horizontal_alignment = 2
 
-[node name="PauseMenu" type="Control" parent="GameManager" unique_id=1314254610]
+[node name="UILayer" type="CanvasLayer" parent="GameManager"]
+layer = 10
+
+[node name="PauseMenu" type="Control" parent="GameManager/UILayer" unique_id=1314254610]
 process_mode = 3
 visible = false
 layout_mode = 3
@@ -130,13 +133,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("18_kmenu")
 
-[node name="Bg" type="ColorRect" parent="GameManager/PauseMenu" unique_id=155670771]
+[node name="Bg" type="ColorRect" parent="GameManager/UILayer/PauseMenu" unique_id=155670771]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0.5)
 
-[node name="Panel" type="TextureRect" parent="GameManager/PauseMenu" unique_id=1887909113]
+[node name="Panel" type="TextureRect" parent="GameManager/UILayer/PauseMenu" unique_id=1887909113]
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -149,7 +152,7 @@ offset_bottom = 72.0
 texture = ExtResource("9")
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameManager/PauseMenu/Panel" unique_id=774414674]
+[node name="VBoxContainer" type="VBoxContainer" parent="GameManager/UILayer/PauseMenu/Panel" unique_id=774414674]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -163,35 +166,35 @@ grow_vertical = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Title" type="Label" parent="GameManager/PauseMenu/Panel/VBoxContainer" unique_id=1718923373]
+[node name="Title" type="Label" parent="GameManager/UILayer/PauseMenu/Panel/VBoxContainer" unique_id=1718923373]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 12
 text = "PAUSA"
 horizontal_alignment = 1
 
-[node name="BtnResume" type="Button" parent="GameManager/PauseMenu/Panel/VBoxContainer" unique_id=2003691110]
+[node name="BtnResume" type="Button" parent="GameManager/UILayer/PauseMenu/Panel/VBoxContainer" unique_id=2003691110]
 custom_minimum_size = Vector2(96, 20)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 8
 text = "Reanudar"
 
-[node name="BtnMainMenu" type="Button" parent="GameManager/PauseMenu/Panel/VBoxContainer" unique_id=1773570399]
+[node name="BtnMainMenu" type="Button" parent="GameManager/UILayer/PauseMenu/Panel/VBoxContainer" unique_id=1773570399]
 custom_minimum_size = Vector2(96, 20)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 8
 text = "Volver al Menu"
 
-[node name="BtnQuit" type="Button" parent="GameManager/PauseMenu/Panel/VBoxContainer" unique_id=1266165234]
+[node name="BtnQuit" type="Button" parent="GameManager/UILayer/PauseMenu/Panel/VBoxContainer" unique_id=1266165234]
 custom_minimum_size = Vector2(96, 20)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 8
 text = "Salir"
 
-[node name="GameOverMenu" type="Control" parent="GameManager" unique_id=1400691577]
+[node name="GameOverMenu" type="Control" parent="GameManager/UILayer" unique_id=1400691577]
 process_mode = 3
 visible = false
 layout_mode = 3
@@ -202,13 +205,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("18_kmenu")
 
-[node name="Bg" type="ColorRect" parent="GameManager/GameOverMenu" unique_id=1147054963]
+[node name="Bg" type="ColorRect" parent="GameManager/UILayer/GameOverMenu" unique_id=1147054963]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.1, 0, 0, 0.5)
 
-[node name="Panel" type="TextureRect" parent="GameManager/GameOverMenu" unique_id=418571602]
+[node name="Panel" type="TextureRect" parent="GameManager/UILayer/GameOverMenu" unique_id=418571602]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -224,7 +227,7 @@ grow_vertical = 2
 texture = ExtResource("9")
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameManager/GameOverMenu/Panel" unique_id=1848107232]
+[node name="VBoxContainer" type="VBoxContainer" parent="GameManager/UILayer/GameOverMenu/Panel" unique_id=1848107232]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -238,21 +241,21 @@ grow_vertical = 2
 theme_override_constants/separation = 6
 alignment = 1
 
-[node name="Title" type="Label" parent="GameManager/GameOverMenu/Panel/VBoxContainer" unique_id=1354000006]
+[node name="Title" type="Label" parent="GameManager/UILayer/GameOverMenu/Panel/VBoxContainer" unique_id=1354000006]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 12
 text = "GAME OVER"
 horizontal_alignment = 1
 
-[node name="FinalScore" type="Label" parent="GameManager/GameOverMenu/Panel/VBoxContainer" unique_id=1594360030]
+[node name="FinalScore" type="Label" parent="GameManager/UILayer/GameOverMenu/Panel/VBoxContainer" unique_id=1594360030]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 8
 text = "Puntaje: 0"
 horizontal_alignment = 1
 
-[node name="CoinsEarned" type="Label" parent="GameManager/GameOverMenu/Panel/VBoxContainer" unique_id=821794070]
+[node name="CoinsEarned" type="Label" parent="GameManager/UILayer/GameOverMenu/Panel/VBoxContainer" unique_id=821794070]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.1, 1)
 theme_override_fonts/font = ExtResource("11")
@@ -260,7 +263,7 @@ theme_override_font_sizes/font_size = 8
 text = "Monedas ganadas: 0"
 horizontal_alignment = 1
 
-[node name="CoinsTotal" type="Label" parent="GameManager/GameOverMenu/Panel/VBoxContainer" unique_id=868562998]
+[node name="CoinsTotal" type="Label" parent="GameManager/UILayer/GameOverMenu/Panel/VBoxContainer" unique_id=868562998]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.7, 0, 1)
 theme_override_fonts/font = ExtResource("11")
@@ -268,28 +271,28 @@ theme_override_font_sizes/font_size = 8
 text = "Total acumulado: 0"
 horizontal_alignment = 1
 
-[node name="BtnRestart" type="Button" parent="GameManager/GameOverMenu/Panel/VBoxContainer" unique_id=1918977843]
+[node name="BtnRestart" type="Button" parent="GameManager/UILayer/GameOverMenu/Panel/VBoxContainer" unique_id=1918977843]
 custom_minimum_size = Vector2(96, 20)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 8
 text = "Reiniciar"
 
-[node name="BtnGoMenu" type="Button" parent="GameManager/GameOverMenu/Panel/VBoxContainer" unique_id=2067435528]
+[node name="BtnGoMenu" type="Button" parent="GameManager/UILayer/GameOverMenu/Panel/VBoxContainer" unique_id=2067435528]
 custom_minimum_size = Vector2(96, 20)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 8
 text = "Volver al Menu"
 
-[node name="BtnQuitGame" type="Button" parent="GameManager/GameOverMenu/Panel/VBoxContainer" unique_id=1717845809]
+[node name="BtnQuitGame" type="Button" parent="GameManager/UILayer/GameOverMenu/Panel/VBoxContainer" unique_id=1717845809]
 custom_minimum_size = Vector2(96, 20)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 8
 text = "Salir"
 
-[node name="ReviveMenu" type="Control" parent="GameManager" unique_id=110646255]
+[node name="ReviveMenu" type="Control" parent="GameManager/UILayer" unique_id=110646255]
 process_mode = 3
 visible = false
 layout_mode = 3
@@ -300,13 +303,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("18_kmenu")
 
-[node name="Bg" type="ColorRect" parent="GameManager/ReviveMenu" unique_id=1389281015]
+[node name="Bg" type="ColorRect" parent="GameManager/UILayer/ReviveMenu" unique_id=1389281015]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0.15, 0.7)
 
-[node name="Panel" type="TextureRect" parent="GameManager/ReviveMenu" unique_id=243854975]
+[node name="Panel" type="TextureRect" parent="GameManager/UILayer/ReviveMenu" unique_id=243854975]
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -319,7 +322,7 @@ offset_bottom = 60.0
 texture = ExtResource("9")
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameManager/ReviveMenu/Panel" unique_id=550922299]
+[node name="VBoxContainer" type="VBoxContainer" parent="GameManager/UILayer/ReviveMenu/Panel" unique_id=550922299]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -333,7 +336,7 @@ grow_vertical = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Title" type="Label" parent="GameManager/ReviveMenu/Panel/VBoxContainer" unique_id=282512179]
+[node name="Title" type="Label" parent="GameManager/UILayer/ReviveMenu/Panel/VBoxContainer" unique_id=282512179]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
 theme_override_fonts/font = ExtResource("11")
@@ -341,28 +344,28 @@ theme_override_font_sizes/font_size = 10
 text = "REVIVIR"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="GameManager/ReviveMenu/Panel/VBoxContainer" unique_id=811828457]
+[node name="Subtitle" type="Label" parent="GameManager/UILayer/ReviveMenu/Panel/VBoxContainer" unique_id=811828457]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 7
 text = "Vida completa restaurada"
 horizontal_alignment = 1
 
-[node name="BtnRevive" type="Button" parent="GameManager/ReviveMenu/Panel/VBoxContainer" unique_id=1099770974]
+[node name="BtnRevive" type="Button" parent="GameManager/UILayer/ReviveMenu/Panel/VBoxContainer" unique_id=1099770974]
 custom_minimum_size = Vector2(96, 20)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 8
 text = "Revivir"
 
-[node name="BtnGoMenu" type="Button" parent="GameManager/ReviveMenu/Panel/VBoxContainer" unique_id=1447843716]
+[node name="BtnGoMenu" type="Button" parent="GameManager/UILayer/ReviveMenu/Panel/VBoxContainer" unique_id=1447843716]
 custom_minimum_size = Vector2(96, 20)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("11")
 theme_override_font_sizes/font_size = 8
 text = "Volver al Menu"
 
-[node name="PowerUpMenu" type="Control" parent="GameManager" unique_id=810340509]
+[node name="PowerUpMenu" type="Control" parent="GameManager/UILayer" unique_id=810340509]
 process_mode = 3
 visible = false
 layout_mode = 3
@@ -373,13 +376,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("17_pmenu")
 
-[node name="Bg" type="ColorRect" parent="GameManager/PowerUpMenu" unique_id=1156557673]
+[node name="Bg" type="ColorRect" parent="GameManager/UILayer/PowerUpMenu" unique_id=1156557673]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0.6)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameManager/PowerUpMenu" unique_id=1560906091]
+[node name="VBoxContainer" type="VBoxContainer" parent="GameManager/UILayer/PowerUpMenu" unique_id=1560906091]
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -391,35 +394,35 @@ offset_right = 60.0
 offset_bottom = 45.0
 theme_override_constants/separation = 6
 
-[node name="Title" type="Label" parent="GameManager/PowerUpMenu/VBoxContainer" unique_id=938957914]
+[node name="Title" type="Label" parent="GameManager/UILayer/PowerUpMenu/VBoxContainer" unique_id=938957914]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Elige un poder"
 horizontal_alignment = 1
 
-[node name="BtnVel" type="Button" parent="GameManager/PowerUpMenu/VBoxContainer" unique_id=1150848019]
+[node name="BtnVel" type="Button" parent="GameManager/UILayer/PowerUpMenu/VBoxContainer" unique_id=1150848019]
 custom_minimum_size = Vector2(100, 18)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "+Vel"
 
-[node name="BtnCant" type="Button" parent="GameManager/PowerUpMenu/VBoxContainer" unique_id=1682842218]
+[node name="BtnCant" type="Button" parent="GameManager/UILayer/PowerUpMenu/VBoxContainer" unique_id=1682842218]
 custom_minimum_size = Vector2(100, 18)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "+Cant"
 
-[node name="BtnShield" type="Button" parent="GameManager/PowerUpMenu/VBoxContainer" unique_id=1758086770]
+[node name="BtnShield" type="Button" parent="GameManager/UILayer/PowerUpMenu/VBoxContainer" unique_id=1758086770]
 custom_minimum_size = Vector2(100, 18)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Escudo"
 
-[node name="HintNav" type="Label" parent="GameManager/PowerUpMenu/VBoxContainer" unique_id=1349334549]
+[node name="HintNav" type="Label" parent="GameManager/UILayer/PowerUpMenu/VBoxContainer" unique_id=1349334549]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
 theme_override_font_sizes/font_size = 6
-text = "↑ ↓ mover  •  Enter / Espacio seleccionar"
+text = "â†‘ â†“ mover  â€¢  Enter / Espacio seleccionar"
 horizontal_alignment = 1
 
 [node name="HUDPanel" type="Node2D" parent="." unique_id=1769797088]
