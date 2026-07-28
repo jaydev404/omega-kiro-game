@@ -65,4 +65,4 @@ Cada entrega te da experiencia y monedas. Cada bomba que te golpea te acerca al 
 
 Demo MVP — en desarrollo activo.
 
-Desarrollado por Julian y Kevin.
+Desarrollado por jaydev404, franco025, Leidyjrp.
